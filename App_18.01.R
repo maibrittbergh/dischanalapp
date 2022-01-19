@@ -1,3 +1,10 @@
+#actualapp
+#data=metadata -startday, -endday
+#data2=large List: contains every Date and Discharge Value for the station in metadata
+
+
+
+
 #Pakete laden
 
 
@@ -38,7 +45,7 @@ library(rgdal)
 
 library(DT) #make sure you load DT after Shiny
 
-
+library(dischanalyst)
 
 
 
@@ -108,7 +115,7 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                           conditionalPanel(condition="input.qplot_variety=='Seasonplot'",  sliderInput("season2", "Select End of the Season:",5,min=01, max=12, ) ),
                                                                           conditionalPanel(condition="input.qplot_variety=='Seasonplot'",  numericInput("ssy", "Select Startyear:",2000, min=1999, max=2005 ) ),
                                                                           conditionalPanel(condition="input.qplot_variety=='Seasonplot'",  numericInput("sey", "Select Endyear:",2001, min=1999, max=2005 ) ),
-                                                                          
+                                                                          conditionalPanel(condition="input.qplot_variety=='Seasonplot'",      actionButton("printplot", label="Print Plot")  ),
                                                                           
                                                                           #inputs
                                                                           conditionalPanel(condition="input.ts_plot_type=='annual Discharge Boxplot'"
@@ -136,11 +143,9 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                           
                                                                           plotOutput("disch_plot", width = "100%"), 
                                                                           
-                                                                          actionButton("cleardata", label="Clear Data")  
+                                                                          actionButton("cleardata", label="Clear Data") 
                                                                           
-                                                                          
-                                                                          
-                                                                          
+                                                                    
                                                                           
                                                           )) ),
                                                  
@@ -218,9 +223,15 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                 
                 navbarMenu("More",
                            tabPanel("Sub-Component A"),
-                           tabPanel("Sub-Component B")))
-
-
+                           tabPanel("Sub-Component B")), 
+               
+                
+                
+                tags$footer(HTML('
+                          <br>
+                          <br>
+                          <p>Author: Mai-Britt Berghöfer <br>
+                          <a href="mailto:berghoefer@uni-potsdam.de">berghoefer@uni-potsdam.de</a></p>'), align = "center"))
 
 
 
@@ -395,21 +406,7 @@ server= function(input, output, session){
     
     t_plot <- function(){
       
-      
-      if(input$qplot_variety == "Seasonplot"){
-        
-        
-        Startyear=input$ssy
-        Endyear=input$sey
-        month_start=input$season1
-        month_end=input$season2
-        
-        seasonplot=seasonpl(data=data2, station=stat_name, Startyear=Startyear, Endyear=Endyear, month_start=month_start, month_end =month_end )
-        
-        return(seasonplot)
-        
-        
-      }
+
       if(input$qplot_variety == "Discharge Plot"){
         
         Qplot=Qplot(data2, stat_name)
@@ -445,6 +442,24 @@ server= function(input, output, session){
     
     output$disch_plot <- renderPlot({t_plot()})
     
+    if(input$qplot_variety == "Seasonplot"){
+      
+      observeEvent(input$printplot, {
+        Startyear=input$ssy
+        Endyear=input$sey
+        month_start=input$season1
+        month_end=input$season2
+        
+        seasonplot=seasonpl(data=data2, station=stat_name, Startyear=Startyear, Endyear=Endyear, month_start=month_start, month_end =month_end )
+        
+        output$disch_plot <- renderPlot({seasonplot})
+      })
+      
+      
+      
+      
+      
+    }
     
   })
   observeEvent(input$cleardata, {
@@ -500,9 +515,9 @@ server= function(input, output, session){
       rast_time_init <- c(sta_yea_cla, end_yea_cla)
       
       
-      updateNumericInput(session, "ssy", label = "Select Startyear:", sta_yea_cla, 
+      updateNumericInput(session, "ssy", label = "Select Startyear:", input$ssy, 
                          min = sta_yea_cla+1, max = end_yea_cla-1)
-      updateNumericInput(session, "sey", label = "Select Endyear:", sta_yea_cla+1, 
+      updateNumericInput(session, "sey", label = "Select Endyear:", input$sey, 
                          min = sta_yea_cla+1, max = end_yea_cla-1)
       
     })
