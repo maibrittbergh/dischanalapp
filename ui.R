@@ -1,3 +1,82 @@
+#actualapp
+#data=metadata -startday, -endday
+#data2=large List: contains every Date and Discharge Value for the station in metadata
+
+
+
+
+#Pakete laden
+
+
+#install.packages("leaflet")
+#install.packages("tmaptools")
+
+#remove.packages(c("tmaptools", "lwgeom"))
+#install.packages('Rcpp', dependencies = TRUE)
+#install.packages('tmaptools', dependencies = TRUE)
+#install.packages("shinythemes")
+#install.packages('lwgeom', dependencies = TRUE)
+library("shinythemes")
+library(gridExtra)
+library(tmaptools)
+library(leaflet)
+library(readxl)
+library(sf)
+library(tmap)
+library(dplyr)
+library(ggplot2)
+library(readr)
+
+library(shiny)
+library(shinythemes)
+library(leaflet)
+library(leaflet.providers)
+#library(meltimr)
+library(zyp)
+library(Kendall)
+library(zoo)
+library(readr)
+library(viridisLite)
+library(RColorBrewer)
+
+library(sp)
+library(rgdal)
+#install.packages("DT")
+
+library(DT) #make sure you load DT after Shiny
+
+library(dischanalyst)
+library(shinycssloaders)
+
+
+
+
+
+# Daten vorbereiten -------------------------------------------------------
+
+
+#st_grdc=st_as_sf(metadata_repg, coords=c("longitude","latitude"), crs=4326 )
+
+#data=st_grdc
+
+data=metadata_repg[, -c(7,8)]
+
+data2= grdc_list(metadata_repg, path)
+#data3=GRDC_list(metadata_germany, path)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"),
                 
                 
@@ -32,8 +111,10 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                           
                                                                           conditionalPanel(condition="input.ts_plot_type=='Discharge Measurements'", 
                                                                                            selectInput("qplot_variety", label="Display Options for Discharge Measurements:",
-                                                                                                       choices=c("Discharge Plot",   "annual Discharge Plot", "annual Discharge Boxplot", "Discharge Boxplot",   "Seasonplot")) 
-                                                                          ),
+                                                                                                       choices=c("Discharge Plot",   "annual Discharge Plot", "annual Discharge Boxplot", "Discharge Boxplot", "Trendplot",    "Seasonplot")) 
+                                                                          
+                                                                          
+                                                                          ,
                                                                           conditionalPanel(condition="input.qplot_variety=='annual Discharge Boxplot'",  sliderInput("year", "Select Year:", 2000, min=1975, max=2015)),
                                                                           
                                                                           
@@ -44,37 +125,21 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                           conditionalPanel(condition="input.qplot_variety=='Seasonplot'",  sliderInput("season2", "Select End of the Season:",5,min=01, max=12, ) ),
                                                                           conditionalPanel(condition="input.qplot_variety=='Seasonplot'",  numericInput("ssy", "Select Startyear:",2000, min=1999, max=2005 ) ),
                                                                           conditionalPanel(condition="input.qplot_variety=='Seasonplot'",  numericInput("sey", "Select Endyear:",2001, min=1999, max=2005 ) ),
+                                                                          conditionalPanel(condition="input.qplot_variety=='Seasonplot'",      actionButton("printplot", label="Print Plot")  ),
+                                                                          conditionalPanel(condition="input.qplot_variety=='Trendplot'",      renderText({"Loading may take some time. Thank you for your patience."}) ),
                                                                           
-                                                                          
-                                                                          #inputs
-                                                                          conditionalPanel(condition="input.ts_plot_type=='annual Discharge Boxplot'"
-                                                                                           
-                                                                                           
-                                                                          ),
-                                                                          conditionalPanel(condition="input.ts_plot_type=='Discharge Boxplot'"
-                                                                                           
-                                                                          ), 
-                                                                          conditionalPanel(condition="input.ts_plot_type=='annual Discharge Plot'"
-                                                                                           
-                                                                          ), 
-                                                                          conditionalPanel(condition="input.ts_plot_type=='Discharge Plot'"
-                                                                                           
-                                                                          ), 
-                                                                          
-                                                                          conditionalPanel(condition="input.ts_plot_type=='Seasonplot'"
-                                                                                           
-                                                                          ), 
-                                                                          
-                                                                          conditionalPanel(condition="input.cleardata"
-                                                                                           
-                                                                                           
-                                                                          ), 
+                                                                 
                                                                           
                                                                           plotOutput("disch_plot", width = "100%"), 
                                                                           
-                                                                          actionButton("cleardata", label="Clear Data")  
+                                                                          actionButton("cleardata", label="Clear Data")) , 
                                                                           
                                                                           
+                                                                          
+                                                                          conditionalPanel(condition="input.ts_plot_type=='Trend Analysis'", plotOutput("trendplot") %>% withSpinner(color="#0dc5c1"), 
+                                                                                           
+                                                                                           actionButton("cleardata", label="Clear Data") )
+                                                                                           
                                                                           
                                                                           
                                                                           
@@ -154,7 +219,17 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                 
                 navbarMenu("More",
                            tabPanel("Sub-Component A"),
-                           tabPanel("Sub-Component B")))
+                           tabPanel("Sub-Component B")), 
+                
+                
+                
+                tags$footer(HTML('
+                          <br>
+                          <br>
+                          <p>Author: Mai-Britt Berghöfer <br>
+                          <a href="mailto:berghoefer@uni-potsdam.de">berghoefer@uni-potsdam.de</a></p>'), align = "center"))
+
+
 
 
 

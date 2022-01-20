@@ -93,6 +93,11 @@ server= function(input, output, session){
   }
   
   
+  
+  
+  
+  
+  
   output$disch_plot <- renderPlot({t_plot()})
   
   
@@ -105,9 +110,14 @@ server= function(input, output, session){
     
   }
   
+  trendplot= function(){
+    
+    plot=plot(1:10, 1:10, type = "n", axes = F, ylab = "", xlab = "")
+    mtext("Please select a station ", line = -1, cex = 1.5)
+    return(plot)
+    
   
-  
-  
+  }
   
   
   
@@ -169,20 +179,6 @@ server= function(input, output, session){
     t_plot <- function(){
       
       
-      if(input$qplot_variety == "Seasonplot"){
-        
-        
-        Startyear=input$ssy
-        Endyear=input$sey
-        month_start=input$season1
-        month_end=input$season2
-        
-        seasonplot=seasonpl(data=data2, station=stat_name, Startyear=Startyear, Endyear=Endyear, month_start=month_start, month_end =month_end )
-        
-        return(seasonplot)
-        
-        
-      }
       if(input$qplot_variety == "Discharge Plot"){
         
         Qplot=Qplot(data2, stat_name)
@@ -212,11 +208,40 @@ server= function(input, output, session){
         
       }
       
+      if(input$qplot_variety == "Trendplot"){
+        
+     mintrend=Qmin_trend(data2, stat_name)
+     return(mintrend)
+      
     }
     
-    
+    }
     
     output$disch_plot <- renderPlot({t_plot()})
+    
+    if(input$qplot_variety == "Seasonplot"){
+      
+      observeEvent(input$printplot, {
+        Startyear=input$ssy
+        Endyear=input$sey
+        month_start=input$season1
+        month_end=input$season2
+        
+        seasonplot=seasonpl(data=data2, station=stat_name, Startyear=Startyear, Endyear=Endyear, month_start=month_start, month_end =month_end )
+        
+        output$disch_plot <- renderPlot({seasonplot})
+      })
+      
+    
+    }
+ 
+    
+    
+    
+
+      
+    output$trendplot=renderPlot({Qmin_trend(data2, stat_name)})
+    
     
     
   })
@@ -257,9 +282,11 @@ server= function(input, output, session){
       
       end_yea_cla <- as.numeric(format(disc_data[nrow(disc_data),1], "%Y"))-1
       
-      updateSliderInput(session, "year", label = "Select time frame:",
+      updateSliderInput(session, "year", label = "Select Year:",
                         min = sta_yea_cla, max = end_yea_cla)
       
+      updateSliderInput(session, "year2", label = "Select Year:",
+                        min = sta_yea_cla, max = end_yea_cla)
       
       
     })
@@ -280,23 +307,11 @@ server= function(input, output, session){
       
     })
     
+    
+    
     t_plot <- function(){
       
       
-      if(input$qplot_variety == "Seasonplot"){
-        
-        
-        Startyear=input$ssy
-        Endyear=input$sey
-        month_start=input$season1
-        month_end=input$season2
-        
-        seasonplot=seasonpl(data=data2, station=stat_name, Startyear=Startyear, Endyear=Endyear, month_start=month_start, month_end =month_end )
-        
-        return(seasonplot)
-        
-        
-      }
       if(input$qplot_variety == "Discharge Plot"){
         
         Qplot=Qplot(data2, stat_name)
@@ -306,7 +321,7 @@ server= function(input, output, session){
       if(input$qplot_variety == "annual Discharge Plot"){
         
         
-        Year=input$year
+        Year=input$year2
         qploty=Qploty(data2, stat_name, year=Year,h=T)
         return(qploty)
         
@@ -327,8 +342,36 @@ server= function(input, output, session){
       }
       
     }
+    
+    
+    
     output$disch_plot <- renderPlot({t_plot()})
+    
+    if(input$qplot_variety == "Seasonplot"){
+      
+      observeEvent(input$printplot, {
+        Startyear=input$ssy
+        Endyear=input$sey
+        month_start=input$season1
+        month_end=input$season2
+        
+        seasonplot=seasonpl(data=data2, station=stat_name, Startyear=Startyear, Endyear=Endyear, month_start=month_start, month_end =month_end )
+        
+        output$disch_plot <- renderPlot({seasonplot})
+      })
+      
+      
+      
+      
+      
+    }
+    
   })
+  observeEvent(input$cleardata, {
+    output$disch_plot=renderPlot({empty()})
+  })
+  
+  
   
   
   
@@ -339,3 +382,6 @@ server= function(input, output, session){
 }
 
 shinyApp(ui=ui, server=server)
+
+
+
