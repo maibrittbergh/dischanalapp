@@ -110,7 +110,7 @@ server= function(input, output, session){
     
   }
   
-  trendplot= function(){
+  trendpl= function(){
     
     plot=plot(1:10, 1:10, type = "n", axes = F, ylab = "", xlab = "")
     mtext("Please select a station ", line = -1, cex = 1.5)
@@ -121,6 +121,7 @@ server= function(input, output, session){
   
   
   
+  output$trendplot=renderPlot({trendpl()})
   
   
   # Erwins Reactive Map -----------------------------------------------------
@@ -208,12 +209,6 @@ server= function(input, output, session){
         
       }
       
-      if(input$qplot_variety == "Trendplot"){
-        
-     mintrend=Qmin_trend(data2, stat_name)
-     return(mintrend)
-      
-    }
     
     }
     
@@ -236,11 +231,15 @@ server= function(input, output, session){
     }
  
     
-    
-    
+    trendpl=function()
+    if (input$ts_plot_type=="Trend Analysis"){
+      mintr=Qmin_trend(data2, stat_name)
+      return(mintr)
+      
+    }
 
       
-    output$trendplot=renderPlot({Qmin_trend(data2, stat_name)})
+    output$trendplot=renderPlot({trendpl()})
     
     
     
@@ -270,11 +269,12 @@ server= function(input, output, session){
     
     
     #read discharge time series
+
+    
+    
+    
+    
     disc_data <- data2[[stat_name]]
-    
-    
-    
-    
     
     observe({
       
@@ -341,9 +341,8 @@ server= function(input, output, session){
         
       }
       
+      
     }
-    
-    
     
     output$disch_plot <- renderPlot({t_plot()})
     
@@ -361,15 +360,26 @@ server= function(input, output, session){
       })
       
       
-      
-      
-      
     }
+    
+    
+    trendpl=function()
+      if (input$ts_plot_type=="Trend Analysis"){
+        mintr=Qmin_trend(data2, stat_name)
+        return(mintr)
+        
+      }
+    
+    
+    output$trendplot=renderPlot({trendpl()})
+    
+    
     
   })
   observeEvent(input$cleardata, {
     output$disch_plot=renderPlot({empty()})
   })
+  
   
   
   
