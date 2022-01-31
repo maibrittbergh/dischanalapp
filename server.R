@@ -80,7 +80,15 @@ server= function(input, output, session){
   
   # reactive Values
   
+  #Help Button
   
+  observeEvent(input$help,{
+    showModal(modalDialog(
+      title = "Need help?",
+      "Please choose your settings. Afterwards select a station on the map or in the table. Calculating Trends may take some time. To choose new settings or a different station please select the Clear Data- Button before adapting the settings.",
+
+    ))
+  })
   
   
   
@@ -88,7 +96,7 @@ server= function(input, output, session){
   t_plot <- function(){
     
     plot(1:10, 1:10, type = "n", axes = F, ylab = "", xlab = "")
-    mtext("Please select as station ", line = -1, cex = 1.5)
+    mtext("Please select a station ", line = -1, cex = 1.5)
     
   }
   
@@ -113,7 +121,7 @@ server= function(input, output, session){
   trendpl= function(){
     
     plot=plot(1:10, 1:10, type = "n", axes = F, ylab = "", xlab = "")
-    mtext("Please select a station ", line = -1, cex = 1.5)
+    mtext("Please select a station. ", line = -1, cex = 1.5)
     return(plot)
     
   
@@ -213,6 +221,7 @@ server= function(input, output, session){
     }
     
     output$disch_plot <- renderPlot({t_plot()})
+  
     
     if(input$qplot_variety == "Seasonplot"){
       
@@ -231,25 +240,39 @@ server= function(input, output, session){
     }
  
     
-    trendpl=function()
-    if (input$ts_plot_type=="Trend Analysis"){
-      mintr=Qmin_trend(data2, stat_name)
+    trendpl=function(){
+    if (input$trendtype=="Yuepilon-Method: PreWhitening and homogenization of autocorrelation"){
+      mintr=Qmin_trend(data2, stat_name, mod=2)
       return(mintr)
       
     }
-
+      if (input$trendtype=="Linear Model: Least Squares Approach"){
+        mintr=Qmin_trend(data2, stat_name, mod=3)
+        return(mintr)
+        
+      }
+      if (input$trendtype=="Yuepilon-Method and Linear Approach"){
+        mintr=Qmin_trend(data2, stat_name, mod=1)
+        return(mintr)
+        
+      }}
       
     output$trendplot=renderPlot({trendpl()})
     
     
     
-  })
+  }) #Observe Event Map/Marker/Table Marker Click finishes 
+  
+  
+  
   observeEvent(input$cleardata, {
     output$disch_plot=renderPlot({empty()})
   })
   
   
-  
+  observeEvent(input$cleardata2, {
+    output$trendplot=renderPlot({empty()})
+  })
   
   
   #Dummy which gets selected gauge
@@ -381,6 +404,9 @@ server= function(input, output, session){
   })
   
   
+  observeEvent(input$cleardata2, {
+    output$trendplot=renderPlot({empty()})
+  })
   
   
   

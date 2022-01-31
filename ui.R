@@ -47,6 +47,7 @@ library(DT) #make sure you load DT after Shiny
 
 library(dischanalyst)
 library(shinycssloaders)
+library(shinyWidgets)
 
 
 
@@ -105,13 +106,13 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                           # uiOutput("date_slider") Vielleicht statt Jahr?
                                                                           
                                                                           
-                                                                          
+                                                                          actionButton('help', 'Help'), 
                                                                           radioButtons("ts_plot_type", "Plot type:", choices=c("Discharge Measurements", "Trend Analysis"), 
                                                                                        inline=T), #Functions QBoxplot, QBoxploty, Qplot, Qploty 
                                                                           
                                                                           conditionalPanel(condition="input.ts_plot_type=='Discharge Measurements'", 
                                                                                            selectInput("qplot_variety", label="Display Options for Discharge Measurements:",
-                                                                                                       choices=c("Discharge Plot",   "annual Discharge Plot", "annual Discharge Boxplot", "Discharge Boxplot", "Trendplot",    "Seasonplot")) 
+                                                                                                       choices=c("Discharge Plot",   "annual Discharge Plot", "annual Discharge Boxplot", "Discharge Boxplot",    "Seasonplot")) 
                                                                           
                                                                           
                                                                           ,
@@ -129,16 +130,18 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                           conditionalPanel(condition="input.qplot_variety=='Trendplot'",      renderText({"Loading may take some time. Thank you for your patience."}) ),
                                                                           
                                                                  
-                                                                          
+                                                                        
                                                                           plotOutput("disch_plot", width = "100%"), 
                                                                           
                                                                           actionButton("cleardata", label="Clear Data")) , 
                                                                           
                                                                           
                                                                           
-                                                                          conditionalPanel(condition="input.ts_plot_type=='Trend Analysis'", plotOutput("trendplot") %>% withSpinner(color="#0dc5c1"), 
+                                                                          conditionalPanel(condition="input.ts_plot_type=='Trend Analysis'",
+                                                                                           selectInput("trendtype", "Method to calculate the trend", choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation","Yuepilon-Method and Linear Approach")), 
+                                                                                           plotOutput("trendplot") %>% withSpinner(color="#0dc5c1"), 
                                                                                            
-                                                                                           actionButton("cleardata", label="Clear Data") )
+                                                                                           actionButton("cleardata2", label="Clear Data") )
                                                                                            
                                                                           
                                                                           
