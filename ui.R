@@ -116,12 +116,12 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                           
                                                                           
                                                                           ,
-                                                                          conditionalPanel(condition="input.qplot_variety=='annual Discharge Boxplot'",  sliderInput("year", "Select Year:", 2000, min=1975, max=2015)),
+                                                                          conditionalPanel(condition="input.qplot_variety=='annual Discharge Boxplot'",  sliderInput("year", "Select Year:", 2000, min=1975, max=2015, sep="")),
                                                                           
                                                                           
                                                                           
                                                                           
-                                                                          conditionalPanel(condition="input.qplot_variety=='annual Discharge Plot'",  sliderInput("year2", "Select Year:", 2000, min=1975, max=2015) ),
+                                                                          conditionalPanel(condition="input.qplot_variety=='annual Discharge Plot'",  sliderInput("year2", "Select Year:", 2000, min=1975, max=2015, sep="") ),
                                                                           conditionalPanel(condition="input.qplot_variety=='Seasonplot'",  sliderInput("season1", "Select Begin of the Season:",5,min=01, max=12)),
                                                                           conditionalPanel(condition="input.qplot_variety=='Seasonplot'",  sliderInput("season2", "Select End of the Season:",5,min=01, max=12, ) ),
                                                                           conditionalPanel(condition="input.qplot_variety=='Seasonplot'",  numericInput("ssy", "Select Startyear:",2000, min=1999, max=2005 ) ),
@@ -149,7 +149,31 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                           )) ),
                                                  
                                                  
-                                                 tabPanel("Threshold-based"
+                                                 tabPanel("Threshold-based", 
+                                                          
+                                                          
+                                                          fluidRow(column(10, 
+                                                                          # uiOutput("date_slider") Vielleicht statt Jahr?
+                                                                          
+                                                                          # conditionalPanel(condition="input.qplot_variety=='annual Discharge Plot'", 
+                                                                          actionButton('helpthres', 'Help'), 
+                                                                          radioButtons("thres_type", "Threshold:", choices=c("Quantile Based", "Choose individual Value"), 
+                                                                                       inline=T), 
+                                                                          
+                                                                          
+                                                                          conditionalPanel(condition="input.thres_type=='Quantile Based'", 
+                                                                                          sliderInput("quantile", label="Quantile", min=0.05, max=1, value=0.3, step=0.05), sliderInput("yearq", "Select Year:", 2000, min=1975, max=2015, sep="")), 
+                                                                                           
+                                                                          
+                                                                          conditionalPanel(condition="input.thres_type=='Choose individual Value'", 
+                                                                                           sliderInput("value", label="Value", min=0, max=3000, value=150,  sep=""), sliderInput("yearv", "Select Year:", 2000, min=1975, max=2015, sep="")), 
+                                                                          
+                                                                          plotOutput("thresplot", width = "100%"), 
+                                                                          
+                                                                          actionButton("cleardata3", label="Clear Data")
+                                                                          
+                                                                          )) 
+                                                                          
                                                           
                                                           
                                                  ), 

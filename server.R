@@ -131,6 +131,19 @@ server= function(input, output, session){
   
   output$trendplot=renderPlot({trendpl()})
   
+
+  
+thres= function(){
+    
+    plot=plot(1:10, 1:10, type = "n", axes = F, ylab = "", xlab = "")
+    mtext("Please select a station. ", line = -1, cex = 1.5)
+    return(plot)
+    
+    
+  }
+  
+  output$thresplot= renderPlot({thres()})
+  
   
   # Erwins Reactive Map -----------------------------------------------------
   
@@ -163,6 +176,14 @@ server= function(input, output, session){
       
       updateSliderInput(session, "year2", label = "Select Year:",
                         min = sta_yea_cla, max = end_yea_cla)
+      
+      
+      updateSliderInput(session, "yearq", label = "Select Year:",
+                        min = sta_yea_cla, max = end_yea_cla)
+      
+      updateSliderInput(session, "yearv", label = "Select Year:",
+                        min = sta_yea_cla, max = end_yea_cla)
+      
       
       
     })
@@ -233,9 +254,9 @@ server= function(input, output, session){
         
         seasonplot=seasonpl(data=data2, station=stat_name, Startyear=Startyear, Endyear=Endyear, month_start=month_start, month_end =month_end )
         
-        output$disch_plot <- renderPlot({seasonplot})
+        
       })
-      
+      output$disch_plot <- renderPlot({seasonplot})
     
     }
  
@@ -261,6 +282,35 @@ server= function(input, output, session){
     
     
     
+    thres= function(){
+      if(input$thres_type=="Quantile Based"){
+        
+        quantile=input$quantile
+        Year=input$yearq
+  
+        qperipl=periodplot_quantile(data2, stat_name , quantile, year=Year, graph=T)
+        return( qperipl)
+      }
+      if(input$thres_type=="Choose individual Value"){
+        
+       Val=input$value
+     Year=input$yearv
+        
+        uperipl=U_periodploty(data2, stat_name ,U= Val, year=Year, graph=T)
+        return( uperipl)
+      }
+      
+      
+      
+    }
+    output$thresplot=renderPlot({thres()})
+    
+    
+    
+    
+    
+    
+    
   }) #Observe Event Map/Marker/Table Marker Click finishes 
   
   
@@ -272,6 +322,11 @@ server= function(input, output, session){
   
   observeEvent(input$cleardata2, {
     output$trendplot=renderPlot({empty()})
+  })
+  
+  
+  observeEvent(input$cleardata3, {
+    output$thresplot=renderPlot({empty()})
   })
   
   
@@ -312,6 +367,15 @@ server= function(input, output, session){
                         min = sta_yea_cla, max = end_yea_cla)
       
       
+      
+      updateSliderInput(session, "yearq", label = "Select Year:",
+                        min = sta_yea_cla, max = end_yea_cla)
+      
+      updateSliderInput(session, "yearv", label = "Select Year:",
+                        min = sta_yea_cla, max = end_yea_cla)
+      
+      
+      
     })
     
     observe({
@@ -380,9 +444,9 @@ server= function(input, output, session){
         
         seasonplot=seasonpl(data=data2, station=stat_name, Startyear=Startyear, Endyear=Endyear, month_start=month_start, month_end =month_end )
         
-        output$disch_plot <- renderPlot({seasonplot})
+        
       })
-      
+      output$disch_plot <- renderPlot({seasonplot})
       
     }
     
@@ -408,7 +472,36 @@ server= function(input, output, session){
     
     
     
-  }) #Observe Event Map/Marker/Table Marker Click finishes 
+    thres= function(){
+      if(input$thres_type=="Quantile Based"){
+        
+        quantile=input$quantile
+        Year=input$yearq
+        
+        qperipl=periodplot_quantile(data2, stat_name , quantile, year=Year, graph=T)
+        return( qperipl)
+      }
+      if(input$thres_type=="Choose individual Value"){
+        
+        Val=input$value
+        Year=input$yearv
+        
+        uperipl=U_periodploty(data2, stat_name ,U= Val, year=Year, graph=T)
+        return( uperipl)
+      }
+      
+      
+      
+    }
+    output$thresplot=renderPlot({thres()})
+    
+    
+    
+    
+    
+    
+    
+  })#Observe Event Map/Marker/Table Marker Click finishes 
   
   
   
