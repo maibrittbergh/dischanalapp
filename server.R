@@ -281,7 +281,7 @@ thres= function(){
     output$trendplot=renderPlot({trendpl()})
     
     
-    
+
     thres= function(){
       if(input$thres_type=="Quantile Based"){
         
@@ -308,9 +308,7 @@ thres= function(){
     
     
     
-    
-    
-    
+
   }) #Observe Event Map/Marker/Table Marker Click finishes 
   
   
@@ -323,11 +321,13 @@ thres= function(){
   observeEvent(input$cleardata2, {
     output$trendplot=renderPlot({empty()})
   })
+
   
   
   observeEvent(input$cleardata3, {
     output$thresplot=renderPlot({empty()})
   })
+
   
   
   #Dummy which gets selected gauge
@@ -469,9 +469,7 @@ thres= function(){
       }}
     
     output$trendplot=renderPlot({trendpl()})
-    
-    
-    
+
     thres= function(){
       if(input$thres_type=="Quantile Based"){
         
@@ -502,6 +500,9 @@ thres= function(){
     
     
   })#Observe Event Map/Marker/Table Marker Click finishes 
+
+
+
   
   
   
