@@ -48,8 +48,8 @@ library(DT) #make sure you load DT after Shiny
 library(dischanalyst)
 library(shinycssloaders)
 library(shinyWidgets)
-
-
+#install.packages("fontawesome")
+library(fontawesome)
 
 
 
@@ -62,16 +62,20 @@ library(shinyWidgets)
 
 data=metadata_repg[, -c(7,8)]
 
+
+metadata_repg=metadata_repg(metadata_germany)
+
+metadata_gerrep=metadata_repg(metadata_germany, mark=T)
+data=metadata_gerrep
+data=metadata_repg[, -c(7,8)]
 data2= grdc_list(metadata_repg, path)
+data2= data3
+  #grdc_list(metadata_germany, path)
 #data3=GRDC_list(metadata_germany, path)
 
 
 
-
-
-
-
-
+View(data)
 
 
 
@@ -199,13 +203,62 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                 
                 
                 
-                tabPanel(title="Trend of Minimum Discharge", leafletOutput("tmap_", height=1000)),
+                tabPanel(title="Trend of Minimum Discharge", 
+                         
+                         fluidRow(
+                           column(9, 
+        
+                                                               
+                                                               tabPanel("Areal Trends and Characteristics in Germany", 
+                                                                        column(12, h4("Click to See the Stations Name"), shinycssloaders::withSpinner(leaflet::leafletOutput("areamap", height="800px"),
+                                                                                                                                    size=3, color="#0080b7"))), 
+                                                          
+                         
+                         
+                         
+                         ),
+                         
+                         column(3,
+                                tabsetPanel(id="area_trend", 
+                                            tabPanel("Settings", 
+                                                     fluidRow(column(10, 
+                                                                     checkboxInput("pettit", "Pettit-Test"),
+                                                                  
+                                                                     radioButtons("dataset", "Choose Data Set:", choices=c("Representative Stations", "All Stations in Germany"), 
+                                                                                  inline=T),
+                                                                     sliderInput("range", "Select Timerange:", value=c(1995,2005), min=1975, max=2015, sep=""),
+                                                                     
+                                                                     selectInput("trendarea", label="Possible Approaches for area-based evaluation: ",
+                                                                                 choices=c("MQ",   "annual Discharge Plot", "annual Discharge Boxplot", "Discharge Boxplot",    "Seasonplot")) ,
+                                                                     
+                                                                     
+                                                                     conditionalPanel(condition="input.ts_plot_type=='Discharge Measurements'", 
+                                                                                      selectInput("qplot_variety", label="Display Options for Discharge Measurements:",
+                                                                                                  choices=c("Discharge Plot",   "annual Discharge Plot", "annual Discharge Boxplot", "Discharge Boxplot",    "Seasonplot")) 
+                                                                                      
+                                                                                      
+                                                                                      ,
+                                                                                      conditionalPanel(condition="input.qplot_variety=='annual Discharge Boxplot'",  sliderInput("year", "Select Year:", 2000, min=1975, max=2015, sep="")),
+                                                                                      
+                                
+                                
+                                ))))))
+                         
+                         
+                         )),
                 
                 
                 
                 
                 
-                tabPanel(title="Descriptive Statistics", 
+                
+                
+                
+                
+                
+                
+                
+                tabPanel(title="Data set Information", 
                          fluidPage(
                            sidebarPanel(
                              
@@ -255,6 +308,7 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                           <br>
                           <p>Author: Mai-Britt Berghöfer <br>
                           <a href="mailto:berghoefer@uni-potsdam.de">berghoefer@uni-potsdam.de</a></p>'), align = "center"))
+
 
 
 

@@ -1,3 +1,5 @@
+library(dplyr)
+
 server= function(input, output, session){
   
   
@@ -25,26 +27,58 @@ server= function(input, output, session){
   })
   
   
+
+# First Page --------------------------------------------------------------
+
   
   
   
-  # Map ---------------------------------------------------------------------
+  # Map  ---------------------------------------------------------------------
   
   
   map = createLeafletMap(session, 'map')
   
+  
+  
+  
+  
+  
+  
+  
+  
   session$onFlushed(once = T, function() {
+    
+    
+    getColor <- function(data) {
+      sapply(data$rep_stat, function(rep_stat) {
+        if(rep_stat==F) {
+          "green"
+       
+        } else {
+          "orange"
+        } })
+    }
+    
+    icons <- awesomeIcons(
+      icon = 'ios-close',
+      iconColor = 'black',
+      library = 'ion',
+      markerColor = getColor(data)
+    )
+    
+
     
     output$map <- renderLeaflet({
       leaflet(data) %>%
         addTiles() %>%
-        addMarkers(lat = ~latitude, lng = ~longitude, 
+        addAwesomeMarkers(lat = ~latitude, lng = ~longitude, icon=icons,
                    clusterOptions = markerClusterOptions(zoomToBoundsOnClick = T), 
+                
                    popup = ~paste(
                      paste('<b>', 'River', '</b>', river), 
-                     paste('<b>',  'longitude', '</b>', longitude),
+                     paste('<b>',  'Station', '</b>', station),
                      paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
-                     paste('<b>', 'Catchment Area [km^2]:', '</b>', catch_area),
+                    
                      sep = '<br/>'),
                    popupOptions = popupOptions(closeButton = FALSE)
         )  %>%    
@@ -62,7 +96,7 @@ server= function(input, output, session){
   })
   
   
-  # Add Table ---------------------------------------------------------------
+  # Table ---------------------------------------------------------------
   
   
   output$table_input=DT::renderDataTable({
@@ -79,6 +113,9 @@ server= function(input, output, session){
   
   
   # reactive Values
+
+# Help Button -------------------------------------------------------------
+
   
   #Help Button
   
@@ -91,7 +128,10 @@ server= function(input, output, session){
   })
   
   
-  
+
+# Empty functions ---------------------------------------------------------
+
+
   #Initial conditions: 'Select station on map.'
   t_plot <- function(){
     
@@ -144,8 +184,8 @@ thres= function(){
   
   output$thresplot= renderPlot({thres()})
   
-  
-  # Erwins Reactive Map -----------------------------------------------------
+
+  # Reactive Map -----------------------------------------------------
   
   
   #Dummy which gets selected gauge
@@ -333,7 +373,10 @@ thres= function(){
   #Dummy which gets selected gauge
   gauge_sel <-  shiny::reactiveValues(clicked_gauge = "XXX")
   
-  #Reaction to selection of station on map
+
+# Reactive Table ----------------------------------------------------------
+
+
   observeEvent(input$table_input_row_last_clicked,{
     s= input$table_input_row_last_clicked
     
@@ -503,6 +546,20 @@ thres= function(){
 
 
 
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+  
+  
   
   
   
