@@ -66,12 +66,20 @@ data=metadata_repg[, -c(7,8)]
 metadata_repg=metadata_repg(metadata_germany)
 
 metadata_gerrep=metadata_repg(metadata_germany, mark=T)
+
 data=metadata_gerrep
-data=metadata_repg[, -c(7,8)]
-data2= grdc_list(metadata_repg, path)
-data2= data3
+
+
+data2= grdc_list(metadata_germany, path)
+data3=grdc_list(metadata_rep,path)
   #grdc_list(metadata_germany, path)
 #data3=GRDC_list(metadata_germany, path)
+data4=metadata_rep
+
+
+repres=relstat=c("HOHENSAATEN-FINOW", "DRESDEN", "MAGDEBURG-STROMBRUECKE",
+          "RATHENOW UP", "CALBE-GRIZEHNE", "INTSCHEDE",  "HANN.-MUENDEN", "VLOTHO",
+          "VERSEN-WEHRDURCHSTICH", "GREVEN", "MAXAU", "KAUB", "KOELN", "COCHEM", "WUERZBURG" , "ROCKENAU SKA", "ACHLEITEN", "BURGHAUSEN", "WASSERBURG", "LANDSBERG", "KEMPTEN")
 
 
 
@@ -84,6 +92,9 @@ View(data)
 
 ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"),
                 
+
+# First Tab ---------------------------------------------------------------
+
                 
                 
                 tabPanel(title="Discharge Map",
@@ -200,6 +211,9 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                 
                 
                 
+
+# Second Tab --------------------------------------------------------------
+
                 
                 
                 
@@ -211,7 +225,7 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                
                                                                tabPanel("Areal Trends and Characteristics in Germany", 
                                                                         column(12, h4("Click to See the Stations Name"), shinycssloaders::withSpinner(leaflet::leafletOutput("areamap", height="800px"),
-                                                                                                                                    size=3, color="#0080b7"))), 
+                                                                                                                                    size=3, color="#0080b7"))) %>% withSpinner(color="#0dc5c1"), 
                                                           
                          
                          
@@ -223,10 +237,14 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                             tabPanel("Settings", 
                                                      fluidRow(column(10, 
                                                                      checkboxInput("pettit", "Pettit-Test"),
+                                                                     
+                                                                     
+                                                                     radioButtons("dataset", "Select Dataset", choices=c("Representative Stations only", "All GRDC-Stations in Germany")), 
+                                                                     sliderInput("range", "Select Timerange:", value=c(1995,2005), min=min(data$startyear), max=max(data$endyear), sep=""),
                                                                   
-                                                                     radioButtons("dataset", "Choose Data Set:", choices=c("Representative Stations", "All Stations in Germany"), 
-                                                                                  inline=T),
-                                                                     sliderInput("range", "Select Timerange:", value=c(1995,2005), min=1975, max=2015, sep=""),
+                                                               
+                                                                                 
+                                                      
                                                                      
                                                                      selectInput("trendarea", label="Possible Approaches for area-based evaluation: ",
                                                                                  choices=c("MQ",   "annual Discharge Plot", "annual Discharge Boxplot", "Discharge Boxplot",    "Seasonplot")) ,
@@ -254,6 +272,9 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                 
                 
                 
+
+# Third Tab ---------------------------------------------------------------
+
                 
                 
                 
