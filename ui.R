@@ -66,7 +66,7 @@ data=metadata_repg[, -c(7,8)]
 metadata_repg=metadata_repg(metadata_germany)
 
 metadata_gerrep=metadata_repg(metadata_germany, mark=T)
-
+View(data2)
 data=metadata_gerrep
 
 
@@ -239,38 +239,38 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                      
                                                                      
                                                                      radioButtons("dataset", "Select Dataset", choices=c("All GRDC-Stations in Germany","Representative Stations only")), 
-                                                                     sliderInput("range", "Select Timerange:", value=c(1995,2005), min=min(data$startyear), max=max(data$endyear), sep=""),
-                                                                  
+                                                                     sliderInput("range", "Select Timerange:", value=c(1995
+                                                                                                                       ,2005), min=min(data$startyear), max=max(data$endyear), sep=""),
+                                                      
                                                                
-                                                                                 
+                                                                     actionButton("trendarea", "Trendarea")  ,
                                                       
                                                                      
-                                                                     selectInput("trendarea", label="Select Approach for area-based evaluation: ",
-                                                                                 choices=c("MQ - Mean Discharge Trend", "NMxQ", "Trend Minimum Values")) ,
+                                                                     selectInput("trendtype2", label="Select Approach for area-based evaluation: ",
+                                                                                choices=c( "NMxQ", "MQ - Mean Discharge Trend","Trend Minimum Values")) ,
                                                                      
                                                                      
-                                                                     conditionalPanel(condition="input.trendarea=='MQ - Mean Discharge Trend'", 
+                                                                     conditionalPanel(condition="input.trendtype2=='MQ - Mean Discharge Trend'", 
                                                                                       selectInput("seasonmq", label="Select the Season:",
                                                                                                   choices=c("Spring",   "Summer", "Autumn", "Winter",    "Year")) , 
-                                                                                      conditionalPanel(condition="input.trendarea=='MQ - Mean Discharge Trend'", 
+                                                                                    
                                                                                                        selectInput("trendtypemq", label="Select Method to calculate the Trend:",
-                                                                                                                   choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation","Yuepilon-Method and Linear Approach"),  actionButton("go", "Start to calculate Trendmap") )
+                                                                                                                  choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation","Yuepilon-Method and Linear Approach")),  actionButton("go", "Start to calculate Trendmap")) ,
                                                                                                        
                                                                                       
-                                                                      , 
+                                                                      
                                                                       actionButton("info", "Info")
                                                                                       
                                                                                       
                                                                                       
-                                                                                      ,
-                                                                                      conditionalPanel(condition="input.qplot_variety=='annual Discharge Boxplot'",  sliderInput("year", "Select Year:", 2000, min=1975, max=2015, sep=""))
+                                                                                     
                                                                                       
                                 
                                 
                                 ))))))
                          
                          
-                         ))),
+                         ),
                 
                 
                 
