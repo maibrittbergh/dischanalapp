@@ -238,20 +238,26 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                      checkboxInput("pettit", "Pettit-Test"),
                                                                      
                                                                      
-                                                                     radioButtons("dataset", "1. Select Dataset", choices=c("All GRDC-Stations in Germany","Representative Stations only")), 
-                                                                     sliderInput("range", "2. Select Timerange:", value=c(1995,2005), min=min(data$startyear), max=max(data$endyear), sep=""),
+                                                                     radioButtons("dataset", "Select Dataset", choices=c("All GRDC-Stations in Germany","Representative Stations only")), 
+                                                                     sliderInput("range", "Select Timerange:", value=c(1995,2005), min=min(data$startyear), max=max(data$endyear), sep=""),
                                                                   
                                                                
                                                                                  
                                                       
                                                                      
-                                                                     selectInput("trendarea", label="3. Select Approach for area-based evaluation: ",
-                                                                                 choices=c("MQ",   "annual Discharge Plot", "annual Discharge Boxplot", "Discharge Boxplot",    "Seasonplot")) ,
+                                                                     selectInput("trendarea", label="Select Approach for area-based evaluation: ",
+                                                                                 choices=c("MQ - Mean Discharge Trend", "NMxQ", "Trend Minimum Values")) ,
                                                                      
                                                                      
-                                                                     conditionalPanel(condition="input.ts_plot_type=='Discharge Measurements'", 
-                                                                                      selectInput("qplot_variety", label="Display Options for Discharge Measurements:",
-                                                                                                  choices=c("Discharge Plot",   "annual Discharge Plot", "annual Discharge Boxplot", "Discharge Boxplot",    "Seasonplot")) 
+                                                                     conditionalPanel(condition="input.trendarea=='MQ - Mean Discharge Trend'", 
+                                                                                      selectInput("seasonmq", label="Select the Season:",
+                                                                                                  choices=c("Spring",   "Summer", "Autumn", "Winter",    "Year")) , 
+                                                                                      conditionalPanel(condition="input.trendarea=='MQ - Mean Discharge Trend'", 
+                                                                                                       selectInput("trendtypemq", label="Select Method to calculate the Trend:",
+                                                                                                                   choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation","Yuepilon-Method and Linear Approach"))
+                                                                                      
+                                                                                      
+                                                                                      
                                                                                       
                                                                                       
                                                                                       ,

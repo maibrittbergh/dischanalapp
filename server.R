@@ -738,6 +738,7 @@ thres= function(){
         position = "topright",
         options = layersControlOptions(collapsed = F)
       )
+    
     }else if(input$dataset=="All GRDC-Stations in Germany"){
       
       
@@ -907,14 +908,56 @@ thres= function(){
   })
   
   
+  
+  observeEvent({input$trendarea},{
+    
+    #prepare dataset
+    stationssel=filtdata$station
+    datalist=data
+    
+    
+  if(input$qplot_variety == "Discharge Plot"){
+      
+      Qplot=Qplot(data2, stat_name)
+      return(Qplot)
+      
+  }
+      
+    } )
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  })
+  
+  
+  
 
   
   
   
   
-  })
+
   
   
+  
+  
+  
+  
+  
+  
+  
+
   
   
   
