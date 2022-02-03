@@ -254,21 +254,23 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                                                   choices=c("Spring",   "Summer", "Autumn", "Winter",    "Year")) , 
                                                                                       conditionalPanel(condition="input.trendarea=='MQ - Mean Discharge Trend'", 
                                                                                                        selectInput("trendtypemq", label="Select Method to calculate the Trend:",
-                                                                                                                   choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation","Yuepilon-Method and Linear Approach"))
+                                                                                                                   choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation","Yuepilon-Method and Linear Approach"),  actionButton("go", "Start to calculate Trendmap") )
+                                                                                                       
                                                                                       
-                                                                                      
+                                                                      , 
+                                                                      actionButton("info", "Info")
                                                                                       
                                                                                       
                                                                                       
                                                                                       ,
-                                                                                      conditionalPanel(condition="input.qplot_variety=='annual Discharge Boxplot'",  sliderInput("year", "Select Year:", 2000, min=1975, max=2015, sep="")),
+                                                                                      conditionalPanel(condition="input.qplot_variety=='annual Discharge Boxplot'",  sliderInput("year", "Select Year:", 2000, min=1975, max=2015, sep=""))
                                                                                       
                                 
                                 
                                 ))))))
                          
                          
-                         )),
+                         ))),
                 
                 
                 

@@ -911,19 +911,126 @@ thres= function(){
   
   observeEvent({input$trendarea},{
     
-    #prepare dataset
+    #prepare dataset metadata: filtdata; data2 (List containing measurements adapted to timeframe) --> called seldat
     stationssel=filtdata$station
     datalist=data
     
+    datas=names(data2)
+    select=filtdata$station
+    l=length(datas)
+    selected=rep(0, l)
     
-  if(input$qplot_variety == "Discharge Plot"){
+    for (i in 1:l){
+      selected[i]=is.element(datas[i], select)
+    }
+    
+    newdata=data2[which(selected==1)]
+    le=length(newdata)
+    
+    
+    sy=as.character(startyear)
+    ey=as.character(endyear)
+    min=paste(sy, "-11-01")
+    min=sub(" -", "-", min)
+    
+    max=paste(ey, "-10-31")
+    max=sub(" -", "-", max)
+    
+    h=grep(min, newdata[[1]][,1])
+    t=grep(max, newdata[[1]][,1])
+    g=h:t
+    seldat=vector(mode="list", length=le)
+    
+    
+    for ( i in 1:le){
+      g=grep(min, newdata[[i]][,1])
+      u=grep(max, newdata[[i]][,1])
+      vec=g:u
+      seldat[[i]]=newdata[[i]][vec, ]
       
-      Qplot=Qplot(data2, stat_name)
-      return(Qplot)
+    }
+    names(seldat)=names(newdata)})   #calculate new data
+    
+    observeEvent({input$seasonmq}{
       
-  }
+      if(input$seasonmq=="Spring"){
+        sesn="SP"
+      }else if(input$seasonmq=="Summer"){
+        sesn="SU"
+      }else if(input$seasonmq=="Autumn"){
+        sesn="AU"
+      }else if(input$seasonmq=="Winter"){
+        sesn="WI"
+      }else if(input$seasonmq=="Summer"){
+        sesn="SU"
+      }else if(input$seasonmq=="Year"){
+        sesn="Y"
+      }
       
-    } )
+    })   #mqplot season
+    observeEvent({input$trendtypemq}{
+      
+      if(input$trendtypemq=="Linear Model: Least Squares Approach"){
+       modus=3
+      }else if(input$trendtypemq=="Yuepilon-Method: PreWhitening and homogenization of autocorrelation"){
+        modus=2
+      }else if(input$trendtypemq=="Yuepilon-Method and Linear Approach"){
+        modus=1
+      }
+      
+    })  #mq plot modus
+    
+    observeEvent({input$go}, {  #mq plot calculates  mean value for every year and calculates trend    
+      
+      MQcalc=dfMQ(data=seldat, seasonal=sesn, mod=modus )
+      
+      filtdata=cbind(filtdata, MQcalc)
+      
+      
+      
+      COL <- colorFactor(palette = 'RdYlGn', filtdata$normalized_slope)
+      
+      leafletProxy("areamap",session, data=filtdata )%>%
+        clearPopups() %>% 
+        clearMarkers() %>%
+        addTiles() %>%
+        addCircleMarkers(data=filtdata, lat = ~latitude, lng = ~longitude, color=~COL, 
+                         
+                         
+                         
+                         popup = ~paste(
+                           paste('<b>', 'River', '</b>', river), 
+                           paste('<b>',  'Station', '</b>', station),
+                           paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
+                           
+                           sep = '<br/>'),
+                         popupOptions = popupOptions(closeButton = FALSE)
+        )  %>%    
+        
+        addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+        addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+        
+        
+        addLegend("topright", 
+                  title = "Legend",
+                  labFormat = labelFormat(prefix = "$"),
+                  opacity = 1
+        )%>% 
+        
+        addLayersControl(
+          baseGroups = c("Open Street Map", "Terrain Background"),
+          position = "topright",
+          options = layersControlOptions(collapsed = F)
+        )
+      
+      
+      
+      
+      
+    })
+      
+ 
+
     
     
     
