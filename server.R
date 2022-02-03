@@ -582,10 +582,10 @@ thres= function(){
 
   map = createLeafletMap(session, 'areamap')
   
-  
-  
-  
   filtdata=data
+  
+  
+
   
   
   
@@ -593,25 +593,28 @@ thres= function(){
   session$onFlushed(once = T, function() {
     
     
-
+    
     
     
     output$areamap <- renderLeaflet({
       leaflet(filtdata) %>%
+        clearPopups() %>% 
+        clearMarkers() %>%
         addTiles() %>%
+        
         addCircleMarkers(lat = ~latitude, lng = ~longitude, 
-                        
-                          
-                          
-                          popup = ~paste(
-                            paste('<b>', 'River', '</b>', river), 
-                            paste('<b>',  'Station', '</b>', station),
-                            paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
-                            
-                            sep = '<br/>'),
-                          popupOptions = popupOptions(closeButton = FALSE)
+                         
+                         
+                         
+                         popup = ~paste(
+                           paste('<b>', 'River', '</b>', river), 
+                           paste('<b>',  'Station', '</b>', station),
+                           paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
+                           
+                           sep = '<br/>'),
+                         popupOptions = popupOptions(closeButton = FALSE)
         )  %>%    
-       
+        
         addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
         addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
         
@@ -627,81 +630,28 @@ thres= function(){
   
   
   
-
-
-# Inputs ------------------------------------------------------------------
-#1.range
   
 
+# Input Dataset: Timerange and class of stations --------------------------
+
+ 
   
   
   
   observeEvent({input$dataset}, {
     if(input$dataset=="Representative Stations only"){
-    
-    l=  length(data$station)
-    
-    iden=rep(F,l)
-    for ( i in 1:l){
-      iden[i]=is.element(data$station[i], repres)
       
-    }
-    if(any(iden)==T){
+      l=  length(data$station)
       
+      iden=rep(F,l)
+      for ( i in 1:l){
+        iden[i]=is.element(data$station[i], repres)
+        
+      }
+      if(any(iden)==T){
+        
       filtdata=data[which(iden==T),] 
-    }else {renderText("No Stations available")}
-    
-    
-    
-   
-    
-    }
-    
-    
-    
-    
-    
-    
-    
-    leafletProxy("areamap",session, data=filtdata )%>%
-      clearPopups() %>% 
-      clearMarkers() %>%
-      addTiles() %>%
-      addCircleMarkers(data=data, lat = ~latitude, lng = ~longitude, 
-                       
-                       
-                       
-                       popup = ~paste(
-                         paste('<b>', 'River', '</b>', river), 
-                         paste('<b>',  'Station', '</b>', station),
-                         paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
-                         
-                         sep = '<br/>'),
-                       popupOptions = popupOptions(closeButton = FALSE)
-      )  %>%    
       
-      addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
-      addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
-      
-      
-      
-      
-      addLayersControl(
-        baseGroups = c("Open Street Map", "Terrain Background"),
-        position = "topright",
-        options = layersControlOptions(collapsed = F)
-      )
-    
-    
-    })
-
-
-
-
-
-
-
-    observeEvent({input$range},{
       
       
       startyear=input$range[1]
@@ -734,9 +684,109 @@ thres= function(){
       }
       timeseries=start[which(vec==T)]      #filtered. only stations with measurements during whole time included
       l=length(timeseries)
-     filtdata=filtdata[timeseries,]
+      filtdata=filtdata[timeseries,]
       
-      leafletProxy("areamap",session, data=datanew )%>%
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      }else {renderText("No Stations available")}
+      
+      
+      
+      
+      
+    
+    
+    
+    
+    
+    
+    
+    
+    leafletProxy("areamap",session, data=filtdata )%>%
+      clearPopups() %>% 
+      clearMarkers() %>%
+      addTiles() %>%
+      addCircleMarkers(data=filtdata, lat = ~latitude, lng = ~longitude, 
+                       
+                       
+                       
+                       popup = ~paste(
+                         paste('<b>', 'River', '</b>', river), 
+                         paste('<b>',  'Station', '</b>', station),
+                         paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
+                         
+                         sep = '<br/>'),
+                       popupOptions = popupOptions(closeButton = FALSE)
+      )  %>%    
+      
+      addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+      addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+      
+      
+      
+      
+      addLayersControl(
+        baseGroups = c("Open Street Map", "Terrain Background"),
+        position = "topright",
+        options = layersControlOptions(collapsed = F)
+      )
+    }else if(input$dataset=="All GRDC-Stations in Germany"){
+      
+      
+      filtdata=data
+      
+      
+      
+      
+      startyear=input$range[1]
+      
+      endyear=input$range[2]
+      
+      
+      l=nrow(filtdata) #all stations, included in measurements
+      
+      
+      
+      
+      
+      stations_s=rep(F,l)
+      stations_e=rep(F,l)
+      for ( i in 1:l){
+        stations_s[i]=filtdata$startyear[i]<=startyear  #measurements at least as long as given timeseries
+        stations_e[i]=filtdata$endyear[i]>=endyear
+      }
+      
+      start=which(stations_s == TRUE)
+      end=which(stations_e == TRUE)
+      l=length(start)
+      vec=rep(F,l)
+      for ( i in 1:l){
+        if (identical(which(end==start[i]), integer(0))){
+          vec[i]=F
+        }else{ vec[i]=T}
+        
+      }
+      timeseries=start[which(vec==T)]      #filtered. only stations with measurements during whole time included
+      l=length(timeseries)
+      filtdata=filtdata[timeseries,]
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      leafletProxy("areamap",session, data=filtdata )%>%
         clearPopups() %>% 
         clearMarkers() %>%
         addTiles() %>%
@@ -772,20 +822,103 @@ thres= function(){
       
       
       
-    })
+      
+    }
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  observeEvent({input$range},{
     
     
-
-     
+    startyear=input$range[1]
+    
+    endyear=input$range[2]
+    
+    
+    l=nrow(filtdata) #all stations, included in measurements
+    
+    
+    
+    
+    
+    stations_s=rep(F,l)
+    stations_e=rep(F,l)
+    for ( i in 1:l){
+      stations_s[i]=filtdata$startyear[i]<=startyear  #measurements at least as long as given timeseries
+      stations_e[i]=filtdata$endyear[i]>=endyear
+    }
+    
+    start=which(stations_s == TRUE)
+    end=which(stations_e == TRUE)
+    l=length(start)
+    vec=rep(F,l)
+    for ( i in 1:l){
+      if (identical(which(end==start[i]), integer(0))){
+        vec[i]=F
+      }else{ vec[i]=T}
       
- 
+    }
+    timeseries=start[which(vec==T)]      #filtered. only stations with measurements during whole time included
+    l=length(timeseries)
+    filtdata=filtdata[timeseries,]
+    
+    leafletProxy("areamap",session, data=datanew )%>%
+      clearPopups() %>% 
+      clearMarkers() %>%
+      addTiles() %>%
+      addCircleMarkers(data=filtdata, lat = ~latitude, lng = ~longitude, 
+                       
+                       
+                       
+                       popup = ~paste(
+                         paste('<b>', 'River', '</b>', river), 
+                         paste('<b>',  'Station', '</b>', station),
+                         paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
+                         
+                         sep = '<br/>'),
+                       popupOptions = popupOptions(closeButton = FALSE)
+      )  %>%    
+      
+      addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+      addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
       
       
       
       
-
+      addLayersControl(
+        baseGroups = c("Open Street Map", "Terrain Background"),
+        position = "topright",
+        options = layersControlOptions(collapsed = F)
+      )
+    
+    
+    
+    
+    
+    
+    
+    
+  })
+  
   
 
+  
+  
+  
+  
+  })
+  
+  
+  
+  
+  
+  
   
   
   

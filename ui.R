@@ -83,7 +83,6 @@ repres=relstat=c("HOHENSAATEN-FINOW", "DRESDEN", "MAGDEBURG-STROMBRUECKE",
 
 
 
-View(data)
 
 
 
@@ -239,14 +238,14 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                      checkboxInput("pettit", "Pettit-Test"),
                                                                      
                                                                      
-                                                                     radioButtons("dataset", "Select Dataset", choices=c("Representative Stations only", "All GRDC-Stations in Germany")), 
-                                                                     sliderInput("range", "Select Timerange:", value=c(1995,2005), min=min(data$startyear), max=max(data$endyear), sep=""),
+                                                                     radioButtons("dataset", "1. Select Dataset", choices=c("All GRDC-Stations in Germany","Representative Stations only")), 
+                                                                     sliderInput("range", "2. Select Timerange:", value=c(1995,2005), min=min(data$startyear), max=max(data$endyear), sep=""),
                                                                   
                                                                
                                                                                  
                                                       
                                                                      
-                                                                     selectInput("trendarea", label="Possible Approaches for area-based evaluation: ",
+                                                                     selectInput("trendarea", label="3. Select Approach for area-based evaluation: ",
                                                                                  choices=c("MQ",   "annual Discharge Plot", "annual Discharge Boxplot", "Discharge Boxplot",    "Seasonplot")) ,
                                                                      
                                                                      
