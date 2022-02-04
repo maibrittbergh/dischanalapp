@@ -905,159 +905,142 @@ server= function(input, output, session){
       
       
       
-      
-    
-      
-      
-      
-    
-    
-    
-
-    
-    
-    
-    
-  
-  
-  
-    
-    
-    observeEvent({input$seasonmq},{
-      
-      if(input$seasonmq=="Spring"){
-        sesn="SP"
-      }else if(input$seasonmq=="Summer"){
-        sesn="SU"
-      }else if(input$seasonmq=="Autumn"){
-        sesn="AU"
-      }else if(input$seasonmq=="Winter"){
-        sesn="WI"
-      }else if(input$seasonmq=="Summer"){
-        sesn="SU"
-      }else if(input$seasonmq=="Year"){
-        sesn="Y"
-      }
-      
-      #mqplot season
-    observeEvent({input$trendtypemq},{
-      
-      if(input$trendtypemq=="Linear Model: Least Squares Approach"){
-        modus=3
-      }else if(input$trendtypemq=="Yuepilon-Method: PreWhitening and homogenization of autocorrelation"){
-        modus=2
-      }else if(input$trendtypemq=="Yuepilon-Method and Linear Approach"){
-        modus=1
-      }
-      
-    
-    
-
-    #mq plot modus
-    
-    observeEvent({input$go}, {  #mq plot calculates  mean value for every year and calculates trend   
-      
-      
-      datas=names(data2)
-      select=filtdata$station
-      l=length(data2)
-      selected=rep(0, l)
-      
-      for (i in 1:l){
-        selected[i]=is.element(datas[i], select)
-      }
-      if( any(selected==1)){
+      observeEvent({input$trendtype2}, {
         
-        newdat=data2[which(selected==1)]
-      }else(print("NO"))
-        
-        
- #       sty=as.character(input$range[1])
-#        edy=as.character(input$range[2])
-#        mi=paste(sty, "-11-01")
-#        mi=sub(" -", "-", mi)
-#        
-#        ma=paste(edy, "-10-31")
-#        ma=sub(" -", "-", ma)
-#        
-#        
-#        
-#        seldat=vector(mode="list", length=le)
-#        
- #       
- #       for ( i in 1:le){
-  #        g=grep(mi, newdat[[i]][,1])
-   #       u=grep(ma, newdat[[i]][,1])
-    #      vec=g:u
-     #     seldat[[i]]=newdat[[i]][vec, ]
+        if(input$trendtype2=="MQ - Mean Discharge Trend"){
           
-    #    }
-     #   names(seldat)=names(newdat)
-    #  }else{paste("NO")}
-      
-      
-      MQcalc=dfMQ(data=newdat, seasonal=sesn, mod=modus )
-      
-      filtdata=cbind(filtdata, MQcalc)
-      
-      
-      
-      COL <- colorFactor(palette = 'RdYlGn', filtdata$normalized_slope)
-      
-      leafletProxy("areamap",session, data=filtdata )%>%
-        clearPopups() %>% 
-        clearMarkers() %>%
-        addTiles() %>%
-        addCircleMarkers(data=filtdata, lat = ~latitude, lng = ~longitude, color=~COL, 
-                         
-                         
-                         
-                         popup = ~paste(
-                           paste('<b>', 'River', '</b>', river), 
-                           paste('<b>',  'Station', '</b>', station),
-                           paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
-                           
-                           sep = '<br/>'),
-                         popupOptions = popupOptions(closeButton = FALSE)
-        )  %>%    
+          
+          
+          MQ_dataset=MQ_trendset_SU
+          l=length(MQ_dataset)
+          suc=rep(0,l)
+          for ( i in 1:l){
+            suc= is.element(names(MQ_dataset)[i], filtdata$station)
+          }
+          
+          suc=which(suc==1)
+          MQ_dataset=MQ_dataset[suc]
+          l=length(MQ_dataset)
+          mean=rep(0,l)
+          for (i in 1:l){
+            
+            start= which( MQ_dataset[[i]][,2] ==STA)
+            end=   which( MQ_dataset[[i]][,2] ==STA)
+            
+            MQ_dataset[[i]]=MQ_dataset[[i]][start:end,]
+            
+            mean[i]=  mean( MQ_dataset[[i]][,3])
+           
+            
+          }
+          
+          filterdata=cbind(filtdata,mean)
         
-        addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
-        addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
-        
-        
-        addLegend("topright", 
-                  title = "Legend",
-                  labFormat = labelFormat(prefix = "$"),
-                  opacity = 1
-        )%>% 
-        
-        addLayersControl(
-          baseGroups = c("Open Street Map", "Terrain Background"),
-          position = "topright",
-          options = layersControlOptions(collapsed = F)
-        )
-      
-      
+          
+          
+          observeEvent({input$trendtypemq},{
+            
+            
+            if(input$trendtypemq== "Yuepilon-Method: PreWhitening and homogenization of autocorrelation"){
+              
+              stat=filtdata$station
+              l=length(MQ_dataset)
+              trend=rep(0,l)
+              for ( i in 1:l){
+                zyp=zyp.trend.vector(MQ_dataset[[i]][,3], method="Yuepilon")
+                trend[i]=zyp[2]
+                
+              }
+              
+              filterdata=cbind(filtdata, trend)
+              
+              
+              
+              observeEvent({input$go}, {
+                
+                
+                COL <- colorFactor(palette = 'RdYlGn', filterdata$trend)
+                
+                leafletProxy("areamap",session, data=filterdata )%>%
+                  clearPopups() %>% 
+                  clearMarkers() %>%
+                  addTiles() %>%
+                  addCircleMarkers(data=filtdata, lat = ~latitude, lng = ~longitude, color=~COL, 
+                                   
+                                   
+                                   
+                                   popup = ~paste(
+                                     paste('<b>', 'River', '</b>', river), 
+                                     paste('<b>',  'Station', '</b>', station),
+                                     paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
+                                     
+                                     sep = '<br/>'),
+                                   popupOptions = popupOptions(closeButton = FALSE)
+                  )  %>%    
+                  
+                  addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+                  addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+                  
+                  
+                  addLegend("topright", 
+                            title = "Legend",
+                            labFormat = labelFormat(prefix = "$"),
+                            opacity = 1
+                  )%>% 
+                  
+                  addLayersControl(
+                    baseGroups = c("Open Street Map", "Terrain Background"),
+                    position = "topright",
+                    options = layersControlOptions(collapsed = F)
+                  )
+
+              })
+              
+  
+              
+            }
+          
+   
+          
+        })
+
+          
+        }
       })
+          
+        
+      })
+    
+      
+      
+      
+    
+    
+    
+
+    
+    
+    
+    
   
-    })
-    })
-  
-    })
-
-})
 
 
+        
+        
+        
+        
+    
+    })
+      
+      
+      
 
     
     
  
 
     
-    
-    
-    
-    
+
     
     
     
@@ -1099,45 +1082,3 @@ server= function(input, output, session){
 shinyApp(ui=ui, server=server)
 
 
-observeEvent({input$trendarea},{
-  
-  #prepare dataset metadata: filtdata; data2 (List containing measurements adapted to timeframe) --> called seldat
-  
-  datas=names(listeddata)
-  select=filtdata$station
-  l=length(data2)
-  selected=rep(0, l)
-  
-  for (i in 1:l){
-    selected[i]=is.element(datas[i], select)
-  }
-  if( any(selected==1)){
-    
-    newdat=data2[which(selected==1)]
-    le=length(newdat)
-    
-    
-    sty=as.character(input$range[1])
-    edy=as.character(input$range[2])
-    mi=paste(sty, "-11-01")
-    mi=sub(" -", "-", mi)
-    
-    ma=paste(edy, "-10-31")
-    ma=sub(" -", "-", ma)
-    
-    
-    
-    seldat=vector(mode="list", length=le)
-    
-    
-    for ( i in 1:le){
-      g=grep(mi, newdat[[i]][,1])
-      u=grep(ma, newdat[[i]][,1])
-      vec=g:u
-      seldat[[i]]=newdat[[i]][vec, ]
-      
-    }
-    names(seldat)=names(newdat)
-  }else{paste("NO")}
-  
-}) 

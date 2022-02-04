@@ -908,51 +908,7 @@ server= function(input, output, session){
       
     })
 
-    
-    
-    observeEvent({input$trendarea},{
-      
-      #prepare dataset metadata: filtdata; data2 (List containing measurements adapted to timeframe) --> called seldat
-      
-      datas=names(listeddata)
-      select=filtdata$station
-      l=length(data2)
-      selected=rep(0, l)
-      
-      for (i in 1:l){
-        selected[i]=is.element(datas[i], select)
-      }
-      if( any(selected==1)){
-        
-        newdat=data2[which(selected==1)]
-        le=length(newdat)
-        
-        
-        sty=as.character(input$range[1])
-        edy=as.character(input$range[2])
-        mi=paste(sty, "-11-01")
-        mi=sub(" -", "-", mi)
-        
-        ma=paste(edy, "-10-31")
-        ma=sub(" -", "-", ma)
-        
-        
-        
-        seldat=vector(mode="list", length=le)
-        
-        
-        for ( i in 1:le){
-          g=grep(mi, newdat[[i]][,1])
-          u=grep(ma, newdat[[i]][,1])
-          vec=g:u
-          seldat[[i]]=newdat[[i]][vec, ]
-          
-        }
-        names(seldat)=names(newdat)
-      }else{paste("NO")}
-      
-    }) 
-    
+
     
     
     

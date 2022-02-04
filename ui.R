@@ -50,7 +50,7 @@ library(shinycssloaders)
 library(shinyWidgets)
 #install.packages("fontawesome")
 library(fontawesome)
-
+library(readr)
 
 
 # Daten vorbereiten -------------------------------------------------------
@@ -65,12 +65,16 @@ data=metadata_repg[, -c(7,8)]
 
 metadata_repg=metadata_repg(metadata_germany)
 
-metadata_gerrep=metadata_repg(metadata_germany, mark=T)
+datap=metadata_repg(metadata_germany, mark=T)
 View(data2)
-data=metadata_gerrep
+data=metadata_repgd
+data2=dataset
 
+data=datap
+View(data)
+data2= newdata
 
-data2= grdc_list(metadata_germany, path)
+View(newdata)
 data3=grdc_list(metadata_rep,path)
   #grdc_list(metadata_germany, path)
 #data3=GRDC_list(metadata_germany, path)
@@ -85,7 +89,7 @@ repres=relstat=c("HOHENSAATEN-FINOW", "DRESDEN", "MAGDEBURG-STROMBRUECKE",
 
 
 
-
+read.table("/Users/maibrittberghofer/Desktop/Bachelorarbeit/SECOND_TABPLOT/MQ_SU_GRDCt.txt")
 
 
 
