@@ -63,18 +63,14 @@ library(readr)
 data=metadata_repg[, -c(7,8)]
 
 
-metadata_repg=metadata_repg(metadata_germany)
+metadata_repg=metadata_repg(metadata_germany )
 
-datap=metadata_repg(metadata_germany, mark=T)
-View(data2)
-data=metadata_repgd
-data2=dataset
-
-data=datap
+data=metadata_repg
 View(data)
-data2= newdata
+data2=grdc_list(data, path)
 
-View(newdata)
+
+
 data3=grdc_list(metadata_rep,path)
   #grdc_list(metadata_germany, path)
 #data3=GRDC_list(metadata_germany, path)
@@ -259,7 +255,7 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                                                   choices=c("Spring",   "Summer", "Autumn", "Winter",    "Year")) , 
                                                                                     
                                                                                                        selectInput("trendtypemq", label="Select Method to calculate the Trend:",
-                                                                                                                  choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation","Yuepilon-Method and Linear Approach")),  actionButton("go", "Start to calculate Trendmap")) ,
+                                                                                                                  choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation","Yuepilon-Method and Linear Approach")),  actionButton("go", "Start to calculate Trendmap")%>% withSpinner(color="#0dc5c1"), ) ,
                                                                                                        
                                                                                       
                                                                       

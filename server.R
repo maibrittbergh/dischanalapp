@@ -5,7 +5,7 @@ server= function(input, output, session){
   
   # Introduction ------------------------------------------------------------
   
-  listeddata=data2
+
   
   query_modal <- modalDialog(
     title = "Analyze Discharge Data with Dischanalyst",
@@ -870,7 +870,13 @@ server= function(input, output, session){
       l=length(timeseries)
       filtdata=filtdata[timeseries,]
       
-      leafletProxy("areamap",session, data=datanew )%>%
+      
+      
+      
+      
+
+      
+      leafletProxy("areamap",session )%>%
         clearPopups() %>% 
         clearMarkers() %>%
         addTiles() %>%
@@ -924,8 +930,8 @@ server= function(input, output, session){
           mean=rep(0,l)
           for (i in 1:l){
             
-            start= which( MQ_dataset[[i]][,2] ==STA)
-            end=   which( MQ_dataset[[i]][,2] ==STA)
+            start= which( MQ_dataset[[i]][,2] ==input$range[1])
+            end=   which( MQ_dataset[[i]][,2] ==(input$range[2]-2))
             
             MQ_dataset[[i]]=MQ_dataset[[i]][start:end,]
             
@@ -936,43 +942,53 @@ server= function(input, output, session){
           
           filterdata=cbind(filtdata,mean)
         
-          
+      }
           
           observeEvent({input$trendtypemq},{
             
-            
-            if(input$trendtypemq== "Yuepilon-Method: PreWhitening and homogenization of autocorrelation"){
-              
-              stat=filtdata$station
-              l=length(MQ_dataset)
-              trend=rep(0,l)
-              for ( i in 1:l){
-                zyp=zyp.trend.vector(MQ_dataset[[i]][,3], method="Yuepilon")
-                trend[i]=zyp[2]
-                
-              }
-              
-              filterdata=cbind(filtdata, trend)
-              
-              
-              
+           
               observeEvent({input$go}, {
+                
+                
+                if(input$trendtypemq== "Yuepilon-Method: PreWhitening and homogenization of autocorrelation"){
+                  
+                  
+                  l=length(MQ_dataset)
+                  trend=rep(0,l)
+                  for ( i in 1:l){
+                    zyp=zyp.trend.vector(MQ_dataset[[i]][,3], method="yuepilon")
+                    trend[i]=zyp[2]
+                    
+                  }
+                  
+                  filterdata=cbind(filterdata, trend)
+                  
+                  
+                }
+                
+                
+                
+                
+                
+                
+                
+                
                 
                 
                 COL <- colorFactor(palette = 'RdYlGn', filterdata$trend)
                 
-                leafletProxy("areamap",session, data=filterdata )%>%
+                leafletProxy("areamap",session )%>%
                   clearPopups() %>% 
                   clearMarkers() %>%
                   addTiles() %>%
-                  addCircleMarkers(data=filtdata, lat = ~latitude, lng = ~longitude, color=~COL, 
+                  addCircleMarkers(data=filterdata, lat = ~latitude, lng = ~longitude, color=~COL, 
                                    
                                    
                                    
                                    popup = ~paste(
                                      paste('<b>', 'River', '</b>', river), 
                                      paste('<b>',  'Station', '</b>', station),
-                                     paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
+                                     paste('<b>',  'mean', '</b>', trend ),
                                      
                                      sep = '<br/>'),
                                    popupOptions = popupOptions(closeButton = FALSE)
@@ -982,11 +998,7 @@ server= function(input, output, session){
                   addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                   
                   
-                  addLegend("topright", 
-                            title = "Legend",
-                            labFormat = labelFormat(prefix = "$"),
-                            opacity = 1
-                  )%>% 
+         
                   
                   addLayersControl(
                     baseGroups = c("Open Street Map", "Terrain Background"),
@@ -998,15 +1010,15 @@ server= function(input, output, session){
               
   
               
-            }
+            
           
    
           
         })
 
           
-        }
-      })
+        })
+
           
         
       })
