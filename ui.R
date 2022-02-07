@@ -277,45 +277,113 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
 # Third Page --------------------------------------------------------------
 
 
-tabPanel(title="Dataset Information", 
+
+navbarMenu("Dataset Information",
+           tabPanel("Info Map", 
+                    
+                    
+                    
+                    
+                    
+                    fluidRow(
+                      column(7, 
+                             
+                             
+                             tabPanel("StationDistribution", 
+                                      column(12, h4("Click to See the Stations Information"), shinycssloaders::withSpinner(leaflet::leafletOutput("stationmap", height="800px"),
+                                                                                                                           size=3, color="#0080b7"))) , 
+                             
+                             
+                             
+                             
+                      ),
+                      
+                      column(5,
+                             tabsetPanel(id="data_dist", 
+                                         tabPanel("Settings", 
+                                                  fluidRow(column(10, 
+                                                                  
+                                                                  
+                                                                  
+                                                                  radioButtons("dataselect", "Select Dataset", choices=c("All GRDC-Stations in Germany","Representative Stations only")), 
+                                                                  sliderInput("range", "Select Timerange:", value=c(1995
+                                                                                                                    ,2005), min=min(data$startyear), max=max(data$endyear), sep="")
+                                                                  
+                                                                  
+                                                                  
+                                                                  
+                                                                  
+                                                                  
+                                                                  
+                                                                  
+                                                                  
+                                                                  
+                                                  ))))))),
+           tabPanel("Data Distribution", 
+                    
+                    
+                    fluidRow(
+                      column(2, 
+                             
+                             selectInput("ddgraph", "Data Distribution Graph", choices=c("Distribution of Length of Measurements", "Area Distribution"))),
+                      column(10, 
+                             plotOutput("distplot", width = "100%"))
+                     
+                    )
+                    
+                    )), 
+
+
+
+
+
+
+
+
+
+
+
+
+
+#tabP#anel(title="Dataset Information", 
+      #   
+       #  fluidRow(
+        #   column(7, 
+         #         
+          #        
+           #       tabPanel("StationDistribution", 
+            #               column(12, h4("Click to See the Stations Information"), shinycssloaders::withSpinner(leaflet::leafletOutput("stationmap", height="800px"),
+             #                                                                                            size=3, color="#0080b7"))) , 
+              #    
+                  
+                  
+                  
+ #          ),
+  #         
+   #        column(5,
+    #              tabsetPanel(id="data_dist", 
+     #                         tabPanel("Settings", 
+      #                                 fluidRow(column(10, 
+       #                                              
+        #                                               
+         #                                              
+          #                                             radioButtons("dataselect", "Select Dataset", choices=c("All GRDC-Stations in Germany","Representative Stations only")), 
+           #                                            sliderInput("range", "Select Timerange:", value=c(1995
+            #                                                                                             ,2005), min=min(data$startyear), max=max(data$endyear), sep="")
+             #                                          
+              #                                         
+               #                                        
+                #                                       
+                 #                                      
+                  #                                     
+                   #                                    
+                    #                                   
+                     #                                  
+                      #                                 
+                       #                ))))))
+         #
          
-         fluidRow(
-           column(7, 
-                  
-                  
-                  tabPanel("StationDistribution", 
-                           column(12, h4("Click to See the Stations Information"), shinycssloaders::withSpinner(leaflet::leafletOutput("stationmap", height="800px"),
-                                                                                                         size=3, color="#0080b7"))) , 
-                  
-                  
-                  
-                  
-           ),
-           
-           column(5,
-                  tabsetPanel(id="data_dist", 
-                              tabPanel("Settings", 
-                                       fluidRow(column(10, 
-                                                     
-                                                       
-                                                       
-                                                       radioButtons("dataselect", "Select Dataset", choices=c("All GRDC-Stations in Germany","Representative Stations only")), 
-                                                       sliderInput("range", "Select Timerange:", value=c(1995
-                                                                                                         ,2005), min=min(data$startyear), max=max(data$endyear), sep="")
-                                                       
-                                                       
-                                                       
-                                                       
-                                                       
-                                                       
-                                                       
-                                                       
-                                                       
-                                                       
-                                       ))))))
-         
-         
-),
+#),
 
 
 
@@ -375,9 +443,7 @@ tabPanel(title="Dataset Information",
                              
                            }))),
                 
-                navbarMenu("More",
-                           tabPanel("Sub-Component A"),
-                           tabPanel("Sub-Component B")), 
+              
                 
                 
                 

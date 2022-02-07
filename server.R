@@ -1904,6 +1904,16 @@ server= function(input, output, session){
   })
   
   
+
+# Distribution Graph ------------------------------------------------------
+
+  
+  #observeEvent({input$ddgraph}, {
+   # if ( input$ddgraph=="Distribution of Length of Measurements")
+      
+  #    output$distplot <- renderPlot({tiseger(data, path, startyear, endyear,type=geom_line(), metadata_repg)})
+  #})
+  
   
   
   
