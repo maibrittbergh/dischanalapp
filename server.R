@@ -5,7 +5,7 @@ server= function(input, output, session){
   
   # Introduction ------------------------------------------------------------
   
-
+  
   
   query_modal <- modalDialog(
     title = "Analyze Discharge Data with Dischanalyst",
@@ -582,7 +582,7 @@ server= function(input, output, session){
   
   map = createLeafletMap(session, 'datamap')
   
-
+  
   
   
   
@@ -593,7 +593,7 @@ server= function(input, output, session){
   session$onFlushed(once = T, function() {
     
     mapdata=data
-
+    
     
     output$datamap <- renderLeaflet({
       leaflet(mapdata) %>%
@@ -633,125 +633,34 @@ server= function(input, output, session){
   
   # Input Dataset: Timerange and class of stations --------------------------
   observeEvent({input$trendtype2}, {
-               if (input$trendtype2=="MQ - Mean Discharge Trend"){
-                 mapdata=MQtf1820_2019    #im ernstfall MQLIST
-                 }
-    
-  
-
-
-  
-  observeEvent({input$timerange2}, {
-    
-    if(input$timerange2=="1820-2019"){
-      
-      mapdata=MQtf1820_2019     #im ernstfall MQLIST
-      
-      
-
-      
+    if (input$trendtype2=="MQ - Mean Discharge Trend"){
+      mapdata=MQ_1820_2019    #im ernstfall MQLIST
     }
     
     
     
     
     
-    leafletProxy("datamap",session, data=mapdata )%>%
-      clearPopups() %>% 
-      clearMarkers() %>%
-      addTiles() %>%
-      addCircleMarkers(data=mapdata , lat = ~latitude, lng = ~longitude, 
-                       
-                       
-                       
-                       popup = ~paste(
-                         paste('<b>', 'Annual Trend', '</b>',   Yslopezyp), 
-                         paste('<b>',  'Station', '</b>', station),
-                         
-                         
-                         sep = '<br/>'),
-                       popupOptions = popupOptions(closeButton = FALSE)
-      )  %>%    
+    observeEvent({input$timerange2}, {
       
-      addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
-      addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+      if(input$timerange2=="1820-2019"){
+        
+        mapdata=MQ_1820_2019     #im ernstfall MQLIST
+        
+        
+        
+        
+      }
       
       
       
-      
-      addLayersControl(
-        baseGroups = c("Open Street Map", "Terrain Background"),
-        position = "topright",
-        options = layersControlOptions(collapsed = F)
-      )
-    
-    
-    
-    observeEvent({input$dataset}, {
-      
-      
-      if(input$dataset=="Representative Stations only"){
-        
-        l=  length(mapdata$station)
-        
-        iden=rep(F,l)
-        for ( i in 1:l){
-          iden[i]=is.element(mapdata$station[i], repres)
-          
-        }
-        if(any(iden)==T){
-          
-          mapdata=mapdata[which(iden==T),] 
-          
-          
-          
-          
-          
-        }else {renderText("No Stations available")}
-        
-        
-        leafletProxy("datamap",session, data=mapdata )%>%
-          clearPopups() %>% 
-          clearMarkers() %>%
-          addTiles() %>%
-          addCircleMarkers(data=mapdata ,lat = ~latitude, lng = ~longitude, 
-                           
-                           
-                           
-                           popup = ~paste(
-                             paste('<b>', 'Annual Trend', '</b>',   Yslopezyp), 
-                             paste('<b>',  'Station', '</b>', station),
-                             
-                             
-                             sep = '<br/>'),
-                           popupOptions = popupOptions(closeButton = FALSE)
-          )  %>%    
-          
-          addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
-          addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
-          
-          
-          
-          
-          addLayersControl(
-            baseGroups = c("Open Street Map", "Terrain Background"),
-            position = "topright",
-            options = layersControlOptions(collapsed = F)
-          )
-        
-
-   
-    
-        
-        
-        }else if(input$dataset=="All GRDC-Stations in Germany"){
       
       
       leafletProxy("datamap",session, data=mapdata )%>%
         clearPopups() %>% 
         clearMarkers() %>%
         addTiles() %>%
-        addCircleMarkers(data=mapdata ,lat = ~latitude, lng = ~longitude, 
+        addCircleMarkers(data=mapdata , lat = ~latitude, lng = ~longitude, 
                          
                          
                          
@@ -778,448 +687,869 @@ server= function(input, output, session){
       
       
       
-      
-      
-      
-      
-      
-      
-    }
-    
+      observeEvent({input$dataset}, {
+        
+        
+        if(input$dataset=="Representative Stations only"){
           
-
+          l=  length(mapdata$station)
+          
+          iden=rep(F,l)
+          for ( i in 1:l){
+            iden[i]=is.element(mapdata$station[i], repres)
             
-           
-              observeEvent({input$go}, {
-                
-                
-                
-                
-                
-                
-                
-                
-                if(input$trendtypemq== "Yuepilon-Method: PreWhitening and homogenization of autocorrelation"){
-                  
-                  if (input$seasonmq=="Spring"){
-                 
-              
-                    mapdata$Spslopezyp=cut(  mapdata$Spslopezyp, breaks=c(-2, -1, 0, 1, 2), 
-                                           labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
-                 
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Spslopezyp)
-                  
-                    leafletProxy("datamap",session )%>%
-                      clearPopups() %>% 
-                      clearMarkers() %>%
-                      addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Spslopezyp), 
-                                       
-                                       
-                                       
-                                       popup = ~paste(
-                                         paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
-                                         paste('<b>',  'Station', '</b>', station),
-                                         paste('<b>',  'River', '</b>', river),
-                                         
-                                         
-                                         sep = '<br/>'),
-                                       popupOptions = popupOptions(closeButton = FALSE)
-                      )  %>%    
-                      
-                      addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
-                      addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
-                      
-                      
-                      addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
-                      
-                      addLayersControl(
-                        baseGroups = c("Open Street Map", "Terrain Background"),
-                        position = "topright",
-                        options = layersControlOptions(collapsed = F)
-                      )
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    }
-                  if (input$seasonmq=="Summer"){
-                    
-                    
-                    
-                    
-                    mapdata$Sslopezyp=cut(  mapdata$Sslopezyp, breaks=c(-2, -1, 0, 1, 2), 
-                                             labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
-                    
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Sslopezyp)
-                    
-                    leafletProxy("datamap",session )%>%
-                      clearPopups() %>% 
-                      clearMarkers() %>%
-                      addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Sslopezyp), 
-                                       
-                                       
-                                       
-                                       popup = ~paste(
-                                         paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
-                                         paste('<b>',  'Station', '</b>', station),
-                                         paste('<b>',  'River', '</b>', river),
-                                         
-                                         
-                                         sep = '<br/>'),
-                                       popupOptions = popupOptions(closeButton = FALSE)
-                      )  %>%    
-                      
-                      addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
-                      addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
-                      
-                      
-                      addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
-                      
-                      addLayersControl(
-                        baseGroups = c("Open Street Map", "Terrain Background"),
-                        position = "topright",
-                        options = layersControlOptions(collapsed = F)
-                      )
-                    
-                 
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-
-                  }
-                  if (input$seasonmq=="Autumn"){
-                    
-                    
-                    mapdata$Aslopezyp=cut(  mapdata$Aslopezyp, breaks=c(-2, -1, 0, 1, 2), 
-                                             labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
-                    
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Aslopezyp)
-                    
-                    leafletProxy("datamap",session )%>%
-                      clearPopups() %>% 
-                      clearMarkers() %>%
-                      addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Aslopezyp), 
-                                       
-                                       
-                                       
-                                       popup = ~paste(
-                                         paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
-                                         paste('<b>',  'Station', '</b>', station),
-                                         paste('<b>',  'River', '</b>', river),
-                                         
-                                         
-                                         sep = '<br/>'),
-                                       popupOptions = popupOptions(closeButton = FALSE)
-                      )  %>%    
-                      
-                      addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
-                      addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
-                      
-                      
-                      addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
-                      
-                      addLayersControl(
-                        baseGroups = c("Open Street Map", "Terrain Background"),
-                        position = "topright",
-                        options = layersControlOptions(collapsed = F)
-                      )
-                    
-                  }
-                  if (input$seasonmq=="Winter"){
-                    
-                    
-                    mapdata$Wslopezyp=cut(  mapdata$Wslopezyp, breaks=c(-2, -1, 0, 1, 2), 
-                                             labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
-                    
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Wslopezyp)
-                    
-                    leafletProxy("datamap",session )%>%
-                      clearPopups() %>% 
-                      clearMarkers() %>%
-                      addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Wslopezyp), 
-                                       
-                                       
-                                       
-                                       popup = ~paste(
-                                         paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
-                                         paste('<b>',  'Station', '</b>', station),
-                                         paste('<b>',  'River', '</b>', river),
-                                         
-                                         
-                                         sep = '<br/>'),
-                                       popupOptions = popupOptions(closeButton = FALSE)
-                      )  %>%    
-                      
-                      addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
-                      addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
-                      
-                      
-                      addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
-                      
-                      addLayersControl(
-                        baseGroups = c("Open Street Map", "Terrain Background"),
-                        position = "topright",
-                        options = layersControlOptions(collapsed = F)
-                      )
-                    
-                  }}
-                
-                
-                if(input$trendtypemq== "Linear Model: Least Squares Approach"){
-                  
-                  if (input$seasonmq=="Spring"){
-                    
-                    
-                    mapdata$Spslopelm=cut(  mapdata$Spslopelm, breaks=c(-2, -1, 0, 1, 2), 
-                                             labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
-                    
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Spslopelm)
-                    
-                    leafletProxy("datamap",session )%>%
-                      clearPopups() %>% 
-                      clearMarkers() %>%
-                      addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Spslopelm), 
-                                       
-                                       
-                                       
-                                       popup = ~paste(
-                                         paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
-                                         paste('<b>',  'Station', '</b>', station),
-                                         paste('<b>',  'River', '</b>', river),
-                                         
-                                         
-                                         sep = '<br/>'),
-                                       popupOptions = popupOptions(closeButton = FALSE)
-                      )  %>%    
-                      
-                      addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
-                      addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
-                      
-                      
-                      addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
-                      
-                      addLayersControl(
-                        baseGroups = c("Open Street Map", "Terrain Background"),
-                        position = "topright",
-                        options = layersControlOptions(collapsed = F)
-                      )
-                  }
-                  if (input$seasonmq=="Summer"){
-                    
-                    
-                    mapdata$Sslopelm=cut(  mapdata$Sslopelm, breaks=c(-2, -1, 0, 1, 2), 
-                                            labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
-                    
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Sslopelm)
-                    
-                    leafletProxy("datamap",session )%>%
-                      clearPopups() %>% 
-                      clearMarkers() %>%
-                      addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Sslopelm), 
-                                       
-                                       
-                                       
-                                       popup = ~paste(
-                                         paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
-                                         paste('<b>',  'Station', '</b>', station),
-                                         paste('<b>',  'River', '</b>', river),
-                                         
-                                         
-                                         sep = '<br/>'),
-                                       popupOptions = popupOptions(closeButton = FALSE)
-                      )  %>%    
-                      
-                      addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
-                      addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
-                      
-                      
-                      addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
-                      
-                      addLayersControl(
-                        baseGroups = c("Open Street Map", "Terrain Background"),
-                        position = "topright",
-                        options = layersControlOptions(collapsed = F)
-                      )
-                    
-                  }
-                  if (input$seasonmq=="Autumn"){
-                    
-                    mapdata$Aslopelm=cut(  mapdata$Aslopelm, breaks=c(-2, -1, 0, 1, 2), 
-                                           labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
-                    
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Aslopelm)
-                    
-                    leafletProxy("datamap",session )%>%
-                      clearPopups() %>% 
-                      clearMarkers() %>%
-                      addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Aslopelm), 
-                                       
-                                       
-                                       
-                                       popup = ~paste(
-                                         paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
-                                         paste('<b>',  'Station', '</b>', station),
-                                         paste('<b>',  'River', '</b>', river),
-                                         
-                                         
-                                         sep = '<br/>'),
-                                       popupOptions = popupOptions(closeButton = FALSE)
-                      )  %>%    
-                      
-                      addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
-                      addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
-                      
-                      
-                      addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
-                      
-                      addLayersControl(
-                        baseGroups = c("Open Street Map", "Terrain Background"),
-                        position = "topright",
-                        options = layersControlOptions(collapsed = F)
-                      )
-                    
-                    
-                  }
-                  if (input$seasonmq=="Winter"){
-                    
-                    mapdata$Sslopelm=cut(  mapdata$Sslopelm, breaks=c(-2, -1, 0, 1, 2), 
-                                           labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
-                    
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Sslopelm)
-                    
-                    leafletProxy("datamap",session )%>%
-                      clearPopups() %>% 
-                      clearMarkers() %>%
-                      addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Sslopelm), 
-                                       
-                                       
-                                       
-                                       popup = ~paste(
-                                         paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
-                                         paste('<b>',  'Station', '</b>', station),
-                                         paste('<b>',  'River', '</b>', river),
-                                         
-                                         
-                                         sep = '<br/>'),
-                                       popupOptions = popupOptions(closeButton = FALSE)
-                      )  %>%    
-                      
-                      addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
-                      addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
-                      
-                      
-                      addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
-                      
-                      addLayersControl(
-                        baseGroups = c("Open Street Map", "Terrain Background"),
-                        position = "topright",
-                        options = layersControlOptions(collapsed = F)
-                      )
-                    
-                    
-                  }}
-                
-                
-                if(input$trendtypemq== "Significance of Zyp-Trend"){
-                  
-                  if (input$seasonmq=="Spring"){
-                    
-                    COL <- colorFactor(palette = 'RdYlGn', mapdata$Spsigzyp)
-                  }
-                  if (input$seasonmq=="Summer"){
-                    
-                    COL <- colorFactor(palette = 'RdYlGn', mapdata$Ssigzyp)
-                    
-                  }
-                  if (input$seasonmq=="Autumn"){
-                    
-                    COL <- colorFactor(palette = 'RdYlGn', mapdata$Asigzyp)
-                    
-                  }
-                  if (input$seasonmq=="Winter"){
-                    
-                    COL <- colorFactor(palette = 'RdYlGn', mapdata$Wsigzyp)
-                    
-                  }}
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-             
-                
-          
-
-              })
-              
-  
-              
+          }
+          if(any(iden)==T){
             
+            mapdata=mapdata[which(iden==T),] 
+            
+            
+            
+            
+            
+          }else {renderText("No Stations available")}
           
-   
+          
+          leafletProxy("datamap",session, data=mapdata )%>%
+            clearPopups() %>% 
+            clearMarkers() %>%
+            addTiles() %>%
+            addCircleMarkers(data=mapdata ,lat = ~latitude, lng = ~longitude, 
+                             
+                             
+                             
+                             popup = ~paste(
+                               paste('<b>', 'Annual Trend', '</b>',   Yslopezyp), 
+                               paste('<b>',  'Station', '</b>', station),
+                               
+                               
+                               sep = '<br/>'),
+                             popupOptions = popupOptions(closeButton = FALSE)
+            )  %>%    
+            
+            addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+            addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+            
+            
+            
+            
+            addLayersControl(
+              baseGroups = c("Open Street Map", "Terrain Background"),
+              position = "topright",
+              options = layersControlOptions(collapsed = F)
+            )
+          
+          
+          
+          
+          
+          
+        }else if(input$dataset=="All GRDC-Stations in Germany"){
+          
+          
+          leafletProxy("datamap",session, data=mapdata )%>%
+            clearPopups() %>% 
+            clearMarkers() %>%
+            addTiles() %>%
+            addCircleMarkers(data=mapdata ,lat = ~latitude, lng = ~longitude, 
+                             
+                             
+                             
+                             popup = ~paste(
+                               paste('<b>', 'Annual Trend', '</b>',   Yslopezyp), 
+                               paste('<b>',  'Station', '</b>', station),
+                               
+                               
+                               sep = '<br/>'),
+                             popupOptions = popupOptions(closeButton = FALSE)
+            )  %>%    
+            
+            addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+            addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+            
+            
+            
+            
+            addLayersControl(
+              baseGroups = c("Open Street Map", "Terrain Background"),
+              position = "topright",
+              options = layersControlOptions(collapsed = F)
+            )
+          
+          
+          
+          
+          
+          
+          
+          
+          
+        }
+        
+        
+        
+        
+        
+        observeEvent({input$go}, {
+          
+          
+          
+          
+          
+          
+          
+          
+          if(input$trendtypemq== "Yuepilon-Method: PreWhitening and homogenization of autocorrelation"){
+            
+            if (input$seasonmq=="Spring"){
+              
+              
+              mapdata$Spslopezyp=cut(  mapdata$Spslopezyp, breaks=c(-2, -1, 0, 1, 2), 
+                                       labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
+              
+              COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Spslopezyp)
+              
+              leafletProxy("datamap",session )%>%
+                clearPopups() %>% 
+                clearMarkers() %>%
+                clearControls()%>%
+                addTiles() %>%
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Spslopezyp), 
+                                 
+                                 
+                                 
+                                 popup = ~paste(
+                                   paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
+                                   paste('<b>',  'Station', '</b>', station),
+                                   paste('<b>',  'River', '</b>', river),
+                                   
+                                   
+                                   sep = '<br/>'),
+                                 popupOptions = popupOptions(closeButton = FALSE)
+                )  %>%    
+                
+                addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+                addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+                
+                
+                addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                
+                addLayersControl(
+                  baseGroups = c("Open Street Map", "Terrain Background"),
+                  position = "topright",
+                  options = layersControlOptions(collapsed = F)
+                )
+              
+              
+              
+              
+              
+              
+              
+            }
+            if (input$seasonmq=="Summer"){
+              
+              
+              
+              
+              mapdata$Sslopezyp=cut(  mapdata$Sslopezyp, breaks=c(-2, -1, 0, 1, 2), 
+                                      labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
+              
+              COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Sslopezyp)
+              
+              leafletProxy("datamap",session )%>%
+                clearPopups() %>% 
+                clearMarkers() %>%
+                clearControls()%>%
+                addTiles() %>%
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Sslopezyp), 
+                                 
+                                 
+                                 
+                                 popup = ~paste(
+                                   paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
+                                   paste('<b>',  'Station', '</b>', station),
+                                   paste('<b>',  'River', '</b>', river),
+                                   
+                                   
+                                   sep = '<br/>'),
+                                 popupOptions = popupOptions(closeButton = FALSE)
+                )  %>%    
+                
+                addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+                addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+                
+                
+                addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                
+                addLayersControl(
+                  baseGroups = c("Open Street Map", "Terrain Background"),
+                  position = "topright",
+                  options = layersControlOptions(collapsed = F)
+                )
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+            }
+            if (input$seasonmq=="Autumn"){
+              
+              
+              mapdata$Aslopezyp=cut(  mapdata$Aslopezyp, breaks=c(-2, -1, 0, 1, 2), 
+                                      labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
+              
+              COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Aslopezyp)
+              
+              leafletProxy("datamap",session )%>%
+                clearPopups() %>% 
+                clearControls()%>%
+                clearMarkers() %>%
+                addTiles() %>%
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Aslopezyp), 
+                                 
+                                 
+                                 
+                                 popup = ~paste(
+                                   paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
+                                   paste('<b>',  'Station', '</b>', station),
+                                   paste('<b>',  'River', '</b>', river),
+                                   
+                                   
+                                   sep = '<br/>'),
+                                 popupOptions = popupOptions(closeButton = FALSE)
+                )  %>%    
+                
+                addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+                addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+                
+                
+                addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                
+                addLayersControl(
+                  baseGroups = c("Open Street Map", "Terrain Background"),
+                  position = "topright",
+                  options = layersControlOptions(collapsed = F)
+                )
+              
+            }
+            if (input$seasonmq=="Winter"){
+              
+              
+              mapdata$Wslopezyp=cut(  mapdata$Wslopezyp, breaks=c(-2, -1, 0, 1, 2), 
+                                      labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
+              
+              COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Wslopezyp)
+              
+              leafletProxy("datamap",session )%>%
+                clearPopups() %>% 
+                clearMarkers() %>%
+                clearControls()%>%
+                addTiles() %>%
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Wslopezyp), 
+                                 
+                                 
+                                 
+                                 popup = ~paste(
+                                   paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
+                                   paste('<b>',  'Station', '</b>', station),
+                                   paste('<b>',  'River', '</b>', river),
+                                   
+                                   
+                                   sep = '<br/>'),
+                                 popupOptions = popupOptions(closeButton = FALSE)
+                )  %>%    
+                
+                addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+                addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+                
+                
+                addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                
+                addLayersControl(
+                  baseGroups = c("Open Street Map", "Terrain Background"),
+                  position = "topright",
+                  options = layersControlOptions(collapsed = F)
+                )
+              
+            }
+            
+            if (input$seasonmq=="Year"){
+              
+              
+              mapdata$Yslopezyp=cut(  mapdata$Yslopezyp, breaks=c(-2, -1, 0, 1, 2), 
+                                      labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
+              
+              COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Yslopezyp)
+              
+              leafletProxy("datamap",session )%>%
+                clearPopups() %>% 
+                clearMarkers() %>%
+                clearControls()%>%
+                addTiles() %>%
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Yslopezyp), 
+                                 
+                                 
+                                 
+                                 popup = ~paste(
+                                   paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
+                                   paste('<b>',  'Station', '</b>', station),
+                                   paste('<b>',  'River', '</b>', river),
+                                   
+                                   
+                                   sep = '<br/>'),
+                                 popupOptions = popupOptions(closeButton = FALSE)
+                )  %>%    
+                
+                addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+                addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+                
+                
+                addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                
+                addLayersControl(
+                  baseGroups = c("Open Street Map", "Terrain Background"),
+                  position = "topright",
+                  options = layersControlOptions(collapsed = F)
+                )
+              
+            }
+            
+            
+          }
+          
+          
+          if(input$trendtypemq== "Linear Model: Least Squares Approach"){
+            
+            if (input$seasonmq=="Spring"){
+              
+              
+              mapdata$Spslopelm=cut(  mapdata$Spslopelm, breaks=c(-2, -1, 0, 1, 2), 
+                                      labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
+              
+              COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Spslopelm)
+              
+              leafletProxy("datamap",session )%>%
+                clearPopups() %>% 
+                clearMarkers() %>%
+                clearControls()%>%
+                addTiles() %>%
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Spslopelm), 
+                                 
+                                 
+                                 
+                                 popup = ~paste(
+                                   paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
+                                   paste('<b>',  'Station', '</b>', station),
+                                   paste('<b>',  'River', '</b>', river),
+                                   
+                                   
+                                   sep = '<br/>'),
+                                 popupOptions = popupOptions(closeButton = FALSE)
+                )  %>%    
+                
+                addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+                addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+                
+                
+                addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                
+                addLayersControl(
+                  baseGroups = c("Open Street Map", "Terrain Background"),
+                  position = "topright",
+                  options = layersControlOptions(collapsed = F)
+                )
+            }
+            if (input$seasonmq=="Summer"){
+              
+              
+              mapdata$Sslopelm=cut(  mapdata$Sslopelm, breaks=c(-2, -1, 0, 1, 2), 
+                                     labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
+              
+              COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Sslopelm)
+              
+              leafletProxy("datamap",session )%>%
+                clearPopups() %>% 
+                clearMarkers() %>%
+                clearControls()%>%
+                addTiles() %>%
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Sslopelm), 
+                                 
+                                 
+                                 
+                                 popup = ~paste(
+                                   paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
+                                   paste('<b>',  'Station', '</b>', station),
+                                   paste('<b>',  'River', '</b>', river),
+                                   
+                                   
+                                   sep = '<br/>'),
+                                 popupOptions = popupOptions(closeButton = FALSE)
+                )  %>%    
+                
+                addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+                addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+                
+                
+                addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                
+                addLayersControl(
+                  baseGroups = c("Open Street Map", "Terrain Background"),
+                  position = "topright",
+                  options = layersControlOptions(collapsed = F)
+                )
+              
+            }
+            if (input$seasonmq=="Autumn"){
+              
+              mapdata$Aslopelm=cut(  mapdata$Aslopelm, breaks=c(-2, -1, 0, 1, 2), 
+                                     labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
+              
+              COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Aslopelm)
+              
+              leafletProxy("datamap",session )%>%
+                clearPopups() %>% 
+                clearMarkers() %>%
+                clearControls()%>%
+                addTiles() %>%
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Aslopelm), 
+                                 
+                                 
+                                 
+                                 popup = ~paste(
+                                   paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
+                                   paste('<b>',  'Station', '</b>', station),
+                                   paste('<b>',  'River', '</b>', river),
+                                   
+                                   
+                                   sep = '<br/>'),
+                                 popupOptions = popupOptions(closeButton = FALSE)
+                )  %>%    
+                
+                addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+                addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+                
+                
+                addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                
+                addLayersControl(
+                  baseGroups = c("Open Street Map", "Terrain Background"),
+                  position = "topright",
+                  options = layersControlOptions(collapsed = F)
+                )
+              
+              
+            }
+            if (input$seasonmq=="Winter"){
+              
+              mapdata$Wslopelm=cut(  mapdata$Wslopelm, breaks=c(-2, -1, 0, 1, 2), 
+                                     labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
+              
+              COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Wslopelm)
+              
+              leafletProxy("datamap",session )%>%
+                clearPopups() %>% 
+                clearMarkers() %>%
+                clearControls()%>%
+                addTiles() %>%
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Wslopelm), 
+                                 
+                                 
+                                 
+                                 popup = ~paste(
+                                   paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
+                                   paste('<b>',  'Station', '</b>', station),
+                                   paste('<b>',  'River', '</b>', river),
+                                   
+                                   
+                                   sep = '<br/>'),
+                                 popupOptions = popupOptions(closeButton = FALSE)
+                )  %>%    
+                
+                addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+                addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+                
+                
+                addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                
+                addLayersControl(
+                  baseGroups = c("Open Street Map", "Terrain Background"),
+                  position = "topright",
+                  options = layersControlOptions(collapsed = F)
+                )
+              
+              
+            }
+            
+            if (input$seasonmq=="Year"){
+              
+              mapdata$Yslopelm=cut(  mapdata$Yslopelm, breaks=c(-2, -1, 0, 1, 2), 
+                                     labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
+              
+              COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Yslopelm)
+              
+              leafletProxy("datamap",session )%>%
+                clearPopups() %>% 
+                clearMarkers() %>%
+                clearControls()%>%
+                addTiles() %>%
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Yslopelm), 
+                                 
+                                 
+                                 
+                                 popup = ~paste(
+                                   paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
+                                   paste('<b>',  'Station', '</b>', station),
+                                   paste('<b>',  'River', '</b>', river),
+                                   
+                                   
+                                   sep = '<br/>'),
+                                 popupOptions = popupOptions(closeButton = FALSE)
+                )  %>%    
+                
+                addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+                addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+                
+                
+                addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                
+                addLayersControl(
+                  baseGroups = c("Open Street Map", "Terrain Background"),
+                  position = "topright",
+                  options = layersControlOptions(collapsed = F)
+                )
+              
+              
+            }
+            
+            
+            
+            
+          }
+          
+          
+          if(input$trendtypemq== "Significance of Zyp-Trend"){
+            
+            if (input$seasonmq=="Spring"){
+              
+              
+              
+              mapdata$Spsigzyp=cut(  mapdata$Spsigzyp, breaks=c(-2, -1, 0, 1, 2), 
+                                     labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
+              
+              COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Spsigzyp)
+              
+              leafletProxy("datamap",session )%>%
+                clearPopups() %>% 
+                clearMarkers() %>%
+                clearControls()%>%
+                addTiles() %>%
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Spsigzyp), 
+                                 
+                                 
+                                 
+                                 popup = ~paste(
+                                   paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
+                                   paste('<b>',  'Station', '</b>', station),
+                                   paste('<b>',  'River', '</b>', river),
+                                   
+                                   
+                                   sep = '<br/>'),
+                                 popupOptions = popupOptions(closeButton = FALSE)
+                )  %>%    
+                
+                addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+                addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+                
+                
+                addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                
+                addLayersControl(
+                  baseGroups = c("Open Street Map", "Terrain Background"),
+                  position = "topright",
+                  options = layersControlOptions(collapsed = F)
+                )
+              
+              
+              
+              
+              
+              
+              
+              
+            }
+            if (input$seasonmq=="Summer"){
+              
+              
+              
+              
+              
+              mapdata$Ssigzyp=cut(  mapdata$Ssigzyp, breaks=c(-2, -1, 0, 1, 2), 
+                                    labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
+              
+              COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Ssigzyp)
+              
+              leafletProxy("datamap",session )%>%
+                clearPopups() %>% 
+                clearMarkers() %>%
+                clearControls()%>%
+                addTiles() %>%
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Ssigzyp), 
+                                 
+                                 
+                                 
+                                 popup = ~paste(
+                                   paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
+                                   paste('<b>',  'Station', '</b>', station),
+                                   paste('<b>',  'River', '</b>', river),
+                                   
+                                   
+                                   sep = '<br/>'),
+                                 popupOptions = popupOptions(closeButton = FALSE)
+                )  %>%    
+                
+                addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+                addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+                
+                
+                addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                
+                addLayersControl(
+                  baseGroups = c("Open Street Map", "Terrain Background"),
+                  position = "topright",
+                  options = layersControlOptions(collapsed = F)
+                )
+              
+              
+              
+              
+              
+              
+              
+            }
+            if (input$seasonmq=="Autumn"){
+              
+              
+              
+              
+              
+              
+              mapdata$Asigzyp=cut(  mapdata$Asigzyp, breaks=c(-2, -1, 0, 1, 2), 
+                                    labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
+              
+              COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Asigzyp)
+              
+              leafletProxy("datamap",session )%>%
+                clearPopups() %>% 
+                clearMarkers() %>%
+                clearControls()%>%
+                addTiles() %>%
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Asigzyp), 
+                                 
+                                 
+                                 
+                                 popup = ~paste(
+                                   paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
+                                   paste('<b>',  'Station', '</b>', station),
+                                   paste('<b>',  'River', '</b>', river),
+                                   
+                                   
+                                   sep = '<br/>'),
+                                 popupOptions = popupOptions(closeButton = FALSE)
+                )  %>%    
+                
+                addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+                addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+                
+                
+                addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                
+                addLayersControl(
+                  baseGroups = c("Open Street Map", "Terrain Background"),
+                  position = "topright",
+                  options = layersControlOptions(collapsed = F)
+                )
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+            }
+            if (input$seasonmq=="Winter"){
+              
+              
+              
+              
+              
+              
+              mapdata$Wsigzyp=cut(  mapdata$Wsigzyp, breaks=c(-2, -1, 0, 1, 2), 
+                                    labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
+              
+              COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Wsigzyp)
+              
+              leafletProxy("datamap",session )%>%
+                clearPopups() %>% 
+                clearMarkers() %>%
+                clearControls()%>%
+                addTiles() %>%
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Wsigzyp), 
+                                 
+                                 
+                                 
+                                 popup = ~paste(
+                                   paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
+                                   paste('<b>',  'Station', '</b>', station),
+                                   paste('<b>',  'River', '</b>', river),
+                                   
+                                   
+                                   sep = '<br/>'),
+                                 popupOptions = popupOptions(closeButton = FALSE)
+                )  %>%    
+                
+                addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+                addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+                
+                
+                addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                
+                addLayersControl(
+                  baseGroups = c("Open Street Map", "Terrain Background"),
+                  position = "topright",
+                  options = layersControlOptions(collapsed = F)
+                )
+              
+              
+              
+            }
+            
+            
+            if (input$seasonmq=="Year"){
+              
+              
+              
+              
+              
+              
+              mapdata$Ysigzyp=cut(  mapdata$Ysigzyp, breaks=c(-2, -1, 0, 1, 2), 
+                                    labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
+              
+              COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Ysigzyp)
+              
+              leafletProxy("datamap",session )%>%
+                clearPopups() %>% 
+                clearMarkers() %>%
+                clearControls()%>%
+                addTiles() %>%
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Ysigzyp), 
+                                 
+                                 
+                                 
+                                 popup = ~paste(
+                                   paste('<b>', 'Annual Trend -zyp', '</b>',   Yslopezyp), 
+                                   paste('<b>',  'Station', '</b>', station),
+                                   paste('<b>',  'River', '</b>', river),
+                                   
+                                   
+                                   sep = '<br/>'),
+                                 popupOptions = popupOptions(closeButton = FALSE)
+                )  %>%    
+                
+                addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
+                addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
+                
+                
+                addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                
+                addLayersControl(
+                  baseGroups = c("Open Street Map", "Terrain Background"),
+                  position = "topright",
+                  options = layersControlOptions(collapsed = F)
+                )
+              
+              
+              
+            }
+            
+            
+            
+            
+          }
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
           
         })
-
-          
         
-
-          
         
-  })
-  })
-    
+        
+        
+        
+        
+        
+      })
       
-
+      
+      
+      
+      
+      
+    })
+  })
   
-
-# third Page --------------------------------------------------------------
-
   
-
-# Map, distribution of stations -------------------------------------------
-
+  
+  
+  
+  # third Page --------------------------------------------------------------
+  
+  
+  
+  # Map, distribution of stations -------------------------------------------
+  
   
   
   
   map = createLeafletMap(session, "stationmap")
-
+  
   session$onFlushed(once = T, function() {
     
     
@@ -1282,9 +1612,9 @@ server= function(input, output, session){
   
   
   
-
-# Settings Select ---------------------------------------------------------
-
+  
+  # Settings Select ---------------------------------------------------------
+  
   observeEvent({input$dataselect}, {
     if(input$dataselect=="Representative Stations only"){
       
@@ -1552,11 +1882,26 @@ server= function(input, output, session){
           options = layersControlOptions(collapsed = F)
         )
       
-
-  
-  
-  
+      
+      
+      
+      
     })
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  })
   
   
   
@@ -1570,35 +1915,21 @@ server= function(input, output, session){
   
   
   
-  
-})
-  
-  
-  
-  
-  
-  
-   
-      
-      
-      
-     
-
-
   
   
   
 }
-   
-  
- 
-  
-  
 
-  
-    
+
+
+
+
+
+
+
 
 
 shinyApp(ui=ui, server=server)
+
 
 

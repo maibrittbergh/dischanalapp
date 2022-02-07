@@ -70,7 +70,7 @@ mosel=grdc_readr(metadata_germany, rivername, path )
 
 #representative level for germany
 
-metadata_repg=metadata_repg(metadata_germany)
+metadata_repg=metadata_repg(metadata_germany,mark=T)
 
 
 

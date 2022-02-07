@@ -67,6 +67,7 @@ metadata_repg=metadata_repg(metadata_germany )
 
 data=metadata_repg
 View(data)
+View(data)
 data2=grdc_list(data, path)
 
 colnames(MQtf1820_2019)[c(1,2,3)]=c("station", "longitude","latitude" )
@@ -249,10 +250,11 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                      
                                                                      conditionalPanel(condition="input.trendtype2=='MQ - Mean Discharge Trend'", 
                                                                                       selectInput("seasonmq", label="Select the Season:",
-                                                                                                  choices=c("Spring",   "Summer", "Autumn", "Winter",    "Year")) , 
+                                                                                                  choices=c("Spring",   "Summer", "Autumn", "Winter", 
+                                                                                                  "Year")) , 
                                                                                     
                                                                                                        selectInput("trendtypemq", label="Select Method to calculate the Trend:",
-                                                                                                                  choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),  actionButton("go", "Start to calculate Trendmap")%>% withSpinner(color="#0dc5c1"), ) ,
+                                                                                                                  choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),  actionButton("go", "Start to calculate Trendmap") ) ,
                                                                                                       
                                                                                       
                                                                       
