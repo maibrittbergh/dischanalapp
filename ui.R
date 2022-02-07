@@ -69,8 +69,8 @@ data=metadata_repg
 View(data)
 data2=grdc_list(data, path)
 
-
-
+colnames(MQtf1820_2019)[c(1,2,3)]=c("station", "longitude","latitude" )
+View(MQtf1820_2019)
 data3=grdc_list(metadata_rep,path)
   #grdc_list(metadata_germany, path)
 #data3=GRDC_list(metadata_germany, path)
@@ -85,7 +85,7 @@ repres=relstat=c("HOHENSAATEN-FINOW", "DRESDEN", "MAGDEBURG-STROMBRUECKE",
 
 
 
-read.table("/Users/maibrittberghofer/Desktop/Bachelorarbeit/SECOND_TABPLOT/MQ_SU_GRDCt.txt")
+
 
 
 
@@ -223,7 +223,7 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
         
                                                                
                                                                tabPanel("Areal Trends and Characteristics in Germany", 
-                                                                        column(12, h4("Click to See the Stations Name"), shinycssloaders::withSpinner(leaflet::leafletOutput("areamap", height="800px"),
+                                                                        column(12, h4("Click to See the Stations Name"), shinycssloaders::withSpinner(leaflet::leafletOutput("datamap", height="800px"),
                                                                                                                                     size=3, color="#0080b7"))) %>% withSpinner(color="#0dc5c1"), 
                                                           
                          
@@ -235,19 +235,16 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                 tabsetPanel(id="area_trend", 
                                             tabPanel("Settings", 
                                                      fluidRow(column(10, 
-                                                                     checkboxInput("pettit", "Pettit-Test"),
+                                                                     
+                                                                     
+                                                                     selectInput("trendtype2", label="Select Approach for area-based evaluation: ",
+                                                                                 choices=c( "NMxQ", "MQ - Mean Discharge Trend","Trend Minimum Values")) ,
+                                                             
+                                                                     selectInput("timerange2", "Select Timerange:", choices=c("1820-2019", "1860-2019", "1900-2019", "1940-2019", "1980-2019", "1980-2020")),
                                                                      
                                                                      
                                                                      radioButtons("dataset", "Select Dataset", choices=c("All GRDC-Stations in Germany","Representative Stations only")), 
-                                                                     sliderInput("range", "Select Timerange:", value=c(1995
-                                                                                                                       ,2005), min=min(data$startyear), max=max(data$endyear), sep=""),
-                                                      
-                                                               
-                                                                     actionButton("trendarea", "Trendarea")  ,
-                                                      
-                                                                     
-                                                                     selectInput("trendtype2", label="Select Approach for area-based evaluation: ",
-                                                                                choices=c( "NMxQ", "MQ - Mean Discharge Trend","Trend Minimum Values")) ,
+                                                                   
                                                                      
                                                                      
                                                                      conditionalPanel(condition="input.trendtype2=='MQ - Mean Discharge Trend'", 
@@ -255,8 +252,8 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                                                   choices=c("Spring",   "Summer", "Autumn", "Winter",    "Year")) , 
                                                                                     
                                                                                                        selectInput("trendtypemq", label="Select Method to calculate the Trend:",
-                                                                                                                  choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation","Yuepilon-Method and Linear Approach")),  actionButton("go", "Start to calculate Trendmap")%>% withSpinner(color="#0dc5c1"), ) ,
-                                                                                                       
+                                                                                                                  choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),  actionButton("go", "Start to calculate Trendmap")%>% withSpinner(color="#0dc5c1"), ) ,
+                                                                                                      
                                                                                       
                                                                       
                                                                       actionButton("info", "Info")
@@ -274,9 +271,60 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                 
                 
                 
+
+# Third Page --------------------------------------------------------------
+
+
+tabPanel(title="Dataset Information", 
+         
+         fluidRow(
+           column(7, 
+                  
+                  
+                  tabPanel("StationDistribution", 
+                           column(12, h4("Click to See the Stations Information"), shinycssloaders::withSpinner(leaflet::leafletOutput("stationmap", height="800px"),
+                                                                                                         size=3, color="#0080b7"))) , 
+                  
+                  
+                  
+                  
+           ),
+           
+           column(5,
+                  tabsetPanel(id="data_dist", 
+                              tabPanel("Settings", 
+                                       fluidRow(column(10, 
+                                                     
+                                                       
+                                                       
+                                                       radioButtons("dataselect", "Select Dataset", choices=c("All GRDC-Stations in Germany","Representative Stations only")), 
+                                                       sliderInput("range", "Select Timerange:", value=c(1995
+                                                                                                         ,2005), min=min(data$startyear), max=max(data$endyear), sep="")
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                       ))))))
+         
+         
+),
+
+
+
+
                 
                 
-                
+
+
+
+
+
                 
                 
 
