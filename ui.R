@@ -88,6 +88,7 @@ repres=relstat=c("HOHENSAATEN-FINOW", "DRESDEN", "MAGDEBURG-STROMBRUECKE",
 
 ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"),
                 
+                
 
 # First Tab ---------------------------------------------------------------
 
@@ -336,18 +337,23 @@ navbarMenu("Dataset Information",
                     fluidRow(
                       column(4, 
                              
-                             selectInput("ddgraph", "Data Distribution Graph", choices=c("Length: Timeseries of Discharge Data", "Area Distribution" )), 
+                             selectInput("ddgraph", "Data Distribution Graph", choices=c("Length: Timeseries of Discharge Data","Compare Discharge Measurements",  "Area Distribution" )), 
                              
                              
-                             conditionalPanel(condition= "input.ddgraph=='Length: Timeseries of Discharge Data'",  radioButtons("densl", "Presentation", choices=c("Density Plot","Colour Map"))
+                             conditionalPanel(condition= "input.ddgraph=='Length: Timeseries of Discharge Data'",  radioButtons("densl", "Presentation", choices=c("Density Plot","Colour Map"))),
+                             conditionalPanel(condition= "input.ddgraph=='Compare Discharge Measurements'", sliderInput("yeatise", " X-Axis-Resolution (Timeframe):", value=c(1950, 2000), min=1820, max=2020, sep="") , sliderInput("frametise", "Y-Axis Resolution:", value=c(0, 3100), min=0, max=7000, sep="") )
+                                              
                                              
                              
                                                 
                                               
-                             )),
+                             ),
                       column(8, 
-                             conditionalPanel(condition="input.densl=='Density Plot'", plotOutput("distplot", width = "100%", height=400)), 
-                             conditionalPanel(condition="input.densl=='Colour Map'", tmapOutput("tmap", width = "100%", height = 700)) 
+                             conditionalPanel(condition= "input.ddgraph=='Length: Timeseries of Discharge Data'", 
+                             conditionalPanel(condition="input.densl=='Density Plot'", plotOutput("distplot", width = "100%", height=400) %>% withSpinner(color="#0dc5c1")), 
+                             conditionalPanel(condition="input.densl=='Colour Map'", tmapOutput("tmap", width = "100%", height = 700) %>% withSpinner(color="#0dc5c1"))) , 
+                             
+                             conditionalPanel(condition="input.ddgraph=='Compare Discharge Measurements'",  plotOutput("tisepl", width = "100%", height = 700) %>% withSpinner(color="#0dc5c1")) 
                       
                      
                     )

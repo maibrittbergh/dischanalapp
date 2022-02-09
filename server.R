@@ -1932,7 +1932,7 @@ server= function(input, output, session){
     
     
     
-    if ( input$ddgraph=="Length: Timeseries of Discharge Data"){
+    if (input$ddgraph=="Length: Timeseries of Discharge Data"){
   
    
           
@@ -1954,6 +1954,24 @@ server= function(input, output, session){
             
           })
       
+    }
+    
+    if (input$ddgraph=="Compare Discharge Measurements"){
+      observe({
+        startyear2=input$yeatise[1]
+        endyear2=input$yeatise[2]
+        frame_1=input$frametise[1]
+        frame_2=input$frametise[2]
+        
+        haha=tiseger(data, data2, startyear2, endyear2, frame_1, frame_2)
+        output$tisepl= renderPlot({haha})
+      })
+
+      
+
+      
+
+                            
     }
         
 
