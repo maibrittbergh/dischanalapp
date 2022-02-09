@@ -353,7 +353,9 @@ navbarMenu("Dataset Information",
                              conditionalPanel(condition="input.densl=='Density Plot'", plotOutput("distplot", width = "100%", height=400) %>% withSpinner(color="#0dc5c1")), 
                              conditionalPanel(condition="input.densl=='Colour Map'", tmapOutput("tmap", width = "100%", height = 700) %>% withSpinner(color="#0dc5c1"))) , 
                              
-                             conditionalPanel(condition="input.ddgraph=='Compare Discharge Measurements'",  plotOutput("tisepl", width = "100%", height = 700) %>% withSpinner(color="#0dc5c1")) 
+                             conditionalPanel(condition="input.ddgraph=='Compare Discharge Measurements'",  plotOutput("tisepl", width = "100%", height = 700) %>% withSpinner(color="#0dc5c1")) , 
+                             
+                             conditionalPanel(condition="input.ddgraph=='Area Distribution'",  plotOutput("areapl", width = "100%", height = 700) %>% withSpinner(color="#0dc5c1")) 
                       
                      
                     )

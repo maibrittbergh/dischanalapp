@@ -1973,7 +1973,15 @@ server= function(input, output, session){
 
                             
     }
+    if (input$ddgraph=="Area Distribution"){
+      
+
         
+       area_plot=area_dist(data)
+        output$areapl= renderPlot({area_plot})
+      
+
+    }
 
     
      
