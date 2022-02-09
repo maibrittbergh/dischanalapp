@@ -60,23 +60,19 @@ library(readr)
 
 #data=st_grdc
 
-data=metadata_repg[, -c(7,8)]
-
-
-metadata_repg=metadata_repg(metadata_germany )
-
-data=metadata_repg
-View(data)
-View(data)
+data=metadata_germany
+BS=which(data$station=="BAD SUELZE")
+data=data[-BS[1], ]
 data2=grdc_list(data, path)
+#data=metadata_repg
 
-colnames(MQtf1820_2019)[c(1,2,3)]=c("station", "longitude","latitude" )
-View(MQtf1820_2019)
+#data2=grdc_list(data, path)
+
 data3=grdc_list(metadata_rep,path)
   #grdc_list(metadata_germany, path)
 #data3=GRDC_list(metadata_germany, path)
 data4=metadata_rep
-
+MQ_1820_2019  
 
 repres=relstat=c("HOHENSAATEN-FINOW", "DRESDEN", "MAGDEBURG-STROMBRUECKE",
           "RATHENOW UP", "CALBE-GRIZEHNE", "INTSCHEDE",  "HANN.-MUENDEN", "VLOTHO",
@@ -279,6 +275,12 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
 
 
 navbarMenu("Dataset Information",
+           
+           
+
+# MAP ---------------------------------------------------------------------
+
+           
            tabPanel("Info Map", 
                     
                     
@@ -304,7 +306,7 @@ navbarMenu("Dataset Information",
                                                   fluidRow(column(10, 
                                                                   
                                                                   
-                                                                  
+                                                                  checkboxInput("cm", "Colour Map", FALSE), 
                                                                   radioButtons("dataselect", "Select Dataset", choices=c("All GRDC-Stations in Germany","Representative Stations only")), 
                                                                   sliderInput("range", "Select Timerange:", value=c(1995
                                                                                                                     ,2005), min=min(data$startyear), max=max(data$endyear), sep="")
@@ -319,21 +321,38 @@ navbarMenu("Dataset Information",
                                                                   
                                                                   
                                                   ))))))),
+
+
+
+
+
+# Graphics ----------------------------------------------------------------
+
+# conditionalPanel(condition="input.plot_tabs!='User guide'", 
+#tabsetPanel(id="ui_tab", 
            tabPanel("Data Distribution", 
                     
                     
                     fluidRow(
-                      column(2, 
+                      column(4, 
                              
-                             selectInput("ddgraph", "Data Distribution Graph", choices=c("Distribution of Length of Measurements", "Area Distribution"))),
-                      column(10, 
-                             plotOutput("distplot", width = "100%"))
+                             selectInput("ddgraph", "Data Distribution Graph", choices=c("Length: Timeseries of Discharge Data", "Area Distribution" )), 
+                             
+                             
+                             conditionalPanel(condition= "input.ddgraph=='Length: Timeseries of Discharge Data'",  radioButtons("densl", "Presentation", choices=c("Density Plot","Colour Map"))
+                                             
+                             
+                                                
+                                              
+                             )),
+                      column(8, 
+                             conditionalPanel(condition="input.densl=='Density Plot'", plotOutput("distplot", width = "100%", height=400)), 
+                             conditionalPanel(condition="input.densl=='Colour Map'", tmapOutput("tmap", width = "100%", height = 700)) 
+                      
                      
                     )
                     
-                    )), 
-
-
+                    ))), 
 
 
 

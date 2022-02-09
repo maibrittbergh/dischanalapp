@@ -71,8 +71,11 @@ mosel=grdc_readr(metadata_germany, rivername, path )
 #representative level for germany
 
 metadata_repg=metadata_repg(metadata_germany,mark=T)
+#unter Umständen doppelte stationen entfernen
+double=which(metadata_repg$station=="BAD SUELZE")
+metadata_repg=metadata_repg[-double[1],]
 
-
+data=grdc_list(metadata_repg, path)
 
 # Creating List including Data --------------------------------------------
 GRDC_list=function(metadata, path){
@@ -109,7 +112,17 @@ GRDC_list=function(metadata, path){
 
 
 
+#Sollte man das noch in GRDC - list integrieren?:
 
+#if (any(val[,2]==0)){
+#  
+#  zero=which(val[,2]==0)
+#  l=length(zero)
+#  for (i in 1:l){
+#    val[zero[i],2]=NA
+#  }
+#  
+#}
 
 
 

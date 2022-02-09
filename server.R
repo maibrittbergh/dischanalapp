@@ -744,7 +744,8 @@ server= function(input, output, session){
           
           
           
-        }else if(input$dataset=="All GRDC-Stations in Germany"){
+        
+          }else if(input$dataset=="All GRDC-Stations in Germany"){
           
           
           leafletProxy("datamap",session, data=mapdata )%>%
@@ -1548,11 +1549,15 @@ server= function(input, output, session){
   
   
   
-  map = createLeafletMap(session, "stationmap")
-  
-  session$onFlushed(once = T, function() {
+ 
     
     
+
+    
+      map = createLeafletMap(session, "stationmap")
+      
+      session$onFlushed(once = T, function() {
+        
     
     
     
@@ -1562,7 +1567,7 @@ server= function(input, output, session){
         clearMarkers() %>%
         addTiles() %>%
         
-        addCircleMarkers(lat = ~latitude, lng = ~longitude, 
+        addMarkers(lat = ~latitude, lng = ~longitude, 
                          
                          
                          
@@ -1585,11 +1590,17 @@ server= function(input, output, session){
           position = "topright",
           options = layersControlOptions(collapsed = F)
         ) 
+      
+      
+      
+  
     })
+    
+    
   })  
   
   
-  
+    
   
   
   
@@ -1908,11 +1919,47 @@ server= function(input, output, session){
 # Distribution Graph ------------------------------------------------------
 
   
-  #observeEvent({input$ddgraph}, {
-   # if ( input$ddgraph=="Distribution of Length of Measurements")
       
-  #    output$distplot <- renderPlot({tiseger(data, path, startyear, endyear,type=geom_line(), metadata_repg)})
-  #})
+     # selectInput("ddgraph", "Data Distribution Graph", choices=c("Length: Timeseries of Discharge Data", "Area Distribution" )), 
+      
+      
+     # conditionalPanel(condition= "input.ddgraph=='Length: Timeseries of Discharge Data'",  radioButtons("densl", "Presentation", choices=c("Density Plot","Colour Map")))
+      
+      
+      
+  observeEvent({input$ddgraph}, {
+    
+    
+    
+    
+    if ( input$ddgraph=="Length: Timeseries of Discharge Data"){
+  
+   
+          
+          observe({
+            
+            
+            if (input$densl=="Density Plot"){
+              plot=length_distribution(data, "j")
+              
+              output$distplot=renderPlot({  plot})
+              
+            }
+            if (input$densl=="Colour Map"){
+              plot=length_distribution(data, "map")
+              output$tmap=renderTmap({ plot })
+              
+            }
+            
+            
+          })
+      
+    }
+        
+
+    
+     
+  })
   
   
   
