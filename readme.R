@@ -125,5 +125,44 @@ GRDC_list=function(metadata, path){
 #}
 
 
+# creating Lists of Secondplot
+
+
+# MQLIST ------------------------------------------------------------------
+
+
+
+MQlist=vector(mode="list", length=6)
+MQlist[[1]]=new_MQ_1820_2019
+
+names(MQlist)= c("1820-2019", "1860-2019", "1900-2019", "1940-2019", "1980-2019", "1980-2020")
+
+
+
+# MINTRENDLIST ------------------------------------------------------------
+
+
+mintrendlist=vector(mode="list", length=6)
+mintrendlist[[1]]=mintrend_1820_2019
+mintrendlist[[2]]=mintrend_1860_2019
+mintrendlist[[3]]=mintrend_1900_2019
+View(mintrendlist)
+names(mintrendlist)=c("1820-2019", "1860-2019", "1900-2019", "1940-2019", "1980-2019", "1980-2020")
+mintrendlist
+
+
+
+# NMxQ --------------------------------------------------------------------
+
+  # 7 -----------------------------------------------------------------------
+
+
+NMxQlist7=vector(mode="list", length=6)
+NMxQlist7[[1]]=X7_new_nmxq_1820_2019
+
+NMxQlist7[[2]]=X7_new_nmxq_1860_2019
+
+names(NMxQlist7)=c("1820-2019", "1860-2019", "1900-2019", "1940-2019", "1980-2019", "1980-2020")
+
 
 

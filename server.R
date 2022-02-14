@@ -634,8 +634,41 @@ server= function(input, output, session){
   # Input Dataset: Timerange and class of stations --------------------------
   observeEvent({input$trendtype2}, {
     if (input$trendtype2=="MQ - Mean Discharge Trend"){
-      mapdata=MQ_1820_2019    #im ernstfall MQLIST
+      mapd=MQlist
+      
     }
+    if (input$trendtype2=="Trend Minimum Values"){
+      mapd=mintrendlist
+      
+    }
+    if (input$trendtype2=="NMxQ"){
+      
+      
+      mapd=NMxQlist7
+
+      
+    }
+    
+    
+    observeEvent({input$xval}, {
+      
+      
+      if (input$xval=="7"){
+        mapd=NMxQlist7
+        
+      }
+      if (input$xval=="14"){
+        mapd=NMxQlist14
+        
+      }
+      if (input$xval=="30"){
+        mapd=NMxQlist30
+        
+      }
+      if (input$xval=="60"){
+        mapd=NMxQlist60
+        
+      }
     
     
     
@@ -643,15 +676,14 @@ server= function(input, output, session){
     
     observeEvent({input$timerange2}, {
       
-      if(input$timerange2=="1820-2019"){
+
         
-        mapdata=MQ_1820_2019     #im ernstfall MQLIST
+        mapdata=mapd[[input$timerange2]]  
         
+  
         
-        
-        
-      }
-      
+
+  
       
       
       
@@ -1528,7 +1560,7 @@ server= function(input, output, session){
         
       })
       
-      
+    })
       
       
       
@@ -1537,7 +1569,9 @@ server= function(input, output, session){
   })
   
   
-  
+observeEvent({input$reset},{
+  session$reload()
+})
   
   
   # third Page --------------------------------------------------------------
@@ -1567,7 +1601,7 @@ server= function(input, output, session){
         clearMarkers() %>%
         addTiles() %>%
         
-        addMarkers(lat = ~latitude, lng = ~longitude, 
+        addCircleMarkers(lat = ~latitude, lng = ~longitude, 
                          
                          
                          
@@ -2001,6 +2035,10 @@ server= function(input, output, session){
   
   
   
+      
+      
+      
+      
 }
 
 

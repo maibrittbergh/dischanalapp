@@ -51,6 +51,9 @@ library(shinyWidgets)
 #install.packages("fontawesome")
 library(fontawesome)
 library(readr)
+library(shinyjs)
+
+
 
 
 # Daten vorbereiten -------------------------------------------------------
@@ -60,7 +63,8 @@ library(readr)
 
 #data=st_grdc
 
-data=metadata_germany
+data=metadata_repg(metadata_germany, mark=T)
+data2
 BS=which(data$station=="BAD SUELZE")
 data=data[-BS[1], ]
 data2=grdc_list(data, path)
@@ -83,10 +87,11 @@ repres=relstat=c("HOHENSAATEN-FINOW", "DRESDEN", "MAGDEBURG-STROMBRUECKE",
 
 
 
-
+jsResetCode <- "shinyjs.reset = function() {history.go(0)}"
 
 
 ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"),
+                
                 
                 
 
@@ -235,15 +240,21 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                      fluidRow(column(10, 
                                                                      
                                                                      
+                                                                     
+                                                                     
+                                                                     
+                                                                
                                                                      selectInput("trendtype2", label="Select Approach for area-based evaluation: ",
                                                                                  choices=c( "NMxQ", "MQ - Mean Discharge Trend","Trend Minimum Values")) ,
                                                              
-                                                                     selectInput("timerange2", "Select Timerange:", choices=c("1820-2019", "1860-2019", "1900-2019", "1940-2019", "1980-2019", "1980-2020")),
+                                                                     selectInput("timerange2", "Select Timerange:", selected=NULL,  choices=c("1820-2019", "1860-2019", "1900-2019", "1940-2019", "1980-2019", "1980-2020")),
                                                                      
                                                                      
-                                                                     radioButtons("dataset", "Select Dataset", choices=c("All GRDC-Stations in Germany","Representative Stations only")), 
+                                                                     radioButtons("dataset", "Update Map, print Stations within Timerange for:", choices=c("All GRDC-Stations in Germany","Representative Stations only"), selected=character(0)), 
                                                                    
+                                                          
                                                                      
+                                                                     #MQ-Mean Discharge Trend
                                                                      
                                                                      conditionalPanel(condition="input.trendtype2=='MQ - Mean Discharge Trend'", 
                                                                                       selectInput("seasonmq", label="Select the Season:",
@@ -252,10 +263,27 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                                     
                                                                                                        selectInput("trendtypemq", label="Select Method to calculate the Trend:",
                                                                                                                   choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),  actionButton("go", "Start to calculate Trendmap") ) ,
+                                                                     
                                                                                                       
+                                                                       #NMxQ                
+                                                                     
+                                                                     
+                                                                     conditionalPanel(condition="input.trendtype2=='NMxQ'", 
+                                                                                      selectInput("xval", label="Select X-Value:",
+                                                                                                  choices=c("7","14", "30","60")) , 
                                                                                       
+                                                                                      selectInput("seasonmq", label="Select the Season:",
+                                                                                                  choices=c("Spring",   "Summer", "Autumn", "Winter", 
+                                                                                                            "Year")) , 
+                                                                                      
+                                                                                      selectInput("trendtypemq", label="Select Method to calculate the Trend:",
+                                                                                                  choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),  actionButton("go", "Start to calculate Trendmap") ) ,
+                                                                     
+                                                                     
+                                                                     
+                                                                     
                                                                       
-                                                                      actionButton("info", "Info")
+                                                                      actionButton("reset", "Reset")
                                                                                       
                                                                                       
                                                                                       
@@ -307,7 +335,7 @@ navbarMenu("Dataset Information",
                                                   fluidRow(column(10, 
                                                                   
                                                                   
-                                                                  checkboxInput("cm", "Colour Map", FALSE), 
+                                                                  
                                                                   radioButtons("dataselect", "Select Dataset", choices=c("All GRDC-Stations in Germany","Representative Stations only")), 
                                                                   sliderInput("range", "Select Timerange:", value=c(1995
                                                                                                                     ,2005), min=min(data$startyear), max=max(data$endyear), sep="")
