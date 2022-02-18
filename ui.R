@@ -94,6 +94,7 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                 
                 
                 
+                
 
 # First Tab ---------------------------------------------------------------
 
@@ -148,17 +149,39 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                           
                                                                  
                                                                         
-                                                                          plotOutput("disch_plot", width = "100%"), 
+                                                                          plotOutput("disch_plot", width = "100%")%>% withSpinner(color="#0dc5c1"),  
                                                                           
                                                                           actionButton("cleardata", label="Clear Data")) , 
                                                                           
                                                                           
                                                                           
                                                                           conditionalPanel(condition="input.ts_plot_type=='Trend Analysis'",
-                                                                                           selectInput("trendtype", "Method to calculate the trend", choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation","Yuepilon-Method and Linear Approach")), 
+                                                                                           selectInput("trendpltype", "Type of plot", choices=c("Trend of minimum Values", "NMxQ-Trend", "Trend of Mean Values")),
+                                                                                    
+                                                                      
+                                                                                                       
+                                                                                                       conditionalPanel( condition="input.trendpltype=='NMxQ-Trend'", 
+                                                                                                                         sliderInput("xVALUE", "X-Value", value=14, min=4, max=90), 
+                                                                                                                         selectInput("season_trend", "Choose a Season",choices= c("Year", "Winter", "Spring", "Summer", "Autumn"))), 
+                                                                                           
+                                                                                                                         
+                                                                                           #Trend of Mean Values"){
+                                                                                                       
+                                                                                                      
+                                                                                           
+                                                                                           conditionalPanel( condition="input.trendpltype=='Trend of Mean Values'", 
+                                                                                                       
+                                                                                                             selectInput("season_trend_2", "Choose a Season",choices= c("Year", "Winter", "Spring", "Summer", "Autumn"))), 
+                                                                                           
+                                                                                           
+                                                                                           
+                                                                                
+                                                                                          
+                                                                                                             
+                                                                                           
                                                                                            plotOutput("trendplot") %>% withSpinner(color="#0dc5c1"), 
                                                                                            
-                                                                                           actionButton("cleardata2", label="Clear Data") )
+                                                                                           actionButton("cleardata2", label="Clear Data")   )
                                                                                            
                                                                           
                                                                           

@@ -174,6 +174,19 @@ server= function(input, output, session){
   }
   
   
+selpl=   function(){
+    
+    plot=plot(1:10, 1:10, type = "n", axes = F, ylab = "", xlab = "")
+    mtext(paste("Station:", stat_name, "selected"), line = -1, cex = 1.5)
+    return(plot)
+    
+  }
+  
+  
+  
+  
+  
+  
   
   output$trendplot=renderPlot({trendpl()})
   
@@ -307,24 +320,87 @@ server= function(input, output, session){
     }
     
     
-    trendpl=function(){
-      if (input$trendtype=="Yuepilon-Method: PreWhitening and homogenization of autocorrelation"){
-        mintr=Qmin_trend(data2, stat_name, mod=2)
-        return(mintr)
+  #  trendpl=function(){
+      
+        #"season_trend", "Choose Season", c("Year", "Winter", "Spring", "Summer", "Autumn"))
         
-      }
-      if (input$trendtype=="Linear Model: Least Squares Approach"){
-        mintr=Qmin_trend(data2, stat_name, mod=3)
-        return(mintr)
+        observeEvent(input$season_trend,{
+          if (input$season_trend=="Year"){
+            season="Y"
+          }
+          if (input$season_trend=="Autumn"){
+            season="AU"
+          }
+          if (input$season_trend=="Winter"){
+            season="WI"
+          }
+          if (input$season_trend=="Spring"){
+            season="SP"
+          }
+          if (input$season_trend=="Summer"){
+            season="SU"
+          }
+          
+          
+          
+          observeEvent(input$season_trend_2,{
+            if (input$season_trend_2=="Year"){
+              seas="Y"
+            }
+            if (input$season_trend_2=="Autumn"){
+              seas="AU"
+            }
+            if (input$season_trend_2=="Winter"){
+              seas="WI"
+            }
+            if (input$season_trend_2=="Spring"){
+              seas="SP"
+            }
+            if (input$season_trend_2=="Summer"){
+              seas="SU"
+            }
+      
+          
+       
+          
+
+        trendpl=function(){
+          if (input$trendpltype=="Trend of minimum Values"){
+            
+            plotr=Qmin_trend(data=data2,  station=stat_name, mod=1) 
+            return(plotr)
+          }
+          if (input$trendpltype=="NMxQ-Trend"){
+            x_val=input$xVALUE
+            
+            plotr=NMxQ_trend(data=data2,  station=stat_name, x=x_val, seasonal=season, graphic=T)
+            return(plotr)
+          }
+          if (input$trendpltype=="Trend of Mean Values"){
+            
+            
+            plotr=MQ_trend(data=data2,  station=stat_name, seasonal=seas )
+            return(plotr)
+          }
+          
+          
+          
+        }
+            
+     
+            output$trendplot=renderPlot({trendpl()})
+            
+     
+          })
         
-      }
-      if (input$trendtype=="Yuepilon-Method and Linear Approach"){
-        mintr=Qmin_trend(data2, stat_name, mod=1)
-        return(mintr)
         
-      }}
+          })
+        
+        
+
+      
     
-    output$trendplot=renderPlot({trendpl()})
+  
     
     
     
@@ -2051,6 +2127,9 @@ observeEvent({input$reset},{
 
 
 shinyApp(ui=ui, server=server)
-
+#springfunctions abchecken
+#slope ausformulieren in caption 
+#Achsenbeschriftung
+#anders Runden, kleine Flüsse sehen nicht sinnvoll aus ........
 
 
