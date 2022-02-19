@@ -64,8 +64,11 @@ library(shinyjs)
 #data=st_grdc
 
 data=metadata_repg(metadata_germany, mark=T)
+View(data2)
 data2
 BS=which(data$station=="BAD SUELZE")
+View(listeddata)
+data2=listeddata[-BS[1] ]
 data=data[-BS[1], ]
 data2=grdc_list(data, path)
 #data=metadata_repg
@@ -134,12 +137,14 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                           
                                                                           
                                                                           ,
+                                                                          
                                                                           conditionalPanel(condition="input.qplot_variety=='annual Discharge Boxplot'",  sliderInput("year", "Select Year:", 2000, min=1975, max=2015, sep="")),
                                                                           
+                                                                          conditionalPanel(condition="input.qplot_variety=='Discharge Plot'" , checkboxInput("pettitt1", "Pettitt-Test", value=FALSE)),
                                                                           
                                                                           
-                                                                          
-                                                                          conditionalPanel(condition="input.qplot_variety=='annual Discharge Plot'",  sliderInput("year2", "Select Year:", 2000, min=1975, max=2015, sep="") ),
+                                                                          conditionalPanel(condition="input.qplot_variety=='annual Discharge Plot'",  sliderInput("year2", "Select Year:", 2000, min=1975, max=2015, sep=""), checkboxInput("hyeardis", label="Hydrological Year", value=TRUE), 
+                                                                                           checkboxInput("pettitt2", "Pettitt-Test", value=FALSE) ),
                                                                           conditionalPanel(condition="input.qplot_variety=='Seasonplot'",  sliderInput("season1", "Select Begin of the Season:",5,min=01, max=12)),
                                                                           conditionalPanel(condition="input.qplot_variety=='Seasonplot'",  sliderInput("season2", "Select End of the Season:",5,min=01, max=12, ) ),
                                                                           conditionalPanel(condition="input.qplot_variety=='Seasonplot'",  numericInput("ssy", "Select Startyear:",2000, min=1999, max=2005 ) ),
@@ -148,10 +153,11 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                           conditionalPanel(condition="input.qplot_variety=='Trendplot'",      renderText({"Loading may take some time. Thank you for your patience."}) ),
                                                                           
                                                                  
-                                                                        
-                                                                          plotOutput("disch_plot", width = "100%")%>% withSpinner(color="#0dc5c1"),  
+                                                                          plotOutput("disch_plot", width = "100%"), 
+                                                                           
                                                                           
-                                                                          actionButton("cleardata", label="Clear Data")) , 
+                                                                          actionButton("cleardata", label="Clear Data"), 
+                                                                          actionButton("reset2", "Reset")) , 
                                                                           
                                                                           
                                                                           
@@ -181,7 +187,8 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                                            
                                                                                            plotOutput("trendplot") %>% withSpinner(color="#0dc5c1"), 
                                                                                            
-                                                                                           actionButton("cleardata2", label="Clear Data")   )
+                                                                                           actionButton("cleardata2", label="Clear Data"), 
+                                                                                           actionButton("reset2", "Reset"))
                                                                                            
                                                                           
                                                                           

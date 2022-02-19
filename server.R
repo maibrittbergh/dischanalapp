@@ -1,7 +1,7 @@
 library(dplyr)
 
 server= function(input, output, session){
-  
+
   
   # Introduction ------------------------------------------------------------
   
@@ -141,9 +141,9 @@ server= function(input, output, session){
   #Initial conditions: 'Select station on map.'
   t_plot <- function(){
     
-    plot(1:10, 1:10, type = "n", axes = F, ylab = "", xlab = "")
+   tpl= plot(1:10, 1:10, type = "n", axes = F, ylab = "", xlab = "")
     mtext("Please select a station ", line = -1, cex = 1.5)
-    
+    return(tpl)
   }
   
   
@@ -151,10 +151,11 @@ server= function(input, output, session){
   
   
   
+  output$disch_plot=renderPlot({t_plot()})
+  output$disch_plot=renderPlot({empty()})
+
   
-  output$disch_plot <- renderPlot({t_plot()})
-  
-  
+
   
   empty=   function(){
     
@@ -163,6 +164,9 @@ server= function(input, output, session){
     return(plot)
     
   }
+  
+  output$disch_plot <- renderPlot({empty()})
+  
   
   trendpl= function(){
     
@@ -270,15 +274,31 @@ selpl=   function(){
       
       if(input$qplot_variety == "Discharge Plot"){
         
-        Qplot=Qplot(data2, stat_name)
-        return(Qplot)
+        if (input$pettitt1){
+          Qplot=Qplot(data2, stat_name, T)
+        }else{
         
+        Qplot=Qplot(data2, stat_name, F)
+        }
+        return(Qplot)
+
       }
       if(input$qplot_variety == "annual Discharge Plot"){
         
-        
-        Year=input$year2
-        qploty=Qploty(data2, stat_name, year=Year,h=T)
+        if (input$hyeardis){
+          Year=input$year2
+          
+          if (input$pettitt2){
+          qploty=Qploty(data2, stat_name, year=Year,h=T, pettitt=T)
+          }else{  qploty=Qploty(data2, stat_name, year=Year,h=T, pettitt=F)    }
+        }else{
+          Year=input$year2
+        if (input$pettitt2){
+          qploty=Qploty(data2, stat_name, year=Year,h=F, pettitt=T)
+        }else{  qploty=Qploty(data2, stat_name, year=Year,h=F, pettitt=F)    }
+          
+        }
+       
         return(qploty)
         
       }
@@ -313,9 +333,9 @@ selpl=   function(){
         
         seasonplot=seasonpl(data=data2, station=stat_name, Startyear=Startyear, Endyear=Endyear, month_start=month_start, month_end =month_end )
         
-        
+        output$disch_plot <- renderPlot({seasonplot})
       })
-      output$disch_plot <- renderPlot({seasonplot})
+
       
     }
     
@@ -520,7 +540,6 @@ selpl=   function(){
     })
     
     
-    
     t_plot <- function(){
       
       
@@ -576,24 +595,89 @@ selpl=   function(){
     }
     
     
-    trendpl=function(){
-      if (input$trendtype=="Yuepilon-Method: PreWhitening and homogenization of autocorrelation"){
-        mintr=Qmin_trend(data2, stat_name, mod=2)
-        return(mintr)
-        
-      }
-      if (input$trendtype=="Linear Model: Least Squares Approach"){
-        mintr=Qmin_trend(data2, stat_name, mod=3)
-        return(mintr)
-        
-      }
-      if (input$trendtype=="Yuepilon-Method and Linear Approach"){
-        mintr=Qmin_trend(data2, stat_name, mod=1)
-        return(mintr)
-        
-      }}
+    #  trendpl=function(){
     
-    output$trendplot=renderPlot({trendpl()})
+    #"season_trend", "Choose Season", c("Year", "Winter", "Spring", "Summer", "Autumn"))
+    
+    observeEvent(input$season_trend,{
+      if (input$season_trend=="Year"){
+        season="Y"
+      }
+      if (input$season_trend=="Autumn"){
+        season="AU"
+      }
+      if (input$season_trend=="Winter"){
+        season="WI"
+      }
+      if (input$season_trend=="Spring"){
+        season="SP"
+      }
+      if (input$season_trend=="Summer"){
+        season="SU"
+      }
+      
+      
+      
+      observeEvent(input$season_trend_2,{
+        if (input$season_trend_2=="Year"){
+          seas="Y"
+        }
+        if (input$season_trend_2=="Autumn"){
+          seas="AU"
+        }
+        if (input$season_trend_2=="Winter"){
+          seas="WI"
+        }
+        if (input$season_trend_2=="Spring"){
+          seas="SP"
+        }
+        if (input$season_trend_2=="Summer"){
+          seas="SU"
+        }
+        
+        
+        
+        
+        
+        trendpl=function(){
+          if (input$trendpltype=="Trend of minimum Values"){
+            
+            plotr=Qmin_trend(data=data2,  station=stat_name, mod=1) 
+            return(plotr)
+          }
+          if (input$trendpltype=="NMxQ-Trend"){
+            x_val=input$xVALUE
+            
+            plotr=NMxQ_trend(data=data2,  station=stat_name, x=x_val, seasonal=season, graphic=T)
+            return(plotr)
+          }
+          if (input$trendpltype=="Trend of Mean Values"){
+            
+            
+            plotr=MQ_trend(data=data2,  station=stat_name, seasonal=seas )
+            return(plotr)
+          }
+          
+          
+          
+        }
+        
+        
+        output$trendplot=renderPlot({trendpl()})
+        
+        
+      })
+      
+      
+    })
+    
+    
+    
+    
+    
+    
+    
+    
     
     thres= function(){
       if(input$thres_type=="Quantile Based"){
@@ -617,7 +701,6 @@ selpl=   function(){
       
     }
     output$thresplot=renderPlot({thres()})
-    
     
     
     
@@ -1643,11 +1726,17 @@ selpl=   function(){
       
     })
   })
-  
+
+# Reset -------------------------------------------------------------------
+
+  observeEvent({input$reset2},{
+    session$reload()
+  })  
   
 observeEvent({input$reset},{
   session$reload()
 })
+
   
   
   # third Page --------------------------------------------------------------
