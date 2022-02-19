@@ -64,12 +64,15 @@ library(shinyjs)
 #data=st_grdc
 
 data=metadata_repg(metadata_germany, mark=T)
+View(data2)
 data2
 BS=which(data$station=="BAD SUELZE")
+View(listeddata)
+data2=listeddata[-BS[1] ]
 data=data[-BS[1], ]
 data2=grdc_list(data, path)
 #data=metadata_repg
-
+data=metadat
 #data2=grdc_list(data, path)
 
 data3=grdc_list(metadata_rep,path)
@@ -134,12 +137,14 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                           
                                                                           
                                                                           ,
+                                                                          
                                                                           conditionalPanel(condition="input.qplot_variety=='annual Discharge Boxplot'",  sliderInput("year", "Select Year:", 2000, min=1975, max=2015, sep="")),
                                                                           
+                                                                          conditionalPanel(condition="input.qplot_variety=='Discharge Plot'" , checkboxInput("pettitt1", "Pettitt-Test", value=FALSE)),
                                                                           
                                                                           
-                                                                          
-                                                                          conditionalPanel(condition="input.qplot_variety=='annual Discharge Plot'",  sliderInput("year2", "Select Year:", 2000, min=1975, max=2015, sep="") ),
+                                                                          conditionalPanel(condition="input.qplot_variety=='annual Discharge Plot'",  sliderInput("year2", "Select Year:", 2000, min=1975, max=2015, sep=""), checkboxInput("hyeardis", label="Hydrological Year", value=TRUE), 
+                                                                                           checkboxInput("pettitt2", "Pettitt-Test", value=FALSE) ),
                                                                           conditionalPanel(condition="input.qplot_variety=='Seasonplot'",  sliderInput("season1", "Select Begin of the Season:",5,min=01, max=12)),
                                                                           conditionalPanel(condition="input.qplot_variety=='Seasonplot'",  sliderInput("season2", "Select End of the Season:",5,min=01, max=12, ) ),
                                                                           conditionalPanel(condition="input.qplot_variety=='Seasonplot'",  numericInput("ssy", "Select Startyear:",2000, min=1999, max=2005 ) ),
@@ -148,10 +153,11 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                           conditionalPanel(condition="input.qplot_variety=='Trendplot'",      renderText({"Loading may take some time. Thank you for your patience."}) ),
                                                                           
                                                                  
-                                                                        
-                                                                          plotOutput("disch_plot", width = "100%")%>% withSpinner(color="#0dc5c1"),  
+                                                                          plotOutput("disch_plot", width = "100%"), 
+                                                                           
                                                                           
-                                                                          actionButton("cleardata", label="Clear Data")) , 
+                                                                          actionButton("cleardata", label="Clear Data"), 
+                                                                          actionButton("reset2", "Reset")) , 
                                                                           
                                                                           
                                                                           
@@ -181,7 +187,8 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                                            
                                                                                            plotOutput("trendplot") %>% withSpinner(color="#0dc5c1"), 
                                                                                            
-                                                                                           actionButton("cleardata2", label="Clear Data")   )
+                                                                                           actionButton("cleardata2", label="Clear Data"), 
+                                                                                           actionButton("reset2", "Reset"))
                                                                                            
                                                                           
                                                                           
@@ -268,9 +275,10 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                      
                                                                 
                                                                      selectInput("trendtype2", label="Select Approach for area-based evaluation: ",
-                                                                                 choices=c( "NMxQ", "MQ - Mean Discharge Trend","Trend Minimum Values")) ,
+                                                                                 choices=c( "NMxQ", "MQ - Mean Discharge Trend","Trend Minimum Values", "Low Flow Period")) ,
                                                              
-                                                                     selectInput("timerange2", "Select Timerange:", selected=NULL,  choices=c("1820-2019", "1860-2019", "1900-2019", "1940-2019", "1980-2019", "1980-2020")),
+                                                                     selectInput("timerange2", "Select Timerange:",  selected=NULL,  choices=c("1820-2019", "1860-2019", "1900-2019", "1940-2019", "1980-2019")), 
+                                                                                                                          #"1980-2020")),
                                                                      
                                                                      
                                                                      radioButtons("dataset", "Update Map, print Stations within Timerange for:", choices=c("All GRDC-Stations in Germany","Representative Stations only"), selected=character(0)), 
@@ -285,7 +293,8 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                                                   "Year")) , 
                                                                                     
                                                                                                        selectInput("trendtypemq", label="Select Method to calculate the Trend:",
-                                                                                                                  choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),  actionButton("go", "Start to calculate Trendmap") ) ,
+                                                                                                                  choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),
+                                                                                      actionButton("go", "Start to calculate Trendmap")), 
                                                                      
                                                                                                       
                                                                        #NMxQ                
@@ -300,7 +309,52 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                                                             "Year")) , 
                                                                                       
                                                                                       selectInput("trendtypemq", label="Select Method to calculate the Trend:",
-                                                                                                  choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),  actionButton("go", "Start to calculate Trendmap") ) ,
+                                                                                                  choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),
+                                                                                      actionButton("go", "Start to calculate Trendmap")),
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                     conditionalPanel(condition="input.trendtype2=='Trend Minimum Values'", 
+                                                                                     
+                                                                                      
+                                                                                      selectInput("seasonmq", label="Select the Season:",
+                                                                                                  choices=c("Spring",   "Summer", "Autumn", "Winter", 
+                                                                                                            "Year")) , 
+                                                                                      
+                                                                                      selectInput("trendtypemq", label="Select Method to calculate the Trend:",
+                                                                                                  choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),
+                                                                                      
+                                                                                      
+                                                                                      actionButton("go", "Start to calculate Trendmap")),
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                     ###Periodmeta 
+                                                                     
+                                                                     
+                                                                     conditionalPanel(condition="input.trendtype2=='Low Flow Period'", 
+                                                                                      selectInput("quantiles", label="Quantile [%]:",
+                                                                                                  choices=c("70","75", "80","85", "90", "90", "95")) , 
+                                                                                      
+                                                                                      
+                                                                                      
+                                                                                      
+                                                                                  selectInput("periodway", "Choose Value:", choices=c("Length of Maximum Period under Value","Sum of Days under Value")), 
+                                                                                      
+                                                                                      
+                                                                            
+                                                                                      
+                                                                                      selectInput("trendtypeperiod", label="Select Method to calculate the Trend:",
+                                                                                                  choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),
+                                                                                  actionButton("go_2", "Start to calculate Trendmap")), 
+                                                                  
+                                                                     
+                                                                     
+                                                                     
+                                                                     
+                                                                       
                                                                      
                                                                      
                                                                      
