@@ -7,7 +7,10 @@ install.packages("Lchiffon/leafletCN")
 
 
 server= function(input, output, session){
+<<<<<<< HEAD
   
+=======
+>>>>>>> 283eff704d1adacc78352522b4b263420ce99ab2
 
   
   # Introduction ------------------------------------------------------------
@@ -618,10 +621,17 @@ selpl=   function(){
       }
       if (input$season_trend=="Spring"){
         season="SP"
+<<<<<<< HEAD
       }
       if (input$season_trend=="Summer"){
         season="SU"
       }
+=======
+      }
+      if (input$season_trend=="Summer"){
+        season="SU"
+      }
+>>>>>>> 283eff704d1adacc78352522b4b263420ce99ab2
       
       
       
@@ -645,6 +655,7 @@ selpl=   function(){
         
         
         
+<<<<<<< HEAD
         
         trendpl=function(){
           if (input$trendpltype=="Trend of minimum Values"){
@@ -670,6 +681,33 @@ selpl=   function(){
         }
         
         
+=======
+        
+        trendpl=function(){
+          if (input$trendpltype=="Trend of minimum Values"){
+            
+            plotr=Qmin_trend(data=data2,  station=stat_name, mod=1) 
+            return(plotr)
+          }
+          if (input$trendpltype=="NMxQ-Trend"){
+            x_val=input$xVALUE
+            
+            plotr=NMxQ_trend(data=data2,  station=stat_name, x=x_val, seasonal=season, graphic=T)
+            return(plotr)
+          }
+          if (input$trendpltype=="Trend of Mean Values"){
+            
+            
+            plotr=MQ_trend(data=data2,  station=stat_name, seasonal=seas )
+            return(plotr)
+          }
+          
+          
+          
+        }
+        
+        
+>>>>>>> 283eff704d1adacc78352522b4b263420ce99ab2
         output$trendplot=renderPlot({trendpl()})
         
         
@@ -4113,6 +4151,7 @@ selpl=   function(){
       
       
       
+<<<<<<< HEAD
     
 
   
@@ -4122,6 +4161,16 @@ selpl=   function(){
   
   
   
+=======
+    })
+  })
+
+# Reset -------------------------------------------------------------------
+
+  observeEvent({input$reset2},{
+    session$reload()
+  })  
+>>>>>>> 283eff704d1adacc78352522b4b263420ce99ab2
   
   
   
