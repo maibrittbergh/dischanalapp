@@ -275,13 +275,14 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                      
                                                                 
                                                                      selectInput("trendtype2", label="Select Approach for area-based evaluation: ",
-                                                                                 choices=c( "NMxQ", "MQ - Mean Discharge Trend","Trend Minimum Values", "Low Flow Period")) ,
+                                                                                 choices=c( "MQ - Mean Discharge Trend","Trend Minimum Values","NMxQ", "Low Flow Period")) ,
+                                                                     
+                                                                     radioButtons("dataset", "Update Map, print Stations within Timerange for:", choices=c("All GRDC-Stations in Germany","Representative Stations only"), selected=character(0)), 
                                                              
-                                                                     selectInput("timerange2", "Select Timerange:",  selected=NULL,  choices=c("1820-2019", "1860-2019", "1900-2019", "1940-2019", "1980-2019")), 
+                                                                     selectInput("timerange2", "Select Timerange:",    choices=c("1820-2019", "1860-2019", "1900-2019", "1940-2019", "1980-2019")), 
                                                                                                                           #"1980-2020")),
                                                                      
                                                                      
-                                                                     radioButtons("dataset", "Update Map, print Stations within Timerange for:", choices=c("All GRDC-Stations in Germany","Representative Stations only"), selected=character(0)), 
                                                                    
                                                           
                                                                      
@@ -335,8 +336,7 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                      
                                                                      
                                                                      conditionalPanel(condition="input.trendtype2=='Low Flow Period'", 
-                                                                                      selectInput("quantiles", label="Quantile [%]:",
-                                                                                                  choices=c("70","75", "80","85", "90", "90", "95")) , 
+                                                                           
                                                                                       
                                                                                       
                                                                                       
@@ -348,6 +348,9 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
                                                                                       
                                                                                       selectInput("trendtypeperiod", label="Select Method to calculate the Trend:",
                                                                                                   choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),
+                                                                                  
+                                                                                  selectInput("quantiles", label="Quantile [%]:",
+                                                                                              choices=c("70","75", "80","85", "90", "90", "95")) , 
                                                                                   actionButton("go_2", "Start to calculate Trendmap")), 
                                                                   
                                                                      

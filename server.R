@@ -1,6 +1,13 @@
 library(dplyr)
+install.packages(("tigris"))
+library(tidyverse)
+library(tigris)
+library(leaflet)
+install.packages("Lchiffon/leafletCN")
+
 
 server= function(input, output, session){
+  
 
   
   # Introduction ------------------------------------------------------------
@@ -803,10 +810,7 @@ selpl=   function(){
       
       
       
-      if (input$xval=="7"){
-        mapd=NMxQlist7
-        
-      }
+   
       if (input$xval=="14"){
         mapd=NMxQlist14
         
@@ -818,7 +822,8 @@ selpl=   function(){
       if (input$xval=="60"){
         mapd=NMxQlist60
         
-      }
+      }else{
+      mapd=NMxQlist7}
       
       
     }
@@ -893,7 +898,9 @@ selpl=   function(){
               
               
               
-            }else {renderText("No Stations available")}
+            
+              
+              }else {renderText("No Stations available")}
             
             
             leafletProxy("datamap",session, data=mapdata )%>%
@@ -931,7 +938,8 @@ selpl=   function(){
             
             
             
-          }else if(input$dataset=="All GRDC-Stations in Germany"){
+          
+            }else if(input$dataset=="All GRDC-Stations in Germany"){
             
             
             leafletProxy("datamap",session, data=mapdata )%>%
@@ -978,37 +986,91 @@ selpl=   function(){
         
       
           #season, color collected
+          
+          
+          tag.map.title <- tags$style(HTML("
+  .leaflet-control.map-title { 
+    transform: translate(-50%,20%);
+    position: fixed !;
+    left: 80;
+    text-align: center;
+    padding-left: 10px; 
+    padding-right: 10px; 
+    background: rgba(255,255,255,0.75);
+    font-weight: bold;
+    font-size: 18px;
+  }
+"))
+          
+       
+          
+          
         
           observeEvent({input$go}, {
             
             
             
             
+            tag.map.title <- tags$style(HTML("
+  .leaflet-control.map-title { 
+    transform: translate(-50%,20%);
+    position: fixed !;
+    left: 100;
+    text-align: center;
+    padding-left: 30px; 
+    padding-right: 10px; 
+    background: rgba(255,255,255,0.75);
+    font-weight: bold;
+    font-size: 18px;
+  }
+"))
             
+            tag.map.title2 <- tags$style(HTML("
+  .leaflet-control.map-title { 
+    transform: translate(-50%,20%);
+    position: fixed !;
+    left: 20;
+    text-align: center;
+    padding-left: 100px; 
+    padding-right:100px; 
+    background: rgba(255,255,255,0.75);
+    font-weight: bold;
+    font-size: 18px;
+  }
+"))       
             
             
             
             if(input$trendtypemq== "Yuepilon-Method: PreWhitening and homogenization of autocorrelation"){
               
+
+              
+              
               if (input$seasonmq=="Spring"){
                 
+                ######
                 
-                mapdata$Spslopezyp=cut(  mapdata$Spslopezyp, breaks=c(-2, -1, 0, 1, 2), 
-                                         labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
                 
-                COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Spslopezyp)
+                title <- tags$div(
+                  tag.map.title2, HTML("Season: Spring - Zyp Trend ")
+                ) 
+                
+                Spzyp= as.numeric(mapdata$Spslopezyp)
+                
+                pal=colorNumeric("RdBu", domain=  Spzyp)
                 
                 leafletProxy("datamap",session )%>%
                   clearPopups() %>% 
-                  clearMarkers() %>%
                   clearControls()%>%
+                  clearMarkers() %>%
                   addTiles() %>%
-                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Spslopezyp), 
+                  
+                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Spzyp),
                                    
                                    
                                    
                                    popup = ~paste(
-                                     paste('<b>', 'Value', '</b>', Spslopezyp), 
+                                     
                                      paste('<b>',  'Station', '</b>', station),
                                      paste('<b>',  'River', '</b>', river),
                                      
@@ -1021,17 +1083,33 @@ selpl=   function(){
                   addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                   
                   
-                  addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                  
+                  addLegend(pal=pal, position="topleft", values=  Spzyp, title="Slope", labFormat = labelFormat(digits = 6))%>%
+                  addControl(title, position="topright", className="map-title")%>%
                   
                   addLayersControl(
+                    
                     baseGroups = c("Open Street Map", "Terrain Background"),
                     position = "topright",
+                    
                     options = layersControlOptions(collapsed = F)
                   )
                 
                 
                 
                 
+                
+                ######
+                
+                
+    
+                
+                
+                
+                
+                
+                
+            
                 
                 
                 
@@ -1039,24 +1117,29 @@ selpl=   function(){
               if (input$seasonmq=="Summer"){
                 
                 
+                #####
                 
                 
-                mapdata$Sslopezyp=cut(  mapdata$Sslopezyp, breaks=c(-2, -1, 0, 1, 2), 
-                                        labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
+                title <- tags$div(
+                  tag.map.title2, HTML("Season: Summer - Zyp Trend ")
+                ) 
                 
-                COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Sslopezyp)
+                Szyp= as.numeric(mapdata$Sslopezyp)
+                
+                pal=colorNumeric("RdBu", domain=  Szyp)
                 
                 leafletProxy("datamap",session )%>%
                   clearPopups() %>% 
-                  clearMarkers() %>%
                   clearControls()%>%
+                  clearMarkers() %>%
                   addTiles() %>%
-                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Sslopezyp), 
+                  
+                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Szyp),
                                    
                                    
                                    
                                    popup = ~paste(
-                                     paste('<b>', 'Value', '</b>', Sslopezyp), 
+                                     
                                      paste('<b>',  'Station', '</b>', station),
                                      paste('<b>',  'River', '</b>', river),
                                      
@@ -1069,13 +1152,22 @@ selpl=   function(){
                   addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                   
                   
-                  addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                  
+                  addLegend(pal=pal, position="topleft", values=  Szyp, title="Slope", labFormat = labelFormat(digits = 6))%>%
+                  addControl(title, position="topright", className="map-title")%>%
                   
                   addLayersControl(
+                    
                     baseGroups = c("Open Street Map", "Terrain Background"),
                     position = "topright",
+                    
                     options = layersControlOptions(collapsed = F)
                   )
+                
+                
+                
+                #####
+                
                 
                 
                 
@@ -1106,22 +1198,31 @@ selpl=   function(){
               if (input$seasonmq=="Autumn"){
                 
                 
-                mapdata$Aslopezyp=cut(  mapdata$Aslopezyp, breaks=c(-2, -1, 0, 1, 2), 
-                                        labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
                 
-                COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Aslopezyp)
+                #####
+                
+                
+                
+                title <- tags$div(
+                  tag.map.title2, HTML("Season: Autumn - Zyp Trend ")
+                ) 
+                
+                Azyp= as.numeric(mapdata$Aslopezyp)
+                
+                pal=colorNumeric("RdBu", domain=  Azyp)
                 
                 leafletProxy("datamap",session )%>%
                   clearPopups() %>% 
-                  clearMarkers() %>%
                   clearControls()%>%
+                  clearMarkers() %>%
                   addTiles() %>%
-                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Aslopezyp), 
+                  
+                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Azyp),
                                    
                                    
                                    
                                    popup = ~paste(
-                                     paste('<b>', 'Value', '</b>',  Aslopezyp), 
+                                     
                                      paste('<b>',  'Station', '</b>', station),
                                      paste('<b>',  'River', '</b>', river),
                                      
@@ -1134,34 +1235,52 @@ selpl=   function(){
                   addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                   
                   
-                  addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                  
+                  addLegend(pal=pal, position="topleft", values=  Azyp, title="Slope", labFormat = labelFormat(digits = 6))%>%
+                  addControl(title, position="topright", className="map-title")%>%
                   
                   addLayersControl(
+                    
                     baseGroups = c("Open Street Map", "Terrain Background"),
                     position = "topright",
+                    
                     options = layersControlOptions(collapsed = F)
                   )
+                
+                
+                
+                #####
+                
+                
                 
               }
               if (input$seasonmq=="Winter"){
                 
                 
-                mapdata$Wslopezyp=cut(  mapdata$Wslopezyp, breaks=c(-2, -1, 0, 1, 2), 
-                                        labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
+                #####
                 
-                COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Wslopezyp)
+                
+                
+                title <- tags$div(
+                  tag.map.title2, HTML("Season: Winter - Zyp Trend ")
+                ) 
+                
+                Wzyp= as.numeric(mapdata$Wslopezyp)
+                
+                pal=colorNumeric("RdBu", domain=  Wzyp)
                 
                 leafletProxy("datamap",session )%>%
                   clearPopups() %>% 
-                  clearMarkers() %>%
                   clearControls()%>%
+                  clearMarkers() %>%
                   addTiles() %>%
-                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Wslopezyp), 
+                  
+                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Wzyp),
                                    
                                    
                                    
                                    popup = ~paste(
-                                     paste('<b>', 'Value', '</b>',   Wslopezyp), 
+                                     
                                      paste('<b>',  'Station', '</b>', station),
                                      paste('<b>',  'River', '</b>', river),
                                      
@@ -1174,34 +1293,50 @@ selpl=   function(){
                   addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                   
                   
-                  addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                  
+                  addLegend(pal=pal, position="topleft", values=  Wzyp, title="Slope", labFormat = labelFormat(digits = 6))%>%
+                  addControl(title, position="topright", className="map-title")%>%
                   
                   addLayersControl(
+                    
                     baseGroups = c("Open Street Map", "Terrain Background"),
                     position = "topright",
+                    
                     options = layersControlOptions(collapsed = F)
                   )
+                
+                
+                
+                #####
+                
+                
+               
                 
               }
               if (input$seasonmq=="Year"){
                 
+                #####
                 
-                mapdata$Yslopezyp=cut(  mapdata$Yslopezyp, breaks=c(-2, -1, 0, 1, 2), 
-                                        labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
+                title <- tags$div(
+                  tag.map.title2, HTML("   Annual Zyp Trend  ")
+                ) 
                 
-                COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Yslopezyp)
+                Yzyp= as.numeric(mapdata$Yslopezyp)
+                
+                pal=colorNumeric("RdBu", domain=  Yzyp)
                 
                 leafletProxy("datamap",session )%>%
                   clearPopups() %>% 
-                  clearMarkers() %>%
                   clearControls()%>%
+                  clearMarkers() %>%
                   addTiles() %>%
-                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Yslopezyp), 
+                  
+                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Yzyp),
                                    
                                    
                                    
                                    popup = ~paste(
-                                     paste('<b>', 'Value', '</b>',   Yslopezyp), 
+                                     
                                      paste('<b>',  'Station', '</b>', station),
                                      paste('<b>',  'River', '</b>', river),
                                      
@@ -1214,13 +1349,21 @@ selpl=   function(){
                   addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                   
                   
-                  addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                  
+                  addLegend(pal=pal, position="topleft", values=  Yzyp, title="Slope", labFormat = labelFormat(digits = 6))%>%
+                  addControl(title, position="topright", className="map-title")%>%
                   
                   addLayersControl(
+                    
                     baseGroups = c("Open Street Map", "Terrain Background"),
                     position = "topright",
+                    
                     options = layersControlOptions(collapsed = F)
                   )
+                
+                
+                #####
+                
                 
               }
               
@@ -1235,22 +1378,30 @@ selpl=   function(){
               if (input$seasonmq=="Spring"){
                 
                 
-                mapdata$Spslopelm=cut(  mapdata$Spslopelm, breaks=c(-2, -1, 0, 1, 2), 
-                                        labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
                 
-                COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Spslopelm)
+                #####
+                
+                
+                title <- tags$div(
+                  tag.map.title2, HTML("Season: Spring - Linear Model Trend ")
+                ) 
+                
+                Splm= as.numeric(mapdata$Spslopelm)
+                
+                pal=colorNumeric("RdBu", domain=  Splm)
                 
                 leafletProxy("datamap",session )%>%
                   clearPopups() %>% 
                   clearControls()%>%
                   clearMarkers() %>%
                   addTiles() %>%
-                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Spslopelm), 
+                  
+                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Splm),
                                    
                                    
                                    
                                    popup = ~paste(
-                                     paste('<b>', 'Value', '</b>',   Spslopelm), 
+                                     
                                      paste('<b>',  'Station', '</b>', station),
                                      paste('<b>',  'River', '</b>', river),
                                      
@@ -1263,33 +1414,53 @@ selpl=   function(){
                   addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                   
                   
-                  addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                  
+                  addLegend(pal=pal, position="topleft", values=  Splm, title="Slope", labFormat = labelFormat(digits = 6))%>%
+                  addControl(title, position="topright", className="map-title")%>%
                   
                   addLayersControl(
+                    
                     baseGroups = c("Open Street Map", "Terrain Background"),
                     position = "topright",
+                    
                     options = layersControlOptions(collapsed = F)
                   )
+                
+                
+                
+                
+                ####
+                
+                
+            
               }
               if (input$seasonmq=="Summer"){
                 
                 
-                mapdata$Sslopelm=cut(  mapdata$Sslopelm, breaks=c(-2, -1, 0, 1, 2), 
-                                       labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
+                #####
                 
-                COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Sslopelm)
+                
+                
+                title <- tags$div(
+                  tag.map.title2, HTML("Season: Summer - Linear Model Trend ")
+                ) 
+                
+                Slm= as.numeric(mapdata$Sslopelm)
+                
+                pal=colorNumeric("RdBu", domain=  Slm)
                 
                 leafletProxy("datamap",session )%>%
                   clearPopups() %>% 
-                  clearMarkers() %>%
                   clearControls()%>%
+                  clearMarkers() %>%
                   addTiles() %>%
-                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Sslopelm), 
+                  
+                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Slm),
                                    
                                    
                                    
                                    popup = ~paste(
-                                     paste('<b>', 'Value', '</b>',  Sslopelm), 
+                                     
                                      paste('<b>',  'Station', '</b>', station),
                                      paste('<b>',  'River', '</b>', river),
                                      
@@ -1302,33 +1473,51 @@ selpl=   function(){
                   addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                   
                   
-                  addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                  
+                  addLegend(pal=pal, position="topleft", values=  Slm, title="Slope", labFormat = labelFormat(digits = 6))%>%
+                  addControl(title, position="topright", className="map-title")%>%
                   
                   addLayersControl(
+                    
                     baseGroups = c("Open Street Map", "Terrain Background"),
                     position = "topright",
+                    
                     options = layersControlOptions(collapsed = F)
                   )
+                
+                
+                
+                #####
+                
+               
                 
               }
               if (input$seasonmq=="Autumn"){
                 
-                mapdata$Aslopelm=cut(  mapdata$Aslopelm, breaks=c(-2, -1, 0, 1, 2), 
-                                       labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
                 
-                COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Aslopelm)
+                #####
+                
+                
+                title <- tags$div(
+                  tag.map.title2, HTML("Season: Autumn - Linear Model Trend ")
+                ) 
+                
+                Alm= as.numeric(mapdata$Aslopelm)
+                
+                pal=colorNumeric("RdBu", domain=  Alm)
                 
                 leafletProxy("datamap",session )%>%
                   clearPopups() %>% 
                   clearControls()%>%
                   clearMarkers() %>%
                   addTiles() %>%
-                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Aslopelm), 
+                  
+                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Alm),
                                    
                                    
                                    
                                    popup = ~paste(
-                                     paste('<b>', 'Value', '</b>',   Aslopelm), 
+                                     
                                      paste('<b>',  'Station', '</b>', station),
                                      paste('<b>',  'River', '</b>', river),
                                      
@@ -1341,34 +1530,52 @@ selpl=   function(){
                   addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                   
                   
-                  addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                  
+                  addLegend(pal=pal, position="topleft", values=  Alm, title="Slope", labFormat = labelFormat(digits = 6))%>%
+                  addControl(title, position="topright", className="map-title")%>%
                   
                   addLayersControl(
+                    
                     baseGroups = c("Open Street Map", "Terrain Background"),
                     position = "topright",
+                    
                     options = layersControlOptions(collapsed = F)
                   )
                 
+                
+                
+                
+                #####
+                
+               
                 
               }
               if (input$seasonmq=="Winter"){
                 
-                mapdata$Wslopelm=cut(  mapdata$Wslopelm, breaks=c(-2, -1, 0, 1, 2), 
-                                       labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
                 
-                COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Wslopelm)
+                #####
+                
+                
+                title <- tags$div(
+                  tag.map.title2, HTML("Season: Winter - Linear Model Trend ")
+                ) 
+                
+                Wlm= as.numeric(mapdata$Wslopelm)
+                
+                pal=colorNumeric("RdBu", domain=  Wlm)
                 
                 leafletProxy("datamap",session )%>%
                   clearPopups() %>% 
-                  clearMarkers() %>%
                   clearControls()%>%
+                  clearMarkers() %>%
                   addTiles() %>%
-                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Wslopelm), 
+                  
+                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Wlm),
                                    
                                    
                                    
                                    popup = ~paste(
-                                     paste('<b>', 'Value', '</b>',  Wslopelm), 
+                                     
                                      paste('<b>',  'Station', '</b>', station),
                                      paste('<b>',  'River', '</b>', river),
                                      
@@ -1381,34 +1588,52 @@ selpl=   function(){
                   addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                   
                   
-                  addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                  
+                  addLegend(pal=pal, position="topleft", values=  Wlm, title="Slope", labFormat = labelFormat(digits = 6))%>%
+                  addControl(title, position="topright", className="map-title")%>%
                   
                   addLayersControl(
+                    
                     baseGroups = c("Open Street Map", "Terrain Background"),
                     position = "topright",
+                    
                     options = layersControlOptions(collapsed = F)
                   )
                 
+                
+                
+                
+                #####
+                
+               
                 
               }
               if (input$seasonmq=="Year"){
                 
-                mapdata$Yslopelm=cut(  mapdata$Yslopelm, breaks=c(-2, -1, 0, 1, 2), 
-                                       labels=c("-1 - -2", "-1 - 0", "0 - 1", "1-2"))
                 
-                COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Yslopelm)
+                #####
+                
+                
+                title <- tags$div(
+                  tag.map.title2, HTML("Annual Linear Model Trend ")
+                ) 
+                
+                Ylm= as.numeric(mapdata$Yslopelm)
+                
+                pal=colorNumeric("RdBu", domain=  Ylm)
                 
                 leafletProxy("datamap",session )%>%
                   clearPopups() %>% 
-                  clearMarkers() %>%
                   clearControls()%>%
+                  clearMarkers() %>%
                   addTiles() %>%
-                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Yslopelm), 
+                  
+                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Ylm),
                                    
                                    
                                    
                                    popup = ~paste(
-                                     paste('<b>', 'Value', '</b>', Yslopelm), 
+                                     
                                      paste('<b>',  'Station', '</b>', station),
                                      paste('<b>',  'River', '</b>', river),
                                      
@@ -1421,14 +1646,22 @@ selpl=   function(){
                   addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                   
                   
-                  addLegend(position="topright", pal=COL,values=c("-1 - -2", "-1 - 0", "0 - 1", "1-2") )%>%
+                  
+                  addLegend(pal=pal, position="topleft", values=  Ylm, title="Slope", labFormat = labelFormat(digits = 6))%>%
+                  addControl(title, position="topright", className="map-title")%>%
                   
                   addLayersControl(
+                    
                     baseGroups = c("Open Street Map", "Terrain Background"),
                     position = "topright",
+                    
                     options = layersControlOptions(collapsed = F)
                   )
                 
+                
+                #####
+                
+               
                 
               }
               }
@@ -1439,22 +1672,30 @@ selpl=   function(){
               if (input$seasonmq=="Spring"){
                 
                 
-                mapdata$Spsigzyp=cut(  mapdata$Spsigzyp, breaks=c(-1, 0.2 ,0, 0.2,1), 
-                                        labels=  c("-1 - -0.2" , "-0.2-0","0 - 0.2","0.2-1"))
+                #####
                 
-                COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Spsigzyp)
+                
+                
+                title <- tags$div(
+                  tag.map.title2, HTML("Season: Spring - Significance Zyp Trend ")
+                ) 
+                
+                Spsig_= as.numeric(mapdata$Spsigzyp)
+                
+                pal=colorNumeric("RdBu", domain=  Spsig_)
                 
                 leafletProxy("datamap",session )%>%
                   clearPopups() %>% 
                   clearControls()%>%
                   clearMarkers() %>%
                   addTiles() %>%
-                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Spsigzyp), 
+                  
+                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Spsig_),
                                    
                                    
                                    
                                    popup = ~paste(
-                                     paste('<b>', 'Value', '</b>',  Spsigzyp), 
+                                     
                                      paste('<b>',  'Station', '</b>', station),
                                      paste('<b>',  'River', '</b>', river),
                                      
@@ -1467,33 +1708,53 @@ selpl=   function(){
                   addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                   
                   
-                  addLegend(position="topright", pal=COL,values=       c("-1 - -0.2" , "-0.2-0","0 - 0.2","0.2-1"))%>%
+                  
+                  addLegend(pal=pal, position="topleft", values=  Spsig_, title="Slope", labFormat = labelFormat(digits = 6))%>%
+                  addControl(title, position="topright", className="map-title")%>%
                   
                   addLayersControl(
+                    
                     baseGroups = c("Open Street Map", "Terrain Background"),
                     position = "topright",
+                    
                     options = layersControlOptions(collapsed = F)
                   )
+                
+                
+                
+                
+                #####
+                
+                
+             
               }
               if (input$seasonmq=="Summer"){
-         
                 
-                mapdata$Ssigzyp=cut(  mapdata$Ssigzyp, breaks=c(-1, 0.2 ,0, 0.2,1), 
-                                      labels=  c("-1 - -0.2" , "-0.2-0","0 - 0.2","0.2-1"))
                 
-                COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Ssigzyp)
+                #####
+                
+                
+                
+                title <- tags$div(
+                  tag.map.title2, HTML("Season: Summer - Significance Zyp Trend ")
+                ) 
+                
+                Ssig_= as.numeric(mapdata$Ssigzyp)
+                
+                pal=colorNumeric("RdBu", domain=  Ssig_)
                 
                 leafletProxy("datamap",session )%>%
                   clearPopups() %>% 
                   clearControls()%>%
                   clearMarkers() %>%
                   addTiles() %>%
-                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Ssigzyp), 
+                  
+                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Ssig_),
                                    
                                    
                                    
                                    popup = ~paste(
-                                     paste('<b>', 'Value', '</b>',   Ssigzyp), 
+                                     
                                      paste('<b>',  'Station', '</b>', station),
                                      paste('<b>',  'River', '</b>', river),
                                      
@@ -1506,33 +1767,50 @@ selpl=   function(){
                   addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                   
                   
-                  addLegend(position="topright", pal=COL,values=       c("-1 - -0.2" , "-0.2-0","0 - 0.2","0.2-1") )%>%
+                  
+                  addLegend(pal=pal, position="topleft", values=  Ssig_, title="Slope", labFormat = labelFormat(digits = 6))%>%
+                  addControl(title, position="topright", className="map-title")%>%
                   
                   addLayersControl(
+                    
                     baseGroups = c("Open Street Map", "Terrain Background"),
                     position = "topright",
+                    
                     options = layersControlOptions(collapsed = F)
                   )
+                
+                
+                
+                #####
+         
+                
                 
               }
               if (input$seasonmq=="Autumn"){
                 
-                mapdata$Asigzyp=cut(  mapdata$Asigzyp, breaks=c(-1, 0.2 ,0, 0.2,1), 
-                                    labels=  c("-1 - -0.2" , "-0.2-0","0 - 0.2","0.2-1"))
+                #####
                 
-                COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Asigzyp)
+                
+                title <- tags$div(
+                  tag.map.title2, HTML("Season: Autumn - Significance Zyp Trend ")
+                ) 
+                
+                Asig_= as.numeric(mapdata$Asigzyp)
+                
+                pal=colorNumeric("RdBu", domain=  Asig_)
                 
                 leafletProxy("datamap",session )%>%
                   clearPopups() %>% 
                   clearControls()%>%
                   clearMarkers() %>%
                   addTiles() %>%
-                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Asigzyp), 
+                  
+                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Asig_),
                                    
                                    
                                    
                                    popup = ~paste(
-                                     paste('<b>', 'Value', '</b>',   Asigzyp), 
+                                     
                                      paste('<b>',  'Station', '</b>', station),
                                      paste('<b>',  'River', '</b>', river),
                                      
@@ -1545,34 +1823,54 @@ selpl=   function(){
                   addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                   
                   
-                  addLegend(title="Significance of Zyp-Trend in Autumn", position="topright", pal=COL,values=       c("-1 - -0.2" , "-0.2-0","0 - 0.2","0.2-1") )%>%
+                  
+                  addLegend(pal=pal, position="topleft", values=  Asig_, title="Slope", labFormat = labelFormat(digits = 6))%>%
+                  addControl(title, position="topright", className="map-title")%>%
                   
                   addLayersControl(
+                    
                     baseGroups = c("Open Street Map", "Terrain Background"),
                     position = "topright",
+                    
                     options = layersControlOptions(collapsed = F)
                   )
+                
+                
+                
+                
+                #####
+                
+              
                 
                 
               }
               if (input$seasonmq=="Winter"){
                 
-                mapdata$Wsigzyp=cut(  mapdata$Wsigzyp, breaks=c(-1, 0.2 ,0, 0.2,1), 
-                                    labels=  c("-1 - -0.2" , "-0.2-0","0 - 0.2","0.2-1"))
                 
-                COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Wsigzyp)
+                #####
+                
+                
+                
+                title <- tags$div(
+                  tag.map.title2, HTML("Season: Winter - Significance Zyp Trend ")
+                ) 
+                
+                Wsig_= as.numeric(mapdata$Wsigzyp)
+                
+                pal=colorNumeric("RdBu", domain=  Wsig_)
                 
                 leafletProxy("datamap",session )%>%
                   clearPopups() %>% 
                   clearControls()%>%
                   clearMarkers() %>%
                   addTiles() %>%
-                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Wsigzyp), 
+                  
+                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Wsig_),
                                    
                                    
                                    
                                    popup = ~paste(
-                                     paste('<b>', 'Value', '</b>',   Wsigzyp), 
+                                     
                                      paste('<b>',  'Station', '</b>', station),
                                      paste('<b>',  'River', '</b>', river),
                                      
@@ -1585,13 +1883,23 @@ selpl=   function(){
                   addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                   
                   
-                  addLegend(position="topright", pal=COL,values=       c("-1 - -0.2" , "-0.2-0","0 - 0.2","0.2-1") )%>%
+                  
+                  addLegend(pal=pal, position="topleft", values=  Wsig_, title="Slope", labFormat = labelFormat(digits = 6))%>%
+                  addControl(title, position="topright", className="map-title")%>%
                   
                   addLayersControl(
+                    
                     baseGroups = c("Open Street Map", "Terrain Background"),
                     position = "topright",
+                    
                     options = layersControlOptions(collapsed = F)
                   )
+                
+                
+                
+                #####
+                
+              
                 
                 
                 
@@ -1599,22 +1907,30 @@ selpl=   function(){
               
               if (input$seasonmq=="Year"){
                 
-                mapdata$Ysigzyp=cut(  mapdata$Ysigzyp, breaks=c(-1, 0.2 ,0, 0.2,1), 
-                                    labels=  c("-1 - -0.2" , "-0.2-0","0 - 0.2","0.2-1"))
+                #####
                 
-                COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Ysigzyp)
+                
+                
+                title <- tags$div(
+                  tag.map.title2, HTML("Annual Trend Significance Zyp  ")
+                ) 
+                
+                Ysig_= as.numeric(mapdata$Ysigzyp)
+                
+                pal=colorNumeric("RdBu", domain=  Ysig_)
                 
                 leafletProxy("datamap",session )%>%
                   clearPopups() %>% 
                   clearControls()%>%
                   clearMarkers() %>%
                   addTiles() %>%
-                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Ysigzyp), 
+                  
+                  addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Ysig_),
                                    
                                    
                                    
                                    popup = ~paste(
-                                     paste('<b>', 'Value', '</b>',   Ysigzyp), 
+                                     
                                      paste('<b>',  'Station', '</b>', station),
                                      paste('<b>',  'River', '</b>', river),
                                      
@@ -1627,13 +1943,24 @@ selpl=   function(){
                   addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                   
                   
-                  addLegend(position="topright", pal=COL,values=       c("-1 - -0.2" , "-0.2-0","0 - 0.2","0.2-1") )%>%
+                  
+                  addLegend(pal=pal, position="topleft", values=  Ysig_, title="Slope", labFormat = labelFormat(digits = 6))%>%
+                  addControl(title, position="topright", className="map-title")%>%
                   
                   addLayersControl(
+                    
                     baseGroups = c("Open Street Map", "Terrain Background"),
                     position = "topright",
+                    
                     options = layersControlOptions(collapsed = F)
                   )
+                #####
+                
+                
+                
+                
+                
+               
                 
                 
                 
@@ -1647,7 +1974,15 @@ selpl=   function(){
             
             observeEvent({input$go_2}, {    
               
+      
+              
+              
               if(input$trendtypeperiod=="Yuepilon-Method: PreWhitening and homogenization of autocorrelation"){
+                
+                
+                
+                
+
               
               
               if(input$periodway=="Length of Maximum Period under Value"){
@@ -1655,22 +1990,30 @@ selpl=   function(){
                 if(input$quantiles=="70"){
                   
                   
-                  mapdata$Q70_tmax_zyp=cut(  as.numeric(mapdata$Q70_tmax_zyp), breaks=c(-7,-2,0,2,7), 
-                                             labels= c("<-2","<0",  ">0",  ">2"))
                   
-                  COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q70_tmax_zyp)
+                  
+                  
+                  
+                  title <- tags$div(
+                    tag.map.title, HTML("Maximum Timespan under Threshold (Q70) - Zyp Trend")
+                  ) 
+                  
+                  tmaxzypQ70= as.numeric(mapdata$Q70_tmax_zyp)
+                  
+                  pal=colorNumeric("RdBu", domain=    tmaxzypQ70)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
                     clearControls()%>%
                     clearMarkers() %>%
                     addTiles() %>%
-                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q70_tmax_zyp), 
+                  
+                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(tmaxzypQ70),
                                      
                                      
                                      
                                      popup = ~paste(
-                                       paste('<b>', 'Value', '</b>',   Q70_tmax_zyp), 
+                            
                                        paste('<b>',  'Station', '</b>', station),
                                        paste('<b>',  'River', '</b>', river),
                                        
@@ -1678,16 +2021,20 @@ selpl=   function(){
                                        sep = '<br/>'),
                                      popupOptions = popupOptions(closeButton = FALSE)
                     )  %>%    
-                    
+                 
                     addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                     addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                     
-                    
-                    addLegend(position="topright", pal=COL, values=      c("<-2","<0",  ">0",  ">2"))%>%
-                    
+                   
+                  
+                    addLegend(pal=pal, position="topleft", values=  tmaxzypQ70, title="Slope")%>%
+                    addControl(title, position="topright", className="map-title")%>%
+              
                     addLayersControl(
+                      
                       baseGroups = c("Open Street Map", "Terrain Background"),
                       position = "topright",
+                      
                       options = layersControlOptions(collapsed = F)
                     )
                   
@@ -1699,22 +2046,31 @@ selpl=   function(){
                 if(input$quantiles=="75"){
                   
                   
-                  mapdata$Q75_tmax_zyp=cut(  mapdata$Q75_tmax_zyp, breaks=c(-7,-2,0,2,7), 
-                                            labels= c("<-2","<0",  ">0",  ">2"))
                   
-                  COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q75_tmax_zyp)
+                  #####
+                  
+                  
+                  
+                  
+                  title <- tags$div(
+                    tag.map.title, HTML("Maximum Timespan under Threshold (Q75) - Zyp Trend")
+                  ) 
+                  
+                  tmaxzypQ75= as.numeric(mapdata$Q75_tmax_zyp)
+                  
+                  pal=colorNumeric("RdBu", domain=    tmaxzypQ75)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
                     clearControls()%>%
                     clearMarkers() %>%
                     addTiles() %>%
-                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q75_tmax_zyp), 
+                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(tmaxzypQ75),
                                      
                                      
                                      
                                      popup = ~paste(
-                                       paste('<b>', 'Value', '</b>',   Q75_tmax_zyp), 
+                                       
                                        paste('<b>',  'Station', '</b>', station),
                                        paste('<b>',  'River', '</b>', river),
                                        
@@ -1727,13 +2083,27 @@ selpl=   function(){
                     addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                     
                     
-                    addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                    addLegend(pal=pal, position="topleft", values=  tmaxzypQ75, title="Slope")%>%
+                    addControl(title, position="topright", className="map-title")%>%
+                    
                     
                     addLayersControl(
+                      
                       baseGroups = c("Open Street Map", "Terrain Background"),
                       position = "topright",
+                      
                       options = layersControlOptions(collapsed = F)
                     )
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  ######
+                  
+             
                   
                   
                   
@@ -1743,22 +2113,31 @@ selpl=   function(){
                 if(input$quantiles=="80"){
                   
                   
-                  mapdata$Q80_tmax_zyp=cut(  mapdata$Q80_tmax_zyp, breaks=c(-7,-2,0,2,7), 
-                                            labels= c("<-2","<0",  ">0",  ">2"))
                   
-                  COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q80_tmax_zyp)
+                  
+                  #####
+                  
+                  
+                  
+                  title <- tags$div(
+                    tag.map.title, HTML("Maximum Timespan under Threshold (Q80) - Zyp Trend")
+                  ) 
+                  
+                  tmaxzypQ80= as.numeric(mapdata$Q80_tmax_zyp)
+                  
+                  pal=colorNumeric("RdBu", domain=    tmaxzypQ80)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
                     clearControls()%>%
                     clearMarkers() %>%
                     addTiles() %>%
-                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q80_tmax_zyp), 
+                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(tmaxzypQ80),
                                      
                                      
                                      
                                      popup = ~paste(
-                                       paste('<b>', 'Value', '</b>',   Q80_tmax_zyp), 
+                                       
                                        paste('<b>',  'Station', '</b>', station),
                                        paste('<b>',  'River', '</b>', river),
                                        
@@ -1770,39 +2149,53 @@ selpl=   function(){
                     addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                     addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                     
+                    addLegend(pal=pal, position="topleft", values=  tmaxzypQ80, title="Slope")%>%
+                    addControl(title, position="topright", className="map-title")%>%
                     
-                    addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                    
+                    
                     
                     addLayersControl(
+                      
                       baseGroups = c("Open Street Map", "Terrain Background"),
                       position = "topright",
+                      
                       options = layersControlOptions(collapsed = F)
                     )
                   
-                  
-                  
+                  ####
+ 
                   
                   
                 }
                 if(input$quantiles=="85"){
                   
                   
-                  mapdata$Q85_tmax_zyp=cut(  mapdata$Q85_tmax_zyp, breaks=c(-7,-2,0,2,7), 
-                                            labels= c("<-2","<0",  ">0",  ">2"))
                   
-                  COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q85_tmax_zyp)
+                  
+                  #####
+                  
+                  
+                  
+                  title <- tags$div(
+                    tag.map.title, HTML("Maximum Timespan under Threshold (Q85) - Zyp Trend")
+                  ) 
+                  
+                  tmaxzypQ85= as.numeric(mapdata$Q85_tmax_zyp)
+                  
+                  pal=colorNumeric("RdBu", domain=    tmaxzypQ85)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
                     clearControls()%>%
                     clearMarkers() %>%
                     addTiles() %>%
-                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q85_tmax_zyp), 
+                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(tmaxzypQ85),
                                      
                                      
                                      
                                      popup = ~paste(
-                                       paste('<b>', 'Value', '</b>',  Q85_tmax_zyp), 
+                                       
                                        paste('<b>',  'Station', '</b>', station),
                                        paste('<b>',  'River', '</b>', river),
                                        
@@ -1814,14 +2207,22 @@ selpl=   function(){
                     addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                     addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                     
+                    addLegend(pal=pal, position="topleft", values=  tmaxzypQ85, title="Slope")%>%
+                    addControl(title, position="topright", className="map-title")%>%
                     
-                    addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
                     
                     addLayersControl(
+                      
                       baseGroups = c("Open Street Map", "Terrain Background"),
                       position = "topright",
+                      
                       options = layersControlOptions(collapsed = F)
                     )
+                  
+                  
+                  
+                  #####
+                  
                   
                   
                   
@@ -1831,22 +2232,29 @@ selpl=   function(){
                 if(input$quantiles=="90"){
                   
                   
-                  mapdata$Q90_tmax_zyp=cut(  mapdata$Q90_tmax_zyp, breaks=c(-7,-2,0,2,7), 
-                                            labels= c("<-2","<0",  ">0",  ">2"))
                   
-                  COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q90_tmax_zyp)
+                  #####
+                  
+                  
+                  title <- tags$div(
+                    tag.map.title, HTML("Maximum Timespan under Threshold (Q90) - Zyp Trend")
+                  ) 
+                  
+                  tmaxzypQ90= as.numeric(mapdata$Q90_tmax_zyp)
+                  
+                  pal=colorNumeric("RdBu", domain=    tmaxzypQ90)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
                     clearControls()%>%
                     clearMarkers() %>%
                     addTiles() %>%
-                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q90_tmax_zyp), 
+                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(tmaxzypQ90),
                                      
                                      
                                      
                                      popup = ~paste(
-                                       paste('<b>', 'Value', '</b>',   Q90_tmax_zyp), 
+                                       
                                        paste('<b>',  'Station', '</b>', station),
                                        paste('<b>',  'River', '</b>', river),
                                        
@@ -1858,39 +2266,48 @@ selpl=   function(){
                     addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                     addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                     
+                    addLegend(pal=pal, position="topleft", values=  tmaxzypQ90, title="Slope")%>%
+                    addControl(title, position="topright", className="map-title")%>%
                     
-                    addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
                     
                     addLayersControl(
+                      
                       baseGroups = c("Open Street Map", "Terrain Background"),
                       position = "topright",
+                      
                       options = layersControlOptions(collapsed = F)
                     )
                   
                   
+                  ####
+                  
+              
                   
                   
-                  
+    
                 }
                 if(input$quantiles=="95"){
+                  #####
                   
+                  title <- tags$div(
+                    tag.map.title, HTML("Maximum Timespan under Threshold (Q95) - Zyp Trend")
+                  ) 
                   
-                  mapdata$Q95_tmax_zyp=cut(  mapdata$Q95_tmax_zyp, breaks=c(-7,-2,0,2,7), 
-                                            labels= c("<-2","<0",  ">0",  ">2"))
+                  tmaxzypQ95= as.numeric(mapdata$Q95_tmax_zyp)
                   
-                  COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q95_tmax_zyp)
+                  pal=colorNumeric("RdBu", domain=    tmaxzypQ95)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
                     clearControls()%>%
                     clearMarkers() %>%
                     addTiles() %>%
-                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q95_tmax_zyp), 
+                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(tmaxzypQ95),
                                      
                                      
                                      
                                      popup = ~paste(
-                                       paste('<b>', 'Value', '</b>',   Q95_tmax_zyp), 
+                                       
                                        paste('<b>',  'Station', '</b>', station),
                                        paste('<b>',  'River', '</b>', river),
                                        
@@ -1902,14 +2319,20 @@ selpl=   function(){
                     addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                     addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                     
-                    
-                    addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                    addLegend(pal=pal, position="topleft", values=  tmaxzypQ95, title="Slope")%>%
+                    addControl(title, position="topright", className="map-title")%>%
                     
                     addLayersControl(
+                      
                       baseGroups = c("Open Street Map", "Terrain Background"),
                       position = "topright",
+                      
                       options = layersControlOptions(collapsed = F)
                     )
+                  
+                  ####
+                  
+                 
                   
                   
                   
@@ -1923,24 +2346,27 @@ selpl=   function(){
               if(input$periodway=="Sum of Days under Value"){
                 
                 if(input$quantiles=="70"){
+                  #####
                   
+                  title <- tags$div(
+                    tag.map.title, HTML("Sum of Days under Threshold(Q70) - Zyp Trend")
+                  ) 
                   
-                  mapdata$Q70_ld_zyp=cut(  mapdata$Q70_ld_zyp, breaks=c(-7,-2,0,2,7), 
-                                          labels= c("<-2","<0",  ">0",  ">2"))
+                  ldzypQ70= as.numeric(mapdata$Q70_ld_zyp)
                   
-                  COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q70_ld_zyp)
+                  pal=colorNumeric("RdBu", domain=     ldzypQ70)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
                     clearControls()%>%
                     clearMarkers() %>%
                     addTiles() %>%
-                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q70_ld_zyp), 
+                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(   ldzypQ70),
                                      
                                      
                                      
                                      popup = ~paste(
-                                       paste('<b>', 'Value', '</b>',   Q70_ld_zyp), 
+                                       
                                        paste('<b>',  'Station', '</b>', station),
                                        paste('<b>',  'River', '</b>', river),
                                        
@@ -1952,15 +2378,20 @@ selpl=   function(){
                     addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                     addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                     
-                    
-                    addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                    addLegend(pal=pal, position="topleft", values=    ldzypQ70, title="Slope")%>%
+                    addControl(title, position="topright", className="map-title")%>%
                     
                     addLayersControl(
+                      
                       baseGroups = c("Open Street Map", "Terrain Background"),
                       position = "topright",
+                      
                       options = layersControlOptions(collapsed = F)
                     )
                   
+                  ####
+                  
+                
                   
                   
                   
@@ -1969,22 +2400,28 @@ selpl=   function(){
                 if(input$quantiles=="75"){
                   
                   
-                  mapdata$Q75_ld_zyp=cut(  mapdata$Q75_ld_zyp, breaks=c(-7,-2,0,2,7), 
-                                          labels= c("<-2","<0",  ">0",  ">2"))
                   
-                  COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q75_ld_zyp)
+                  #######
+                  
+                  title <- tags$div(
+                    tag.map.title, HTML("Sum of Days under Threshold(Q75) - Zyp Trend")
+                  ) 
+                  
+                  ldzypQ75= as.numeric(mapdata$Q75_ld_zyp)
+                  
+                  pal=colorNumeric("RdBu", domain=     ldzypQ75)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
                     clearControls()%>%
                     clearMarkers() %>%
                     addTiles() %>%
-                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q75_ld_zyp), 
+                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(   ldzypQ75),
                                      
                                      
                                      
                                      popup = ~paste(
-                                       paste('<b>', 'Value', '</b>',   Q75_ld_zyp), 
+                                       
                                        paste('<b>',  'Station', '</b>', station),
                                        paste('<b>',  'River', '</b>', river),
                                        
@@ -1996,14 +2433,21 @@ selpl=   function(){
                     addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                     addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                     
-                    
-                    addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                    addLegend(pal=pal, position="topleft", values=    ldzypQ75, title="Slope")%>%
+                    addControl(title, position="topright", className="map-title")%>%
                     
                     addLayersControl(
+                      
                       baseGroups = c("Open Street Map", "Terrain Background"),
                       position = "topright",
+                      
                       options = layersControlOptions(collapsed = F)
                     )
+                  
+                  
+                  #######
+                  
+                  
                   
                   
                   
@@ -2012,23 +2456,29 @@ selpl=   function(){
                 }
                 if(input$quantiles=="80"){
                   
+                  #####
                   
-                  mapdata$Q80_ld_zyp=cut(  mapdata$Q80_ld_zyp, breaks=c(-7,-2,0,2,7), 
-                                          labels= c("<-2","<0",  ">0",  ">2"))
                   
-                  COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q80_ld_zyp)
+                  
+                  title <- tags$div(
+                    tag.map.title, HTML("Sum of Days under Threshold(Q80) - Zyp Trend")
+                  ) 
+                  
+                  ldzypQ80= as.numeric(mapdata$Q80_ld_zyp)
+                  
+                  pal=colorNumeric("RdBu", domain=     ldzypQ80)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
                     clearControls()%>%
                     clearMarkers() %>%
                     addTiles() %>%
-                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q80_ld_zyp), 
+                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(   ldzypQ80),
                                      
                                      
                                      
                                      popup = ~paste(
-                                       paste('<b>', 'Value', '</b>',   Q80_ld_zyp), 
+                                       
                                        paste('<b>',  'Station', '</b>', station),
                                        paste('<b>',  'River', '</b>', river),
                                        
@@ -2040,16 +2490,25 @@ selpl=   function(){
                     addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                     addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                     
-                    
-                    addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                    addLegend(pal=pal, position="topleft", values=    ldzypQ80, title="Slope")%>%
+                    addControl(title, position="topright", className="map-title")%>%
                     
                     addLayersControl(
+                      
                       baseGroups = c("Open Street Map", "Terrain Background"),
                       position = "topright",
+                      
                       options = layersControlOptions(collapsed = F)
                     )
                   
                   
+                  
+                  
+                  
+                  #####
+                  
+                  
+                
                   
                   
                   
@@ -2057,22 +2516,32 @@ selpl=   function(){
                 if(input$quantiles=="85"){
                   
                   
-                  mapdata$Q85_ld_zyp=cut(  mapdata$Q85_ld_zyp, breaks=c(-7,-2,0,2,7), 
-                                          labels= c("<-2","<0",  ">0",  ">2"))
                   
-                  COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q85_ld_zyp)
+                  
+                  ######
+                  
+                  
+                  
+                  
+                  title <- tags$div(
+                    tag.map.title, HTML("Sum of Days under Threshold(Q85) - Zyp Trend")
+                  ) 
+                  
+                  ldzypQ85= as.numeric(mapdata$Q85_ld_zyp)
+                  
+                  pal=colorNumeric("RdBu", domain=     ldzypQ85)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
                     clearControls()%>%
                     clearMarkers() %>%
                     addTiles() %>%
-                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q85_ld_zyp), 
+                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(   ldzypQ85),
                                      
                                      
                                      
                                      popup = ~paste(
-                                       paste('<b>', 'Value', '</b>',   Q85_ld_zyp), 
+                                       
                                        paste('<b>',  'Station', '</b>', station),
                                        paste('<b>',  'River', '</b>', river),
                                        
@@ -2084,16 +2553,22 @@ selpl=   function(){
                     addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                     addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                     
-                    
-                    addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                    addLegend(pal=pal, position="topleft", values=    ldzypQ85, title="Slope")%>%
+                    addControl(title, position="topright", className="map-title")%>%
                     
                     addLayersControl(
+                      
                       baseGroups = c("Open Street Map", "Terrain Background"),
                       position = "topright",
+                      
                       options = layersControlOptions(collapsed = F)
                     )
                   
                   
+                  
+                  #####
+                  
+                 
                   
                   
                   
@@ -2101,22 +2576,27 @@ selpl=   function(){
                 if(input$quantiles=="90"){
                   
                   
-                  mapdata$Q90_ld_zyp=cut(  mapdata$Q90_ld_zyp, breaks=c(-7,-2,0,2,7), 
-                                          labels= c("<-2","<0",  ">0",  ">2"))
+                  ######
                   
-                  COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q90_ld_zyp)
+                  title <- tags$div(
+                    tag.map.title, HTML("Sum of Days under Threshold(Q90) - Zyp Trend")
+                  ) 
+                  
+                  ldzypQ90= as.numeric(mapdata$Q90_ld_zyp)
+                  
+                  pal=colorNumeric("RdBu", domain=     ldzypQ90)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
                     clearControls()%>%
                     clearMarkers() %>%
                     addTiles() %>%
-                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q90_ld_zyp), 
+                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(   ldzypQ90),
                                      
                                      
                                      
                                      popup = ~paste(
-                                       paste('<b>', 'Value', '</b>',  Q90_ld_zyp), 
+                                       
                                        paste('<b>',  'Station', '</b>', station),
                                        paste('<b>',  'River', '</b>', river),
                                        
@@ -2128,39 +2608,52 @@ selpl=   function(){
                     addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                     addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                     
-                    
-                    addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                    addLegend(pal=pal, position="topleft", values=    ldzypQ90, title="Slope")%>%
+                    addControl(title, position="topright", className="map-title")%>%
                     
                     addLayersControl(
+                      
                       baseGroups = c("Open Street Map", "Terrain Background"),
                       position = "topright",
+                      
                       options = layersControlOptions(collapsed = F)
                     )
                   
                   
                   
+                  #####
+                  
+                  
+               
                   
                   
                 }
                 if(input$quantiles=="95"){
                   
                   
-                  mapdata$Q95_ld_zyp=cut(  mapdata$Q95_ld_zyp, breaks=c(-7,-2,0,2,7), 
-                                          labels= c("<-2","<0",  ">0",  ">2"))
                   
-                  COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q95_ld_zyp)
+                  #######
+                  
+                  
+                  title <- tags$div(
+                    tag.map.title, HTML("Sum of Days under Threshold(Q95) - Zyp Trend")
+                  ) 
+                  
+                  ldzypQ95= as.numeric(mapdata$Q95_ld_zyp)
+                  
+                  pal=colorNumeric("RdBu", domain=     ldzypQ95)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
                     clearControls()%>%
                     clearMarkers() %>%
                     addTiles() %>%
-                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q95_ld_zyp), 
+                    addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(   ldzypQ95),
                                      
                                      
                                      
                                      popup = ~paste(
-                                       paste('<b>', 'Value', '</b>',   Q95_ld_zyp), 
+                                       
                                        paste('<b>',  'Station', '</b>', station),
                                        paste('<b>',  'River', '</b>', river),
                                        
@@ -2172,15 +2665,26 @@ selpl=   function(){
                     addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                     addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                     
-                    
-                    addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                    addLegend(pal=pal, position="topleft", values=    ldzypQ95, title="Slope")%>%
+                    addControl(title, position="topright", className="map-title")%>%
                     
                     addLayersControl(
+                      
                       baseGroups = c("Open Street Map", "Terrain Background"),
                       position = "topright",
+                      
                       options = layersControlOptions(collapsed = F)
                     )
                   
+                  
+                  ######
+                  
+                  
+                  
+                  
+                  
+                  
+                 
                   
                   
                   
@@ -2202,23 +2706,28 @@ selpl=   function(){
                   
                   if(input$quantiles=="70"){
                     
+                    #####
                     
-                    mapdata$Q70_tmax_lm=cut(  mapdata$Q70_tmax_lm, breaks=c(-7,-2,0,2,7), 
-                                             labels= c("<-2","<0",  ">0",  ">2"))
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q70_tmax_lm)
+                    title <- tags$div(
+                      tag.map.title, HTML("Maximum Timespan under Threshold(Q70) - Linear Model Trend")
+                    ) 
+                    
+                    tmaxlmQ70= as.numeric(mapdata$Q70_tmax_lm)
+                    
+                    pal=colorNumeric("RdBu", domain=    tmaxlmQ70)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q70_tmax_lm), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  tmaxlmQ70),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',  Q70_tmax_lm), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -2230,16 +2739,22 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=    tmaxlmQ70, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
                     
                     
+                    
+                    ######
+                    
+                   
                     
                     
                     
@@ -2247,22 +2762,31 @@ selpl=   function(){
                   if(input$quantiles=="75"){
                     
                     
-                    mapdata$Q75_tmax_lm=cut(  mapdata$Q75_tmax_lm, breaks=c(-7,-2,0,2,7), 
-                                             labels= c("<-2","<0",  ">0",  ">2"))
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q75_tmax_lm)
+                    
+                    ######
+                    
+                    
+                    
+                    title <- tags$div(
+                      tag.map.title, HTML("Maximum Timespan under Threshold(Q75) - Linear Model Trend")
+                    ) 
+                    
+                    tmaxlmQ75= as.numeric(mapdata$Q75_tmax_lm)
+                    
+                    pal=colorNumeric("RdBu", domain=    tmaxlmQ75)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q75_tmax_lm), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  tmaxlmQ75),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',   Q75_tmax_lm), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -2274,14 +2798,24 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=    tmaxlmQ75, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
+                    
+                    
+                    
+                    
+                    #######
+                    
+                    
+                    
                     
                     
                     
@@ -2291,22 +2825,30 @@ selpl=   function(){
                   if(input$quantiles=="80"){
                     
                     
-                    mapdata$Q80_tmax_lm=cut(  mapdata$Q80_tmax_lm, breaks=c(-7,-2,0,2,7), 
-                                             labels= c("<-2","<0",  ">0",  ">2"))
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q80_tmax_lm)
+                    #######
+                    
+                    
+                    
+                    title <- tags$div(
+                      tag.map.title, HTML("Maximum Timespan under Threshold(Q80) - Linear Model Trend")
+                    ) 
+                    
+                    tmaxlmQ80= as.numeric(mapdata$Q80_tmax_lm)
+                    
+                    pal=colorNumeric("RdBu", domain=    tmaxlmQ80)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q80_tmax_lm), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  tmaxlmQ80),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',  Q80_tmax_lm), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -2318,14 +2860,24 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=    tmaxlmQ80, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
+                    
+                    
+                    
+                    
+                    
+                    #######
+                    
+                   
                     
                     
                     
@@ -2335,22 +2887,28 @@ selpl=   function(){
                   if(input$quantiles=="85"){
                     
                     
-                    mapdata$Q85_tmax_lm=cut(  mapdata$Q85_tmax_lm, breaks=c(-7,-2,0,2,7), 
-                                             labels= c("<-2","<0",  ">0",  ">2"))
+                    ######
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q85_tmax_lm)
+                    
+                    title <- tags$div(
+                      tag.map.title, HTML("Maximum Timespan under Threshold(Q85) - Linear Model Trend")
+                    ) 
+                    
+                    tmaxlmQ85= as.numeric(mapdata$Q85_tmax_lm)
+                    
+                    pal=colorNumeric("RdBu", domain=    tmaxlmQ85)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q85_tmax_lm), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  tmaxlmQ85),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',   Q85_tmax_lm), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -2362,15 +2920,21 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=    tmaxlmQ85, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
                     
+                    ##########
+                    
+                    
+                   
                     
                     
                     
@@ -2379,22 +2943,28 @@ selpl=   function(){
                   if(input$quantiles=="90"){
                     
                     
-                    mapdata$Q90_tmax_lm=cut(  mapdata$Q90_tmax_lm, breaks=c(-7,-2,0,2,7), 
-                                             labels= c("<-2","<0",  ">0",  ">2"))
+                    #########
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q90_tmax_lm)
+                    
+                    title <- tags$div(
+                      tag.map.title, HTML("Maximum Timespan under Threshold(Q90) - Linear Model Trend")
+                    ) 
+                    
+                    tmaxlmQ90= as.numeric(mapdata$Q90_tmax_lm)
+                    
+                    pal=colorNumeric("RdBu", domain=    tmaxlmQ90)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q90_tmax_lm), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  tmaxlmQ90),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',   Q90_tmax_lm), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -2406,39 +2976,54 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=    tmaxlmQ90, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
                     
                     
                     
+                    
+                    
+                    #########
+                    
+                    
+                   
                     
                     
                   }
                   if(input$quantiles=="95"){
                     
                     
-                    mapdata$Q95_tmax_lm=cut(  mapdata$Q95_tmax_lm, breaks=c(-7,-2,0,2,7), 
-                                             labels= c("<-2","<0",  ">0",  ">2"))
+                    #######
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q95_tmax_lm)
+                    
+                    
+                    title <- tags$div(
+                      tag.map.title, HTML("Maximum Timespan under Threshold(Q95) - Linear Model Trend")
+                    ) 
+                    
+                    tmaxlmQ95= as.numeric(mapdata$Q95_tmax_lm)
+                    
+                    pal=colorNumeric("RdBu", domain=    tmaxlmQ95)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q95_tmax_lm), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  tmaxlmQ95),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',   Q95_tmax_lm), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -2450,16 +3035,24 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=    tmaxlmQ95, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
                     
                     
+                    
+                    
+                    #######
+                    
+                    
+                   
                     
                     
                     
@@ -2473,22 +3066,28 @@ selpl=   function(){
                   if(input$quantiles=="70"){
                     
                     
-                    mapdata$Q70_ld_lm=cut(  mapdata$Q70_ld_lm, breaks=c(-7,-2,0,2,7), 
-                                           labels= c("<-2","<0",  ">0",  ">2"))
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q70_ld_lm)
+                    #####
+                    
+                    title <- tags$div(
+                      tag.map.title, HTML("Sum of Days under Threshold(Q70) - Linear Model Trend")
+                    ) 
+                    
+                    ldlmQ70= as.numeric(mapdata$Q70_ld_lm)
+                    
+                    pal=colorNumeric("RdBu", domain=    ldlmQ70)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q70_ld_lm), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( ldlmQ70),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',  Q70_ld_lm), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -2500,15 +3099,25 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=    ldlmQ70, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
                     
+                    
+                    
+                    
+                    
+                    #####
+                    
+                    
+                   
                     
                     
                     
@@ -2517,22 +3126,28 @@ selpl=   function(){
                   if(input$quantiles=="75"){
                     
                     
-                    mapdata$Q75_ld_lm=cut(  mapdata$Q75_ld_lm, breaks=c(-7,-2,0,2,7), 
-                                           labels= c("<-2","<0",  ">0",  ">2"))
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q75_ld_lm)
+                    #######
+                    
+                    title <- tags$div(
+                      tag.map.title, HTML("Sum of Days under Threshold(Q75) - Linear Model Trend")
+                    ) 
+                    
+                    ldlmQ75= as.numeric(mapdata$Q75_ld_lm)
+                    
+                    pal=colorNumeric("RdBu", domain=    ldlmQ75)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q75_ld_lm), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( ldlmQ75),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',  Q75_ld_lm), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -2544,16 +3159,22 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=    ldlmQ75, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
                     
                     
+                    
+                    ######
+               
+                   
                     
                     
                     
@@ -2561,22 +3182,28 @@ selpl=   function(){
                   if(input$quantiles=="80"){
                     
                     
-                    mapdata$Q80_ld_lm=cut(  mapdata$Q80_ld_lm, breaks=c(-7,-2,0,2,7), 
-                                           labels= c("<-2","<0",  ">0",  ">2"))
+                    #######
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q80_ld_lm)
+                    
+                    title <- tags$div(
+                      tag.map.title, HTML("Sum of Days under Threshold(Q80) - Linear Model Trend")
+                    ) 
+                    
+                    ldlmQ80= as.numeric(mapdata$Q80_ld_lm)
+                    
+                    pal=colorNumeric("RdBu", domain=    ldlmQ80)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q80_ld_lm), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( ldlmQ80),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',  Q80_ld_lm), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -2588,16 +3215,21 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=    ldlmQ80, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
                     
                     
+                    #######
+                    
+                  
                     
                     
                     
@@ -2605,22 +3237,28 @@ selpl=   function(){
                   if(input$quantiles=="85"){
                     
                     
-                    mapdata$Q85_ld_lm=cut(  mapdata$Q85_ld_lm, breaks=c(-7,-2,0,2,7), 
-                                           labels= c("<-2","<0",  ">0",  ">2"))
+                    #####
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q85_ld_lm)
+                    
+                    title <- tags$div(
+                      tag.map.title, HTML("Sum of Days under Threshold(Q85) - Linear Model Trend")
+                    ) 
+                    
+                    ldlmQ85= as.numeric(mapdata$Q85_ld_lm)
+                    
+                    pal=colorNumeric("RdBu", domain=    ldlmQ85)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q85_ld_lm), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( ldlmQ85),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',   Q85_ld_lm), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -2632,14 +3270,20 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=    ldlmQ85, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
+                    
+                    #####
+                    
+                   
                     
                     
                     
@@ -2648,23 +3292,28 @@ selpl=   function(){
                   }
                   if(input$quantiles=="90"){
                     
+                    ######
                     
-                    mapdata$Q90_ld_lm=cut(  mapdata$Q90_ld_lm, breaks=c(-7,-2,0,2,7), 
-                                           labels= c("<-2","<0",  ">0",  ">2"))
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q90_ld_lm)
+                    title <- tags$div(
+                      tag.map.title, HTML("Sum of Days under Threshold(Q90) - Linear Model Trend")
+                    ) 
+                    
+                    ldlmQ90= as.numeric(mapdata$Q90_ld_lm)
+                    
+                    pal=colorNumeric("RdBu", domain=    ldlmQ90)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q90_ld_lm), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( ldlmQ90),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',   Q90_ld_lm), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -2676,16 +3325,20 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=    ldlmQ90, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
                     
+                    ######
                     
+                   
                     
                     
                     
@@ -2693,22 +3346,28 @@ selpl=   function(){
                   if(input$quantiles=="95"){
                     
                     
-                    mapdata$Q95_ld_lm=cut(  mapdata$Q95_ld_lm, breaks=c(-7,-2,0,2,7), 
-                                           labels= c("<-2","<0",  ">0",  ">2"))
+                    #####
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q95_ld_lm)
+                    
+                    title <- tags$div(
+                      tag.map.title, HTML("Sum of Days under Threshold(Q95) - Linear Model Trend")
+                    ) 
+                    
+                    ldlmQ95= as.numeric(mapdata$Q95_ld_lm)
+                    
+                    pal=colorNumeric("RdBu", domain=    ldlmQ95)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q95_ld_lm), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( ldlmQ95),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',   Q95_ld_lm), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -2720,17 +3379,21 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=    ldlmQ95, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
                     
                     
+                    ####
                     
+                   
                     
                     
                   }
@@ -2738,9 +3401,7 @@ selpl=   function(){
                   
                   
                 }
-                
-                
-                
+              
                 
               }
               
@@ -2751,22 +3412,28 @@ selpl=   function(){
                   if(input$quantiles=="70"){
                     
                     
-                    mapdata$Q70sigtmax=cut(  mapdata$Q70sigtmax, breaks=c(-7,-2,0,2,7), 
-                                            labels= c("<-2","<0",  ">0",  ">2"))
+                    #####
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q70sigtmax)
+                    
+                    title <- tags$div(
+                      tag.map.title, HTML("Significance: Maximum Timespan under Threshold(Q70) - Zyp Trend")
+                    ) 
+                    
+                    tmaxsigQ70= as.numeric(mapdata$Q70sigtmax)
+                    
+                    pal=colorNumeric("RdBu", domain=    tmaxsigQ70)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q70sigtmax), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( tmaxsigQ70),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',  Q70sigtmax), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -2778,14 +3445,23 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=   tmaxsigQ70, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
+                    
+                    
+                    
+                    #####
+                    
+                    
+                  
                     
                     
                     
@@ -2794,23 +3470,29 @@ selpl=   function(){
                   }
                   if(input$quantiles=="75"){
                     
+                    ######
                     
-                    mapdata$Q75sigtmax=cut(  mapdata$Q75sigtmax, breaks=c(-7,-2,0,2,7), 
-                                            labels= c("<-2","<0",  ">0",  ">2"))
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q75sigtmax)
+                    
+                    title <- tags$div(
+                      tag.map.title, HTML("Significance: Maximum Timespan under Threshold(Q75) - Zyp Trend")
+                    ) 
+                    
+                    tmaxsigQ75= as.numeric(mapdata$Q75sigtmax)
+                    
+                    pal=colorNumeric("RdBu", domain=    tmaxsigQ75)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q75sigtmax), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( tmaxsigQ75),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',   Q75sigtmax), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -2822,15 +3504,21 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=   tmaxsigQ75, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
                     
+                    
+                    #####
+                    
+                   
                     
                     
                     
@@ -2839,23 +3527,28 @@ selpl=   function(){
                   if(input$quantiles=="80"){
                     
                     
-                    mapdata$Q80sigtmax=cut(  mapdata$Q80sigtmax, breaks=c(-7,-2,0,2,7), 
-                                            labels= c("<-2","<0",  ">0",  ">2"))
+                    ######
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q80sigtmax)
+                    
+                    title <- tags$div(
+                      tag.map.title, HTML("Significance: Maximum Timespan under Threshold(Q80) - Zyp Trend")
+                    ) 
+                    
+                    tmaxsigQ80= as.numeric(mapdata$Q80sigtmax)
+                    
+                    pal=colorNumeric("RdBu", domain=    tmaxsigQ80)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q80sigtmax), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( tmaxsigQ80),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',  
-                                               Q80sigtmax), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -2867,15 +3560,22 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=   tmaxsigQ80, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
                     
+                    
+                    ######
+                    
+                    
+                     
                     
                     
                     
@@ -2884,22 +3584,28 @@ selpl=   function(){
                   if(input$quantiles=="85"){
                     
                     
-                    mapdata$Q85sigtmax=cut(  mapdata$Q85sigtmax, breaks=c(-7,-2,0,2,7), 
-                                            labels= c("<-2","<0",  ">0",  ">2"))
+                    ######
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q85sigtmax)
+                    
+                    title <- tags$div(
+                      tag.map.title, HTML("Significance: Maximum Timespan under Threshold(Q85) - Zyp Trend")
+                    ) 
+                    
+                    tmaxsigQ85= as.numeric(mapdata$Q85sigtmax)
+                    
+                    pal=colorNumeric("RdBu", domain=    tmaxsigQ85)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q85sigtmax), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( tmaxsigQ85),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',   Q85sigtmax), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -2911,14 +3617,22 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=   tmaxsigQ85, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
+                    
+                    
+                    ######
+                    
+                    
+                   
                     
                     
                     
@@ -2928,22 +3642,29 @@ selpl=   function(){
                   if(input$quantiles=="90"){
                     
                     
-                    mapdata$Q90sigtmax=cut(  mapdata$Q90sigtmax, breaks=c(-7,-2,0,2,7), 
-                                            labels= c("<-2","<0",  ">0",  ">2"))
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q90_tmax_lm)
+                    ######
+                    
+                    
+                    title <- tags$div(
+                      tag.map.title, HTML("Significance: Maximum Timespan under Threshold(Q90) - Zyp Trend")
+                    ) 
+                    
+                    tmaxsigQ90= as.numeric(mapdata$Q90sigtmax)
+                    
+                    pal=colorNumeric("RdBu", domain=    tmaxsigQ90)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q90_tmax_lm), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( tmaxsigQ90),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',   Q90_tmax_lm), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -2955,39 +3676,48 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=   tmaxsigQ90, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
                     
                     
+                    ######
                     
+                   
                     
                     
                   }
                   if(input$quantiles=="95"){
                     
+                    ######
                     
-                    mapdata$Q95sigtmax=cut(  mapdata$Q95sigtmax, breaks=c(-7,-2,0,2,7), 
-                                            labels= c("<-2","<0",  ">0",  ">2"))
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q95sigtmax)
+                    title <- tags$div(
+                      tag.map.title, HTML("Significance: Maximum Timespan under Threshold(Q95) - Zyp Trend")
+                    ) 
+                    
+                    tmaxsigQ95= as.numeric(mapdata$Q95sigtmax)
+                    
+                    pal=colorNumeric("RdBu", domain=    tmaxsigQ95)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q95sigtmax), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( tmaxsigQ95),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',   Q95sigtmax), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -2999,16 +3729,21 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=   tmaxsigQ95, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
                     
                     
+                    #####
+                    
+                  
                     
                     
                     
@@ -3022,22 +3757,27 @@ selpl=   function(){
                   if(input$quantiles=="70"){
                     
                     
-                    mapdata$Q70sigld=cut(  mapdata$Q70sigld, breaks=c(-7,-2,0,2,7), 
-                                          labels= c("<-2","<0",  ">0",  ">2"))
+                    #####
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q70sigld)
+                    title <- tags$div(
+                      tag.map.title, HTML("Significance: Sum of Days under Threshold(Q70) - Zyp Trend")
+                    ) 
+                    
+                    ldsigQ70= as.numeric(mapdata$Q70sigld)
+                    
+                    pal=colorNumeric("RdBu", domain=    ldsigQ70)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q70sigld), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  ldsigQ70),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',   Q70sigld), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -3049,16 +3789,22 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=   ldsigQ70, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
                     
                     
+                    #####
+                    
+                    
+                   
                     
                     
                     
@@ -3066,22 +3812,29 @@ selpl=   function(){
                   if(input$quantiles=="75"){
                     
                     
-                    mapdata$Q75sigld=cut(  mapdata$Q75sigld, breaks=c(-7,-2,0,2,7), 
-                                          labels= c("<-2","<0",  ">0",  ">2"))
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q75sigld)
+                    #####
+                    
+                    
+                    title <- tags$div(
+                      tag.map.title, HTML("Significance: Sum of Days under Threshold(Q75) - Zyp Trend")
+                    ) 
+                    
+                    ldsigQ75= as.numeric(mapdata$Q75sigld)
+                    
+                    pal=colorNumeric("RdBu", domain=    ldsigQ75)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q75sigld), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  ldsigQ75),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',  Q75sigld), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -3093,14 +3846,19 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=   ldsigQ75, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
+                    
+                    
+                    #####
                     
                     
                     
@@ -3110,22 +3868,29 @@ selpl=   function(){
                   if(input$quantiles=="80"){
                     
                     
-                    mapdata$Q80sigld=cut(  mapdata$Q80sigld, breaks=c(-7,-2,0,2,7), 
-                                           labels= c("<-2","<0",  ">0",  ">2"))
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q80sigld)
+                    #####
+                    
+                    
+                    title <- tags$div(
+                      tag.map.title, HTML("Significance: Sum of Days under Threshold(Q80) - Zyp Trend")
+                    ) 
+                    
+                    ldsigQ80= as.numeric(mapdata$Q80sigld)
+                    
+                    pal=colorNumeric("RdBu", domain=    ldsigQ80)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q80sigld), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  ldsigQ80),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',   Q80sigld), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -3137,39 +3902,47 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=   ldsigQ80, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
                     
                     
-                    
-                    
+                    #####
+        
                     
                   }
                   if(input$quantiles=="85"){
                     
+                    #####
                     
-                    mapdata$Q85sigld=cut(  mapdata$Q85sigld, breaks=c(-7,-2,0,2,7), 
-                                          labels= c("<-2","<0",  ">0",  ">2"))
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q85sigld)
+                    
+                    title <- tags$div(
+                      tag.map.title, HTML("Significance: Sum of Days under Threshold(Q85) - Zyp Trend")
+                    ) 
+                    
+                    ldsigQ85= as.numeric(mapdata$Q85sigld)
+                    
+                    pal=colorNumeric("RdBu", domain=    ldsigQ85)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q85sigld), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  ldsigQ85),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',  Q85sigld), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -3181,15 +3954,20 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values= c("<-5","<-4", "<-3", "<-2", "<-1","<0", ">0", ">1", ">2", ">3", ">4", ">5"))%>%
+                      addLegend(pal=pal, position="topleft", values=   ldsigQ85, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
                     
+                    #####
+                    
+                   
                     
                     
                     
@@ -3197,23 +3975,28 @@ selpl=   function(){
                   }
                   if(input$quantiles=="90"){
                     
+                    #####
                     
-                    mapdata$Q90sigld=cut(  mapdata$Q90sigld, breaks=c(-7,-2,0,7), 
-                                           labels=    )
                     
-                    COL <- colorFactor(palette = c("red", "orange", "blue", "lightgreen", "darkgreen"), domain=  mapdata$Q90sigld)
+                    title <- tags$div(
+                      tag.map.title, HTML("Significance: Sum of Days under Threshold(Q90) - Zyp Trend")
+                    ) 
+                    
+                    ldsigQ90= as.numeric(mapdata$Q90sigld)
+                    
+                    pal=colorNumeric("RdBu", domain=    ldsigQ90)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~COL(Q90sigld), 
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  ldsigQ90),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',  Q90sigld), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -3225,41 +4008,52 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright", pal=COL,values=  c("<-2","<0",  ">0",  ">2"))%>%
+                      addLegend(pal=pal, position="topleft", values=   ldsigQ90, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
                     
                     
+                    #####
+                    
+                    
+                   
                     
                     
                     
                   }
                   if(input$quantiles=="95"){
                     
-                    pal <- colorNumeric(
-                      palette = "YlGnBu",
-                      domain =mapdata$"Q95sigld"
-                    )
-               
                     
-
+                    
+                    #####
+                    
+                    
+                    title <- tags$div(
+                      tag.map.title, HTML("Significance: Sum of Days under Threshold(Q95) - Zyp Trend")
+                    ) 
+                    
+                    ldsigQ95= as.numeric(mapdata$Q95sigld)
+                    
+                    pal=colorNumeric("RdBu", domain=    ldsigQ95)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
                       clearControls()%>%
                       clearMarkers() %>%
                       addTiles() %>%
-                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Q95sigld),
+                      addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  ldsigQ95),
                                        
                                        
                                        
                                        popup = ~paste(
-                                         paste('<b>', 'Value', '</b>',  Q95sigld), 
+                                         
                                          paste('<b>',  'Station', '</b>', station),
                                          paste('<b>',  'River', '</b>', river),
                                          
@@ -3271,18 +4065,21 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      
-                      addLegend(position="topright",  pal = pal, values = ~Q95sigld
-                                )%>%
+                      addLegend(pal=pal, position="topleft", values=   ldsigQ95, title="Slope")%>%
+                      addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
+                        
                         baseGroups = c("Open Street Map", "Terrain Background"),
                         position = "topright",
+                        
                         options = layersControlOptions(collapsed = F)
                       )
                     
                     
+                    #####
                     
+                  
                     
                     
                   }
