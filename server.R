@@ -4,13 +4,12 @@ library(tidyverse)
 library(tigris)
 library(leaflet)
 install.packages("Lchiffon/leafletCN")
+install.packages("viridis")
+library(viridis)
 
 
 server= function(input, output, session){
-<<<<<<< HEAD
   
-=======
->>>>>>> 283eff704d1adacc78352522b4b263420ce99ab2
 
   
   # Introduction ------------------------------------------------------------
@@ -621,17 +620,10 @@ selpl=   function(){
       }
       if (input$season_trend=="Spring"){
         season="SP"
-<<<<<<< HEAD
       }
       if (input$season_trend=="Summer"){
         season="SU"
       }
-=======
-      }
-      if (input$season_trend=="Summer"){
-        season="SU"
-      }
->>>>>>> 283eff704d1adacc78352522b4b263420ce99ab2
       
       
       
@@ -655,7 +647,6 @@ selpl=   function(){
         
         
         
-<<<<<<< HEAD
         
         trendpl=function(){
           if (input$trendpltype=="Trend of minimum Values"){
@@ -681,33 +672,6 @@ selpl=   function(){
         }
         
         
-=======
-        
-        trendpl=function(){
-          if (input$trendpltype=="Trend of minimum Values"){
-            
-            plotr=Qmin_trend(data=data2,  station=stat_name, mod=1) 
-            return(plotr)
-          }
-          if (input$trendpltype=="NMxQ-Trend"){
-            x_val=input$xVALUE
-            
-            plotr=NMxQ_trend(data=data2,  station=stat_name, x=x_val, seasonal=season, graphic=T)
-            return(plotr)
-          }
-          if (input$trendpltype=="Trend of Mean Values"){
-            
-            
-            plotr=MQ_trend(data=data2,  station=stat_name, seasonal=seas )
-            return(plotr)
-          }
-          
-          
-          
-        }
-        
-        
->>>>>>> 283eff704d1adacc78352522b4b263420ce99ab2
         output$trendplot=renderPlot({trendpl()})
         
         
@@ -2038,7 +2002,7 @@ selpl=   function(){
                   
                   tmaxzypQ70= as.numeric(mapdata$Q70_tmax_zyp)
                   
-                  pal=colorNumeric("RdBu", domain=    tmaxzypQ70)
+                  pal=colorNumeric("RdBu", reverse=T,domain=    tmaxzypQ70)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
@@ -2096,7 +2060,7 @@ selpl=   function(){
                   
                   tmaxzypQ75= as.numeric(mapdata$Q75_tmax_zyp)
                   
-                  pal=colorNumeric("RdBu", domain=    tmaxzypQ75)
+                   pal=colorNumeric("RdBu", reverse=T, domain=    tmaxzypQ75)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
@@ -2163,7 +2127,7 @@ selpl=   function(){
                   
                   tmaxzypQ80= as.numeric(mapdata$Q80_tmax_zyp)
                   
-                  pal=colorNumeric("RdBu", domain=    tmaxzypQ80)
+                   pal=colorNumeric("RdBu", reverse=T, domain=    tmaxzypQ80)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
@@ -2221,7 +2185,7 @@ selpl=   function(){
                   
                   tmaxzypQ85= as.numeric(mapdata$Q85_tmax_zyp)
                   
-                  pal=colorNumeric("RdBu", domain=    tmaxzypQ85)
+                   pal=colorNumeric("RdBu", reverse=T, domain=    tmaxzypQ85)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
@@ -2280,7 +2244,7 @@ selpl=   function(){
                   
                   tmaxzypQ90= as.numeric(mapdata$Q90_tmax_zyp)
                   
-                  pal=colorNumeric("RdBu", domain=    tmaxzypQ90)
+                   pal=colorNumeric("RdBu", reverse=T, domain=    tmaxzypQ90)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
@@ -2333,7 +2297,7 @@ selpl=   function(){
                   
                   tmaxzypQ95= as.numeric(mapdata$Q95_tmax_zyp)
                   
-                  pal=colorNumeric("RdBu", domain=    tmaxzypQ95)
+                   pal=colorNumeric("RdBu", reverse=T, domain=    tmaxzypQ95)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
@@ -2392,7 +2356,7 @@ selpl=   function(){
                   
                   ldzypQ70= as.numeric(mapdata$Q70_ld_zyp)
                   
-                  pal=colorNumeric("RdBu", domain=     ldzypQ70)
+                   pal=colorNumeric("RdBu", reverse=T, domain=     ldzypQ70)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
@@ -2447,7 +2411,7 @@ selpl=   function(){
                   
                   ldzypQ75= as.numeric(mapdata$Q75_ld_zyp)
                   
-                  pal=colorNumeric("RdBu", domain=     ldzypQ75)
+                   pal=colorNumeric("RdBu", reverse=T, domain=     ldzypQ75)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
@@ -2504,7 +2468,7 @@ selpl=   function(){
                   
                   ldzypQ80= as.numeric(mapdata$Q80_ld_zyp)
                   
-                  pal=colorNumeric("RdBu", domain=     ldzypQ80)
+                   pal=colorNumeric("RdBu", reverse=T, domain=     ldzypQ80)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
@@ -2567,7 +2531,7 @@ selpl=   function(){
                   
                   ldzypQ85= as.numeric(mapdata$Q85_ld_zyp)
                   
-                  pal=colorNumeric("RdBu", domain=     ldzypQ85)
+                   pal=colorNumeric("RdBu", reverse=T, domain=     ldzypQ85)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
@@ -2622,7 +2586,7 @@ selpl=   function(){
                   
                   ldzypQ90= as.numeric(mapdata$Q90_ld_zyp)
                   
-                  pal=colorNumeric("RdBu", domain=     ldzypQ90)
+                   pal=colorNumeric("RdBu", reverse=T, domain=     ldzypQ90)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
@@ -2679,7 +2643,7 @@ selpl=   function(){
                   
                   ldzypQ95= as.numeric(mapdata$Q95_ld_zyp)
                   
-                  pal=colorNumeric("RdBu", domain=     ldzypQ95)
+                   pal=colorNumeric("RdBu", reverse=T, domain=     ldzypQ95)
                   
                   leafletProxy("datamap",session )%>%
                     clearPopups() %>% 
@@ -2753,7 +2717,7 @@ selpl=   function(){
                     
                     tmaxlmQ70= as.numeric(mapdata$Q70_tmax_lm)
                     
-                    pal=colorNumeric("RdBu", domain=    tmaxlmQ70)
+                     pal=colorNumeric("RdBu", reverse=T, domain=    tmaxlmQ70)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -2812,7 +2776,7 @@ selpl=   function(){
                     
                     tmaxlmQ75= as.numeric(mapdata$Q75_tmax_lm)
                     
-                    pal=colorNumeric("RdBu", domain=    tmaxlmQ75)
+                     pal=colorNumeric("RdBu", reverse=T, domain=    tmaxlmQ75)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -2874,7 +2838,7 @@ selpl=   function(){
                     
                     tmaxlmQ80= as.numeric(mapdata$Q80_tmax_lm)
                     
-                    pal=colorNumeric("RdBu", domain=    tmaxlmQ80)
+                     pal=colorNumeric("RdBu", reverse=T, domain=    tmaxlmQ80)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -2934,7 +2898,7 @@ selpl=   function(){
                     
                     tmaxlmQ85= as.numeric(mapdata$Q85_tmax_lm)
                     
-                    pal=colorNumeric("RdBu", domain=    tmaxlmQ85)
+                     pal=colorNumeric("RdBu", reverse=T, domain=    tmaxlmQ85)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -2990,7 +2954,7 @@ selpl=   function(){
                     
                     tmaxlmQ90= as.numeric(mapdata$Q90_tmax_lm)
                     
-                    pal=colorNumeric("RdBu", domain=    tmaxlmQ90)
+                     pal=colorNumeric("RdBu", reverse=T, domain=    tmaxlmQ90)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -3049,7 +3013,7 @@ selpl=   function(){
                     
                     tmaxlmQ95= as.numeric(mapdata$Q95_tmax_lm)
                     
-                    pal=colorNumeric("RdBu", domain=    tmaxlmQ95)
+                     pal=colorNumeric("RdBu", reverse=T, domain=    tmaxlmQ95)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -3113,7 +3077,7 @@ selpl=   function(){
                     
                     ldlmQ70= as.numeric(mapdata$Q70_ld_lm)
                     
-                    pal=colorNumeric("RdBu", domain=    ldlmQ70)
+                     pal=colorNumeric("RdBu", reverse=T, domain=    ldlmQ70)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -3173,7 +3137,7 @@ selpl=   function(){
                     
                     ldlmQ75= as.numeric(mapdata$Q75_ld_lm)
                     
-                    pal=colorNumeric("RdBu", domain=    ldlmQ75)
+                     pal=colorNumeric("RdBu", reverse=T, domain=    ldlmQ75)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -3229,7 +3193,7 @@ selpl=   function(){
                     
                     ldlmQ80= as.numeric(mapdata$Q80_ld_lm)
                     
-                    pal=colorNumeric("RdBu", domain=    ldlmQ80)
+                     pal=colorNumeric("RdBu", reverse=T, domain=    ldlmQ80)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -3284,7 +3248,7 @@ selpl=   function(){
                     
                     ldlmQ85= as.numeric(mapdata$Q85_ld_lm)
                     
-                    pal=colorNumeric("RdBu", domain=    ldlmQ85)
+                     pal=colorNumeric("RdBu", reverse=T, domain=    ldlmQ85)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -3339,7 +3303,7 @@ selpl=   function(){
                     
                     ldlmQ90= as.numeric(mapdata$Q90_ld_lm)
                     
-                    pal=colorNumeric("RdBu", domain=    ldlmQ90)
+                     pal=colorNumeric("RdBu", reverse=T, domain=    ldlmQ90)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -3393,7 +3357,7 @@ selpl=   function(){
                     
                     ldlmQ95= as.numeric(mapdata$Q95_ld_lm)
                     
-                    pal=colorNumeric("RdBu", domain=    ldlmQ95)
+                     pal=colorNumeric("RdBu", reverse=T, domain=    ldlmQ95)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -3459,7 +3423,7 @@ selpl=   function(){
                     
                     tmaxsigQ70= as.numeric(mapdata$Q70sigtmax)
                     
-                    pal=colorNumeric("RdBu", domain=    tmaxsigQ70)
+                     pal=colorNumeric("viridis", reverse = T, domain=    tmaxsigQ70)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -3483,7 +3447,7 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      addLegend(pal=pal, position="topleft", values=   tmaxsigQ70, title="Slope")%>%
+                      addLegend(pal=pal, position="topleft", values=   tmaxsigQ70, title="Kendall's P-Value")%>%
                       addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
@@ -3518,7 +3482,7 @@ selpl=   function(){
                     
                     tmaxsigQ75= as.numeric(mapdata$Q75sigtmax)
                     
-                    pal=colorNumeric("RdBu", domain=    tmaxsigQ75)
+                      pal=colorNumeric("viridis", reverse = T, domain=    tmaxsigQ75)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -3542,7 +3506,7 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      addLegend(pal=pal, position="topleft", values=   tmaxsigQ75, title="Slope")%>%
+                      addLegend(pal=pal, position="topleft", values=   tmaxsigQ75, title="Kendall's P-Value")%>%
                       addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
@@ -3574,7 +3538,7 @@ selpl=   function(){
                     
                     tmaxsigQ80= as.numeric(mapdata$Q80sigtmax)
                     
-                    pal=colorNumeric("RdBu", domain=    tmaxsigQ80)
+                      pal=colorNumeric("viridis", reverse = T, domain=    tmaxsigQ80)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -3598,7 +3562,7 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      addLegend(pal=pal, position="topleft", values=   tmaxsigQ80, title="Slope")%>%
+                      addLegend(pal=pal, position="topleft", values=   tmaxsigQ80, title="Kendall's P-Value")%>%
                       addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
@@ -3631,7 +3595,7 @@ selpl=   function(){
                     
                     tmaxsigQ85= as.numeric(mapdata$Q85sigtmax)
                     
-                    pal=colorNumeric("RdBu", domain=    tmaxsigQ85)
+                      pal=colorNumeric("viridis", reverse = T, domain=    tmaxsigQ85)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -3655,7 +3619,7 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      addLegend(pal=pal, position="topleft", values=   tmaxsigQ85, title="Slope")%>%
+                      addLegend(pal=pal, position="topleft", values=   tmaxsigQ85, title="Kendall's P-Value")%>%
                       addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
@@ -3690,7 +3654,7 @@ selpl=   function(){
                     
                     tmaxsigQ90= as.numeric(mapdata$Q90sigtmax)
                     
-                    pal=colorNumeric("RdBu", domain=    tmaxsigQ90)
+                      pal=colorNumeric("viridis", reverse = T, domain=    tmaxsigQ90)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -3714,7 +3678,7 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      addLegend(pal=pal, position="topleft", values=   tmaxsigQ90, title="Slope")%>%
+                      addLegend(pal=pal, position="topleft", values=   tmaxsigQ90, title="Kendall's P-Value")%>%
                       addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
@@ -3743,7 +3707,7 @@ selpl=   function(){
                     
                     tmaxsigQ95= as.numeric(mapdata$Q95sigtmax)
                     
-                    pal=colorNumeric("RdBu", domain=    tmaxsigQ95)
+                      pal=colorNumeric("viridis", reverse = T, domain=    tmaxsigQ95)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -3767,7 +3731,7 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      addLegend(pal=pal, position="topleft", values=   tmaxsigQ95, title="Slope")%>%
+                      addLegend(pal=pal, position="topleft", values=   tmaxsigQ95, title="Kendall's P-Value")%>%
                       addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
@@ -3803,7 +3767,7 @@ selpl=   function(){
                     
                     ldsigQ70= as.numeric(mapdata$Q70sigld)
                     
-                    pal=colorNumeric("RdBu", domain=    ldsigQ70)
+                      pal=colorNumeric("viridis", reverse = T, domain=    ldsigQ70)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -3827,7 +3791,7 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      addLegend(pal=pal, position="topleft", values=   ldsigQ70, title="Slope")%>%
+                      addLegend(pal=pal, position="topleft", values=   ldsigQ70,title="Kendall's P-Value")%>%
                       addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
@@ -3860,7 +3824,7 @@ selpl=   function(){
                     
                     ldsigQ75= as.numeric(mapdata$Q75sigld)
                     
-                    pal=colorNumeric("RdBu", domain=    ldsigQ75)
+                      pal=colorNumeric("viridis", reverse = T, domain=    ldsigQ75)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -3884,7 +3848,7 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      addLegend(pal=pal, position="topleft", values=   ldsigQ75, title="Slope")%>%
+                      addLegend(pal=pal, position="topleft", values=   ldsigQ75, title="Kendall's P-Value")%>%
                       addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
@@ -3916,7 +3880,7 @@ selpl=   function(){
                     
                     ldsigQ80= as.numeric(mapdata$Q80sigld)
                     
-                    pal=colorNumeric("RdBu", domain=    ldsigQ80)
+                      pal=colorNumeric("viridis", reverse = T, domain=    ldsigQ80)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -3940,7 +3904,7 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      addLegend(pal=pal, position="topleft", values=   ldsigQ80, title="Slope")%>%
+                      addLegend(pal=pal, position="topleft", values=   ldsigQ80, title="Kendall's P-Value")%>%
                       addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
@@ -3968,7 +3932,7 @@ selpl=   function(){
                     
                     ldsigQ85= as.numeric(mapdata$Q85sigld)
                     
-                    pal=colorNumeric("RdBu", domain=    ldsigQ85)
+                      pal=colorNumeric("viridis", reverse = T, domain=    ldsigQ85)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -3992,7 +3956,7 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      addLegend(pal=pal, position="topleft", values=   ldsigQ85, title="Slope")%>%
+                      addLegend(pal=pal, position="topleft", values=   ldsigQ85,title="Kendall's P-Value")%>%
                       addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
@@ -4022,7 +3986,7 @@ selpl=   function(){
                     
                     ldsigQ90= as.numeric(mapdata$Q90sigld)
                     
-                    pal=colorNumeric("RdBu", domain=    ldsigQ90)
+                      pal=colorNumeric("viridis", reverse = T, domain=    ldsigQ90)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -4046,7 +4010,7 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      addLegend(pal=pal, position="topleft", values=   ldsigQ90, title="Slope")%>%
+                      addLegend(pal=pal, position="topleft", values=   ldsigQ90, title="Kendall's P-Value")%>%
                       addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
@@ -4079,7 +4043,7 @@ selpl=   function(){
                     
                     ldsigQ95= as.numeric(mapdata$Q95sigld)
                     
-                    pal=colorNumeric("RdBu", domain=    ldsigQ95)
+                      pal=colorNumeric("viridis", reverse = T, domain=    ldsigQ95)
                     
                     leafletProxy("datamap",session )%>%
                       clearPopups() %>% 
@@ -4103,7 +4067,7 @@ selpl=   function(){
                       addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                       addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                       
-                      addLegend(pal=pal, position="topleft", values=   ldsigQ95, title="Slope")%>%
+                      addLegend(pal=pal, position="topleft", values=   ldsigQ95, title="Kendall's P-Value")%>%
                       addControl(title, position="topright", className="map-title")%>%
                       
                       addLayersControl(
@@ -4151,7 +4115,6 @@ selpl=   function(){
       
       
       
-<<<<<<< HEAD
     
 
   
@@ -4161,16 +4124,6 @@ selpl=   function(){
   
   
   
-=======
-    })
-  })
-
-# Reset -------------------------------------------------------------------
-
-  observeEvent({input$reset2},{
-    session$reload()
-  })  
->>>>>>> 283eff704d1adacc78352522b4b263420ce99ab2
   
   
   
