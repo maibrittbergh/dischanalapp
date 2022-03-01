@@ -112,7 +112,7 @@ tabPanel(title="Trend of Minimum Discharge",
          
          fluidRow(
            column(9, 
-                  
+                  conditionalPanel(condition="input.area_trend!='User Guide'",
                   
                   tabPanel("Areal Trends and Characteristics in Germany", 
                            column(12, h4("Click to See the Stations Name"), shinycssloaders::withSpinner(leaflet::leafletOutput("datamap", height="800px"),
@@ -123,14 +123,21 @@ tabPanel(title="Trend of Minimum Discharge",
                   
            ),
            
+           conditionalPanel(condition="input.area_trend=='User Guide'", 
+                            
+                            includeMarkdown()
+                            ),
+           
+           
+           
            column(3,
                   tabsetPanel(id="area_trend", 
-                              tabPanel("Settings", 
+                              tabPanel("Map Settings", 
                                        fluidRow(column(10, 
                                                        
                                                        
                                                        
-                                                       actionButton("CD", "Clear Data"),
+                                      
                                                        
                                                        
                                                        selectInput("trendtype2", label="Select Approach for area-based evaluation: ",
@@ -154,7 +161,7 @@ tabPanel(title="Trend of Minimum Discharge",
                                                                         
                                                                         selectInput("trendtypemq", label="Select Method to calculate the Trend:",
                                                                                     choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),
-                                                                        checkboxInput("go", "Click to calculate results", value=FALSE)), 
+                                                                        actionButton("go", "Click to calculate results")), 
                                                        
                                                        
                                                        #NMxQ                
@@ -170,7 +177,7 @@ tabPanel(title="Trend of Minimum Discharge",
                                                                         
                                                                         selectInput("trendtypemq2", label="Select Method to calculate the Trend:",
                                                                                     choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),
-                                                                        checkboxInput("go_NMxQ", "Click to (re)calculate results", value=FALSE)),
+                                                                        actionButton("go_NMxQ", "Click to (re)calculate results")),
                                                        
                                                        
                                                        
@@ -184,7 +191,7 @@ tabPanel(title="Trend of Minimum Discharge",
                                                                         selectInput("trendtypemq3", label="Select Method to calculate the Trend:",
                                                                                     choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),
                                                                         
-                                                                        checkboxInput("go_mintrend", "Click to (re)calculate results", value=FALSE)),
+                                                                        actionButton("go_mintrend", "Click to (re)calculate results")),
                                                        
                                                        
                                                        
@@ -208,7 +215,7 @@ tabPanel(title="Trend of Minimum Discharge",
                                                                         
                                                                         selectInput("quantiles", label="Quantile [%]:",
                                                                                     choices=c("70","75", "80","85", "90", "90", "95")) , 
-                                                                        checkboxInput("go_2", "Click to (re)calculate results", value=FALSE)), 
+                                                                        actionButton("go_2", "Click to (re)calculate results")), 
                                                        
                                                        
                                                        
@@ -219,24 +226,35 @@ tabPanel(title="Trend of Minimum Discharge",
                                                        
                                                        
                                                        
-                                                       
-                                                       actionButton("reset", "Reset")
-                                                       
+                                                       actionButton("CD", "Clear Data")
                                                        
                                                        
                                                        
                                                        
                                                        
                                                        
-                                       ))))))
+                                                       
+                                       ))), 
+                              
+                              tabPanel(id="User Guide"
+                                       
+  
+                                       
+                                       )
+                              
+                              
+                              )))
          
          
 ),
 
 
                 
- ######## Second One                
-               tabPanel(title="Discharge Map",
+           
+              
+
+# Second Tab --------------------------------------------------------------
+tabPanel(title="Discharge Map",
                          
                          fluidRow(
                            column(7, 
@@ -377,7 +395,7 @@ tabPanel(title="Trend of Minimum Discharge",
                 
                 
 
-# Second Tab --------------------------------------------------------------
+
 
                 
                 
