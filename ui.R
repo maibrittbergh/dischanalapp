@@ -101,9 +101,142 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
 
 # First Tab ---------------------------------------------------------------
 
+
+
+
+
+
+tabPanel(title="Trend of Minimum Discharge", 
+         shinyjs::useShinyjs(),
+         id = "side-panel",
+         
+         fluidRow(
+           column(9, 
+                  
+                  
+                  tabPanel("Areal Trends and Characteristics in Germany", 
+                           column(12, h4("Click to See the Stations Name"), shinycssloaders::withSpinner(leaflet::leafletOutput("datamap", height="800px"),
+                                                                                                         size=3, color="#0080b7"))) %>% withSpinner(color="#0dc5c1"), 
+                  
+                  
+                  
+                  
+           ),
+           
+           column(3,
+                  tabsetPanel(id="area_trend", 
+                              tabPanel("Settings", 
+                                       fluidRow(column(10, 
+                                                       
+                                                       
+                                                       
+                                                       actionButton("CD", "Clear Data"),
+                                                       
+                                                       
+                                                       selectInput("trendtype2", label="Select Approach for area-based evaluation: ",
+                                                                   choices=c( "MQ - Mean Discharge Trend","Trend Minimum Values","NMxQ", "Low Flow Period")) ,
+                                                       
+                                                       radioButtons("dataset", "Update Map, print Stations within Timerange for:", choices=c("All GRDC-Stations in Germany","Representative Stations only"), selected=character(0)), 
+                                                       
+                                                       selectInput("timerange2", "Select Timerange:",    choices=c("1820-2019", "1860-2019", "1900-2019", "1940-2019", "1980-2019")), 
+                                                       #"1980-2020")),
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       #MQ-Mean Discharge Trend
+                                                       
+                                                       conditionalPanel(condition="input.trendtype2=='MQ - Mean Discharge Trend'", 
+                                                                        selectInput("seasonmq", label="Select the Season:",
+                                                                                    choices=c("Spring",   "Summer", "Autumn", "Winter", 
+                                                                                              "Year")) , 
+                                                                        
+                                                                        selectInput("trendtypemq", label="Select Method to calculate the Trend:",
+                                                                                    choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),
+                                                                        checkboxInput("go", "Click to calculate results", value=FALSE)), 
+                                                       
+                                                       
+                                                       #NMxQ                
+                                                       
+                                                       
+                                                       conditionalPanel(condition="input.trendtype2=='NMxQ'", 
+                                                                        selectInput("xval", label="Select X-Value:",
+                                                                                    choices=c("7","14", "30","60")) , 
+                                                                        
+                                                                        selectInput("seasonmq2", label="Select the Season:",
+                                                                                    choices=c("Spring",   "Summer", "Autumn", "Winter", 
+                                                                                              "Year")),
+                                                                        
+                                                                        selectInput("trendtypemq2", label="Select Method to calculate the Trend:",
+                                                                                    choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),
+                                                                        checkboxInput("go_NMxQ", "Click to (re)calculate results", value=FALSE)),
+                                                       
+                                                       
+                                                       
+                                                       conditionalPanel(condition="input.trendtype2=='Trend Minimum Values'", 
+                                                                        
+                                                                        
+                                                                        selectInput("seasonmq3", label="Select the Season:",
+                                                                                    choices=c("Spring",   "Summer", "Autumn", "Winter", 
+                                                                                              "Year")) , 
+                                                                        
+                                                                        selectInput("trendtypemq3", label="Select Method to calculate the Trend:",
+                                                                                    choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),
+                                                                        
+                                                                        checkboxInput("go_mintrend", "Click to (re)calculate results", value=FALSE)),
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       ###Periodmeta 
+                                                       
+                                                       
+                                                       conditionalPanel(condition="input.trendtype2=='Low Flow Period'", 
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        selectInput("periodway", "Choose Value:", choices=c("Length of Maximum Period under Value","Sum of Days under Value")), 
+                                                                        
+                                                                        
+                                                                        
+                                                                        
+                                                                        selectInput("trendtypeperiod", label="Select Method to calculate the Trend:",
+                                                                                    choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),
+                                                                        
+                                                                        selectInput("quantiles", label="Quantile [%]:",
+                                                                                    choices=c("70","75", "80","85", "90", "90", "95")) , 
+                                                                        checkboxInput("go_2", "Click to (re)calculate results", value=FALSE)), 
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       actionButton("reset", "Reset")
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                                       
+                                       ))))))
+         
+         
+),
+
+
                 
-                
-                tabPanel(title="Discharge Map",
+ ######## Second One                
+               tabPanel(title="Discharge Map",
                          
                          fluidRow(
                            column(7, 
@@ -248,133 +381,7 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
 
                 
                 
-                
-                tabPanel(title="Trend of Minimum Discharge", 
-                         
-                         fluidRow(
-                           column(9, 
-        
-                                                               
-                                                               tabPanel("Areal Trends and Characteristics in Germany", 
-                                                                        column(12, h4("Click to See the Stations Name"), shinycssloaders::withSpinner(leaflet::leafletOutput("datamap", height="800px"),
-                                                                                                                                    size=3, color="#0080b7"))) %>% withSpinner(color="#0dc5c1"), 
-                                                          
-                         
-                         
-                         
-                         ),
-                         
-                         column(3,
-                                tabsetPanel(id="area_trend", 
-                                            tabPanel("Settings", 
-                                                     fluidRow(column(10, 
-                                                                     
-                                                                     
-                                                                     
-                                                                    actionButton("CD", "Clear Data"),
-                                                                     
-                                                                
-                                                                     selectInput("trendtype2", label="Select Approach for area-based evaluation: ",
-                                                                                 choices=c( "MQ - Mean Discharge Trend","Trend Minimum Values","NMxQ", "Low Flow Period")) ,
-                                                                     
-                                                                     radioButtons("dataset", "Update Map, print Stations within Timerange for:", choices=c("All GRDC-Stations in Germany","Representative Stations only"), selected=character(0)), 
-                                                             
-                                                                     selectInput("timerange2", "Select Timerange:",    choices=c("1820-2019", "1860-2019", "1900-2019", "1940-2019", "1980-2019")), 
-                                                                                                                          #"1980-2020")),
-                                                                     
-                                                                     
-                                                                   
-                                                          
-                                                                     
-                                                                     #MQ-Mean Discharge Trend
-                                                                     
-                                                                     conditionalPanel(condition="input.trendtype2=='MQ - Mean Discharge Trend'", 
-                                                                                      selectInput("seasonmq", label="Select the Season:",
-                                                                                                  choices=c("Spring",   "Summer", "Autumn", "Winter", 
-                                                                                                  "Year")) , 
-                                                                                    
-                                                                                                       selectInput("trendtypemq", label="Select Method to calculate the Trend:",
-                                                                                                                  choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),
-                                                                                      actionButton("go", "Start to calculate Trendmap")), 
-                                                                     
-                                                                                                      
-                                                                       #NMxQ                
-                                                                     
-                                                                     
-                                                                     conditionalPanel(condition="input.trendtype2=='NMxQ'", 
-                                                                                      selectInput("xval", label="Select X-Value:",
-                                                                                                  choices=c("7","14", "30","60")) , 
-                                                                                      
-                                                                                      selectInput("seasonmq2", label="Select the Season:",
-                                                                                                  choices=c("Spring",   "Summer", "Autumn", "Winter", 
-                                                                                                            "Year")),
-                                                                                             
-                                                                                      selectInput("trendtypemq2", label="Select Method to calculate the Trend:",
-                                                                                                  choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),
-                                                                                      actionButton("go_NMxQ", "Start to calculate Trendmap")),
-                                                                     
-                                                                     
-                                                                  
-                                                                     conditionalPanel(condition="input.trendtype2=='Trend Minimum Values'", 
-                                                                                     
-                                                                                      
-                                                                                      selectInput("seasonmq3", label="Select the Season:",
-                                                                                                  choices=c("Spring",   "Summer", "Autumn", "Winter", 
-                                                                                                            "Year")) , 
-                                                                                      
-                                                                                      selectInput("trendtypemq3", label="Select Method to calculate the Trend:",
-                                                                                                  choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),
-                                                                                      
-                                                                                      
-                                                                                      actionButton("go_mintrend", "Start to calculate Trendmap")),
-                                                                     
-                                                                     
-                                                                     
-                                                                     
-                                                                     ###Periodmeta 
-                                                                     
-                                                                     
-                                                                     conditionalPanel(condition="input.trendtype2=='Low Flow Period'", 
-                                                                           
-                                                                                      
-                                                                                      
-                                                                                      
-                                                                                      
-                                                                                  selectInput("periodway", "Choose Value:", choices=c("Length of Maximum Period under Value","Sum of Days under Value")), 
-                                                                                      
-                                                                                      
-                                                                            
-                                                                                      
-                                                                                      selectInput("trendtypeperiod", label="Select Method to calculate the Trend:",
-                                                                                                  choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),
-                                                                                  
-                                                                                  selectInput("quantiles", label="Quantile [%]:",
-                                                                                              choices=c("70","75", "80","85", "90", "90", "95")) , 
-                                                                                  actionButton("go_2", "Start to calculate Trendmap")), 
-                                                                  
-                                                                     
-                                                                     
-                                                                     
-                                                                     
-                                                                       
-                                                                     
-                                                                     
-                                                                     
-                                                                     
-                                                                      
-                                                                      actionButton("reset", "Reset")
-                                                                                      
-                                                                                      
-                                                                                      
-                                                                                     
-                                                                                      
-                                
-                                
-                                ))))))
-                         
-                         
-                         ),
-                
+              
                 
                 
 
