@@ -948,7 +948,8 @@ server= function(input, output, session){
           
           
           
-        }else if(input$dataset=="All GRDC-Stations in Germany"){
+        
+          }else if(input$dataset=="All GRDC-Stations in Germany"){
           
           
           leafletProxy("datamap",session, data=mapdata )%>%
@@ -2025,7 +2026,7 @@ server= function(input, output, session){
             
             Spzyp= as.numeric(mapdata$Spslopezyp)
             
-            pal=colorNumeric("RdYlBu", domain=  Spzyp)
+            pal=colorNumeric("RdYlBu", domain=  Spzyp, min=-3, max=3)
             
             leafletProxy("datamap",session )%>%
               clearPopups() %>% 
@@ -6572,6 +6573,4 @@ shinyApp(ui=ui, server=server)
 #anders Runden, kleine Flüsse sehen nicht sinnvoll aus ........
 # Input Dataset: Timerange and class of stations --------------------------
 
-Periodmeta[["1820-2019"]]$Q95sigld
-NMxQlist7[[1]]
-Periodmeta[[1]]
+
