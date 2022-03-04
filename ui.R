@@ -7,7 +7,7 @@
 
 #Pakete laden
 
-
+#sudo su - -c "R -e \"install.packages('readxl')\"
 #install.packages("leaflet")
 #install.packages("tmaptools")
 
@@ -87,10 +87,8 @@ repres=relstat=c("HOHENSAATEN-FINOW", "DRESDEN", "MAGDEBURG-STROMBRUECKE",
 
 
 
-
-
-
-jsResetCode <- "shinyjs.reset = function() {history.go(0)}"
+data3=data2
+data2=datan5
 
 
 ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"),
@@ -125,7 +123,7 @@ tabPanel(title="Trend of Minimum Discharge",
            
            conditionalPanel(condition="input.area_trend=='User Guide'", 
                             
-                            includeMarkdown()
+                          #  includeMarkdown()
                             ),
            
            
@@ -143,7 +141,7 @@ tabPanel(title="Trend of Minimum Discharge",
                                                        selectInput("trendtype2", label="Select Approach for area-based evaluation: ",
                                                                    choices=c( "MQ - Mean Discharge Trend","Trend Minimum Values","NMxQ", "Low Flow Period")) ,
                                                        
-                                                       radioButtons("dataset", "Update Map, print Stations within Timerange for:", choices=c("All GRDC-Stations in Germany","Representative Stations only"), selected=character(0)), 
+                                                       radioButtons("dataset", "Update Map, print Stations within Timerange for:", choices=c("All GRDC-Stations in Germany","Representative Stations only")), 
                                                        
                                                        selectInput("timerange2", "Select Timerange:",    choices=c("1820-2019", "1860-2019", "1900-2019", "1940-2019", "1980-2019")), 
                                                        #"1980-2020")),
@@ -246,7 +244,7 @@ tabPanel(title="Trend of Minimum Discharge",
                               )))
          
          
-),
+)),
 
 
                 

@@ -798,202 +798,11 @@ server= function(input, output, session){
   
   
   
-  
-  
-  observeEvent({input$trendtype2}, {
-    
-    mapd=data
+
     
     
     
-    if (input$trendtype2=="MQ - Mean Discharge Trend"){
-      mapd=MQlist
-      
-    }
-    if (input$trendtype2=="Trend Minimum Values"){
-      mapd=mintrendlist
-      
-    }
-    if (input$trendtype2=="NMxQ"){
-      
-      
-      
-      
-      if (input$xval=="14"){
-        mapd=NMxQlist14
-        
-      }
-      if (input$xval=="30"){
-        mapd=NMxQlist30
-        
-      }
-      if (input$xval=="60"){
-        mapd=NMxQlist60
-        
-      }else{
-        mapd=NMxQlist7}
-      
-      
-    }
-    if ( input$trendtype2=="Low Flow Period"){
-      mapd=Periodmeta
-    }
-    
-    
-    
-    observeEvent({input$timerange2}, {
-      
-      
-      
-      mapdata=mapd[[input$timerange2]]  
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      leafletProxy("datamap",session, data=mapdata )%>%
-        clearPopups() %>% 
-        clearMarkers() %>%
-        clearControls()%>%
-        addTiles() %>%
-        addCircleMarkers(data=mapdata , lat = ~latitude, lng = ~longitude, 
-                         
-                         
-                         
-                         popup = ~paste(
-                           
-                           paste('<b>',  'Station', '</b>', station),
-                           
-                           
-                           sep = '<br/>'),
-                         popupOptions = popupOptions(closeButton = FALSE)
-        )  %>%    
-        
-        addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
-        addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
-        
-        
-        
-        
-        addLayersControl(
-          baseGroups = c("Open Street Map", "Terrain Background"),
-          position = "topright",
-          options = layersControlOptions(collapsed = F)
-        )
-      
-      
-      
-      observeEvent({input$dataset}, {
-        
-        
-        if(input$dataset=="Representative Stations only"){
-          
-          l=  length(mapdata$station)
-          
-          iden=rep(F,l)
-          for ( i in 1:l){
-            iden[i]=is.element(mapdata$station[i], repres)
-            
-          }
-          
-          
-          mapdata=mapdata[which(iden==T),] 
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          leafletProxy("datamap",session, data=mapdata )%>%
-            clearPopups() %>% 
-            clearMarkers() %>%
-            addTiles() %>%
-            addCircleMarkers(data=mapdata ,lat = ~latitude, lng = ~longitude, 
-                             
-                             
-                             
-                             popup = ~paste(
-                               
-                               paste('<b>',  'Station', '</b>', station),
-                               
-                               
-                               sep = '<br/>'),
-                             popupOptions = popupOptions(closeButton = FALSE)
-            )  %>%    
-            
-            addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
-            addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
-            
-            
-            
-            
-            addLayersControl(
-              baseGroups = c("Open Street Map", "Terrain Background"),
-              position = "topright",
-              options = layersControlOptions(collapsed = F)
-            )
-          
-          
-          
-          
-          
-          
-          
-          
-        
-          }else if(input$dataset=="All GRDC-Stations in Germany"){
-          
-          
-          leafletProxy("datamap",session, data=mapdata )%>%
-            clearPopups() %>% 
-            clearMarkers() %>%
-            addTiles() %>%
-            addCircleMarkers(data=mapdata ,lat = ~latitude, lng = ~longitude, 
-                             
-                             
-                             
-                             popup = ~paste(
-                               
-                               paste('<b>',  'Station', '</b>', station),
-                               
-                               
-                               sep = '<br/>'),
-                             popupOptions = popupOptions(closeButton = FALSE)
-            )  %>%    
-            
-            addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
-            addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
-            
-            
-            
-            
-            addLayersControl(
-              baseGroups = c("Open Street Map", "Terrain Background"),
-              position = "topright",
-              options = layersControlOptions(collapsed = F)
-            )
-          
-          
-          
-          
-          
-          
-          
-          
-          
-        }
-        return(mapdata)
-        
-      })
-      
+
       
       #season, color collected
       
@@ -1029,6 +838,12 @@ server= function(input, output, session){
       #Meantrend   
       
       observeEvent(input$go,{
+        
+        mapd=MQlist
+        mapdata=mapd[[input$timerange2]]
+        
+        
+        
         if(input$dataset=="Representative Stations only"){
           
           l=  length(mapdata$station)
@@ -1987,6 +1802,10 @@ server= function(input, output, session){
       
       
       observeEvent(input$go_mintrend,{
+        
+        
+        mapd=mintrendlist
+        mapdata=mapd[[input$timerange2]]  
         
         if(input$dataset=="Representative Stations only"){
           
@@ -2949,6 +2768,28 @@ server= function(input, output, session){
       
       observeEvent(input$go_NMxQ,{
         
+        
+        if (input$xval=="14"){
+          mapd=NMxQlist14
+          
+        }
+        if (input$xval=="30"){
+          mapd=NMxQlist30
+          
+        }
+        if (input$xval=="60"){
+          mapd=NMxQlist60
+          
+        }else{
+          mapd=NMxQlist7}
+        
+        
+      
+        
+        
+        mapdata=mapd[[input$timerange2]]
+        
+        
         if(input$dataset=="Representative Stations only"){
           
           l=  length(mapdata$station)
@@ -3905,7 +3746,11 @@ server= function(input, output, session){
       #####Minimum Period 
       
       
-      observeEvent(input$go_2,{    
+      observeEvent(input$go_2,{
+        
+        
+        mapd=Periodmeta
+        mapdata=mapd[[input$timerange2]] 
         
         if(input$dataset=="Representative Stations only"){
           
@@ -6053,9 +5898,9 @@ server= function(input, output, session){
       
       
       
-    })
     
-  })
+    
+  
   
   
   
