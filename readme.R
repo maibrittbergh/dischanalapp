@@ -233,7 +233,7 @@ hist$equidist
 hist$breaks
 hist$counts
 counts=c(21, 169, 90, 55)
-probs=round((counts/335)*100,2)
+probs=round((counts/330)*100,2)
 
 probs
 
@@ -301,4 +301,12 @@ k=length_distribution(data, type="l")
 k
 a=area_dist(data)
 a
+citation("dplyr")
 
+
+
+
+
+
+#MQ_trendset und probd löschen dfMQ
+#habe bei min_trend "Kendall" rausgenommen :D und Qmin_trend
