@@ -1589,7 +1589,7 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Spsig_),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Spsig_),
                                
                                
                                
@@ -1608,7 +1608,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Spsig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  Spsig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1648,7 +1648,7 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Ssig_),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Ssig_),
                                
                                
                                
@@ -1667,7 +1667,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Ssig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  Ssig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1704,7 +1704,7 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Asig_),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Asig_),
                                
                                
                                
@@ -1723,7 +1723,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Asig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  Asig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1764,7 +1764,7 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Wsig_),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Wsig_),
                                
                                
                                
@@ -1783,7 +1783,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Wsig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  Wsig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1824,7 +1824,7 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Ysig_),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Ysig_),
                                
                                
                                
@@ -1843,7 +1843,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Ysig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  Ysig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1942,7 +1942,7 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Spzyp),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Spzyp),
                                
                                
                                
@@ -1961,7 +1961,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Spzyp, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  Spzyp, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2011,7 +2011,7 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Szyp),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Szyp),
                                
                                
                                
@@ -2030,7 +2030,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Szyp, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  Szyp, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2094,7 +2094,7 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Azyp),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Azyp),
                                
                                
                                
@@ -2113,7 +2113,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Azyp, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  Azyp, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2152,7 +2152,7 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Wzyp),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Wzyp),
                                
                                
                                
@@ -2171,7 +2171,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Wzyp, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  Wzyp, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2208,7 +2208,7 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Yzyp),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Yzyp),
                                
                                
                                
@@ -2227,7 +2227,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Yzyp, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  Yzyp, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2273,7 +2273,7 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Splm),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Splm),
                                
                                
                                
@@ -2292,7 +2292,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Splm, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  Splm, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2332,7 +2332,7 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Slm),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Slm),
                                
                                
                                
@@ -2351,7 +2351,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Slm, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  Slm, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2389,7 +2389,7 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Alm),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Alm),
                                
                                
                                
@@ -2408,7 +2408,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Alm, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  Alm, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2447,7 +2447,7 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Wlm),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Wlm),
                                
                                
                                
@@ -2466,7 +2466,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Wlm, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  Wlm, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2505,7 +2505,7 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Ylm),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Ylm),
                                
                                
                                
@@ -2524,7 +2524,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Ylm, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  Ylm, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2545,6 +2545,14 @@ server= function(input, output, session){
         
         #mapdata$Spsigzyp)
         if(input$trendtypemq3== "Significance of Zyp-Trend"){
+          
+          sequence=c(0, 0.01,0.02,0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1,1)
+          lsl=length(sequence)
+          
+          risk.bins =sequence
+          
+          
+          risk.pal<- colorBin( "viridis", bins=risk.bins, na.color = "#aaff56")
           
           if (input$seasonmq3=="Spring"){
             
@@ -2567,12 +2575,12 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Spsig_),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Spsig_),
                                
                                
                                
                                popup = ~paste(
-                                 
+                                 paste('<b>',  'Value', '</b>', Spsig_),
                                  paste('<b>',  'Station', '</b>', station),
                                  paste('<b>',  'River', '</b>', river),
                                  
@@ -2586,7 +2594,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Spsig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2626,12 +2634,12 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Ssig_),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Ssig_),
                                
                                
                                
                                popup = ~paste(
-                                 
+                                 paste('<b>',  'Value', '</b>', Ssig_),
                                  paste('<b>',  'Station', '</b>', station),
                                  paste('<b>',  'River', '</b>', river),
                                  
@@ -2645,7 +2653,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Ssig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2674,7 +2682,7 @@ server= function(input, output, session){
             
             Asig_= as.numeric(mapdata$Asigzyp)
             
-            pal=colorNumeric("viridis", reverse = T,domain=  Asig_)
+          #  pal=colorNumeric("viridis", reverse = T,domain=  Asig_)
             
             leafletProxy("datamap",session )%>%
               clearPopups() %>% 
@@ -2682,12 +2690,12 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Asig_),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Asig_),
                                
                                
                                
                                popup = ~paste(
-                                 
+                                 paste('<b>',  'Value', '</b>', Asig_),
                                  paste('<b>',  'Station', '</b>', station),
                                  paste('<b>',  'River', '</b>', river),
                                  
@@ -2701,7 +2709,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Asig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2742,12 +2750,12 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Wsig_),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Wsig_),
                                
                                
                                
                                popup = ~paste(
-                                 
+                                 paste('<b>',  'Value', '</b>', Wsig_),
                                  paste('<b>',  'Station', '</b>', station),
                                  paste('<b>',  'River', '</b>', river),
                                  
@@ -2761,7 +2769,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Wsig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2802,12 +2810,12 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Ysig_),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Ysig_),
                                
                                
                                
                                popup = ~paste(
-                                 
+                                 paste('<b>',  'Value', '</b>', Ysig_),
                                  paste('<b>',  'Station', '</b>', station),
                                  paste('<b>',  'River', '</b>', river),
                                  
@@ -2821,7 +2829,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Ysig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values= sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2900,16 +2908,12 @@ server= function(input, output, session){
         
         
         if(input$trendtypemq2== "Yuepilon-Method: PreWhitening and homogenization of autocorrelation"){
-          
-       
-          datacoln=mapdd(mapd, "zyp")
-          minVal <- min(datacoln)
-          
-          maxVal <- max(datacoln)
+         
+     
           
           
-          sequence=seq(-7.5, 7.5 ,2.5) #c(-0.015, sec,0.015)
-        
+     
+        sequence=c(-15, -10,-5, 0, 5, 10, 15)
           lsl=length(sequence)
           
           risk.bins =sequence
@@ -2958,7 +2962,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values= sequence, title="Zyp Slope MNxQ Values, Spring ", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values= sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -3000,7 +3004,7 @@ server= function(input, output, session){
             
             Szyp= as.numeric(mapdata$Sslopezyp)
             
-            pal=colorNumeric("RdYlBu", domain=  Szyp)
+          #  pal=colorNumeric("RdYlBu", domain=  Szyp)
             
             leafletProxy("datamap",session )%>%
               clearPopups() %>% 
@@ -3008,12 +3012,12 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Szyp),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Szyp),
                                
                                
                                
                                popup = ~paste(
-                                 
+                                 paste('<b>',  'Value', '</b>', Szyp),
                                  paste('<b>',  'Station', '</b>', station),
                                  paste('<b>',  'River', '</b>', river),
                                  
@@ -3027,7 +3031,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Szyp, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values= sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -3083,7 +3087,7 @@ server= function(input, output, session){
             
             Azyp= as.numeric(mapdata$Aslopezyp)
             
-            pal=colorNumeric("RdYlBu", domain=  Azyp)
+           # pal=colorNumeric("RdYlBu", domain=  Azyp)
             
             leafletProxy("datamap",session )%>%
               clearPopups() %>% 
@@ -3091,12 +3095,12 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Azyp),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Azyp),
                                
                                
                                
                                popup = ~paste(
-                                 
+                                 paste('<b>',  'Value', '</b>', Azyp),
                                  paste('<b>',  'Station', '</b>', station),
                                  paste('<b>',  'River', '</b>', river),
                                  
@@ -3110,7 +3114,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Azyp, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -3141,7 +3145,7 @@ server= function(input, output, session){
             
             Wzyp= as.numeric(mapdata$Wslopezyp)
             
-            pal=colorNumeric("RdYlBu", domain=  Wzyp)
+           # pal=colorNumeric("RdYlBu", domain=  Wzyp)
             
             leafletProxy("datamap",session )%>%
               clearPopups() %>% 
@@ -3149,12 +3153,12 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Wzyp),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~ risk.pal(Wzyp),
                                
                                
                                
                                popup = ~paste(
-                                 
+                                 paste('<b>',  'Value', '</b>', Wzyp),
                                  paste('<b>',  'Station', '</b>', station),
                                  paste('<b>',  'River', '</b>', river),
                                  
@@ -3168,7 +3172,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Wzyp, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal= risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -3197,7 +3201,7 @@ server= function(input, output, session){
             
             Yzyp= as.numeric(mapdata$Yslopezyp)
             
-            pal=colorNumeric("RdYlBu", domain=  Yzyp)
+          #  pal=colorNumeric("RdYlBu", domain=  Yzyp)
             
             leafletProxy("datamap",session )%>%
               clearPopups() %>% 
@@ -3205,12 +3209,13 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Yzyp),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Yzyp),
                                
                                
                                
                                popup = ~paste(
                                  
+                                 paste('<b>',  'Value', '</b>', Yzyp),
                                  paste('<b>',  'Station', '</b>', station),
                                  paste('<b>',  'River', '</b>', river),
                                  
@@ -3224,7 +3229,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Yzyp, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=sequence, labels=c("< -7.5", as.character(sequence2), ">7.5"), title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -3249,6 +3254,16 @@ server= function(input, output, session){
         
         if(input$trendtypemq2== "Linear Model: Least Squares Approach"){
           
+          sequence=c(-15, -10,-5, 0, 5, 10, 15)
+          lsl=length(sequence)
+          
+          risk.bins =sequence
+          
+          
+          risk.pal<- colorBin( scico(lsl, palette = 'hawaii'), bins=risk.bins, na.color = "#aaff56")
+          
+       
+          
           if (input$seasonmq2=="Spring"){
             
             
@@ -3262,7 +3277,7 @@ server= function(input, output, session){
             
             Splm= as.numeric(mapdata$Spslopelm)
             
-            pal=colorNumeric("RdYlBu", domain=  Splm)
+           # pal=colorNumeric("RdYlBu", domain=  Splm)
             
             leafletProxy("datamap",session )%>%
               clearPopups() %>% 
@@ -3270,12 +3285,12 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Splm),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Splm),
                                
                                
                                
                                popup = ~paste(
-                                 
+                                 paste('<b>',  'Value', '</b>', Splm),
                                  paste('<b>',  'Station', '</b>', station),
                                  paste('<b>',  'River', '</b>', river),
                                  
@@ -3289,7 +3304,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Splm, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -3321,7 +3336,7 @@ server= function(input, output, session){
             
             Slm= as.numeric(mapdata$Sslopelm)
             
-            pal=colorNumeric("RdYlBu", domain=  Slm)
+           # pal=colorNumeric("RdYlBu", domain=  Slm)
             
             leafletProxy("datamap",session )%>%
               clearPopups() %>% 
@@ -3329,12 +3344,12 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Slm),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~ risk.pal(Slm),
                                
                                
                                
                                popup = ~paste(
-                                 
+                                 paste('<b>',  'Value', '</b>', Slm),
                                  paste('<b>',  'Station', '</b>', station),
                                  paste('<b>',  'River', '</b>', river),
                                  
@@ -3348,7 +3363,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Slm, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal= risk.pal, position="topleft", values=sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -3378,7 +3393,7 @@ server= function(input, output, session){
             
             Alm= as.numeric(mapdata$Aslopelm)
             
-            pal=colorNumeric("RdYlBu", domain=  Alm)
+            #pal=colorNumeric("RdYlBu", domain=  Alm)
             
             leafletProxy("datamap",session )%>%
               clearPopups() %>% 
@@ -3386,12 +3401,12 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Alm),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~  risk.pal(Alm),
                                
                                
                                
                                popup = ~paste(
-                                 
+                                 paste('<b>',  'Value', '</b>', Alm),
                                  paste('<b>',  'Station', '</b>', station),
                                  paste('<b>',  'River', '</b>', river),
                                  
@@ -3405,7 +3420,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Alm, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=  risk.pal, position="topleft", values= sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -3436,7 +3451,7 @@ server= function(input, output, session){
             
             Wlm= as.numeric(mapdata$Wslopelm)
             
-            pal=colorNumeric("RdYlBu", domain=  Wlm)
+           # pal=colorNumeric("RdYlBu", domain=  Wlm)
             
             leafletProxy("datamap",session )%>%
               clearPopups() %>% 
@@ -3444,12 +3459,12 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Wlm),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~ risk.pal(Wlm),
                                
                                
                                
                                popup = ~paste(
-                                 
+                                 paste('<b>',  'Value', '</b>', Wlm),
                                  paste('<b>',  'Station', '</b>', station),
                                  paste('<b>',  'River', '</b>', river),
                                  
@@ -3463,7 +3478,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Wlm, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal= risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -3494,7 +3509,7 @@ server= function(input, output, session){
             
             Ylm= as.numeric(mapdata$Yslopelm)
             
-            pal=colorNumeric("RdYlBu", domain=  Ylm)
+          #  pal=colorNumeric("RdYlBu", domain=  Ylm)
             
             leafletProxy("datamap",session )%>%
               clearPopups() %>% 
@@ -3502,12 +3517,12 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Ylm),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Ylm),
                                
                                
                                
                                popup = ~paste(
-                                 
+                                 paste('<b>',  'Value', '</b>', Ylm),
                                  paste('<b>',  'Station', '</b>', station),
                                  paste('<b>',  'River', '</b>', river),
                                  
@@ -3521,7 +3536,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Ylm, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -3543,6 +3558,15 @@ server= function(input, output, session){
         #mapdata$Spsigzyp)
         if(input$trendtypemq2== "Significance of Zyp-Trend"){
           
+          
+          sequence=c(0, 0.01,0.02,0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1,1)
+          lsl=length(sequence)
+          
+          risk.bins =sequence
+          
+          
+          risk.pal<- colorBin( "viridis", bins=risk.bins, na.color = "#aaff56")
+          
           if (input$seasonmq2=="Spring"){
             
             
@@ -3556,7 +3580,7 @@ server= function(input, output, session){
             
             Spsig_= as.numeric(mapdata$Spsigzyp)
             
-            pal=colorNumeric("viridis", reverse = T, domain=  Spsig_)
+            #pal=colorNumeric("viridis", reverse = T, domain=  Spsig_)
             
             leafletProxy("datamap",session )%>%
               clearPopups() %>% 
@@ -3564,12 +3588,12 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Spsig_),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Spsig_),
                                
                                
                                
                                popup = ~paste(
-                                 
+                                 paste('<b>',  'Value', '</b>', Spsig_),
                                  paste('<b>',  'Station', '</b>', station),
                                  paste('<b>',  'River', '</b>', river),
                                  
@@ -3583,7 +3607,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Spsig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values= sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -3615,7 +3639,7 @@ server= function(input, output, session){
             
             Ssig_= as.numeric(mapdata$Ssigzyp)
             
-            pal=colorNumeric("viridis", reverse = T,domain=  Ssig_)
+          #  pal=colorNumeric("viridis", reverse = T,domain=  Ssig_)
             
             leafletProxy("datamap",session )%>%
               clearPopups() %>% 
@@ -3623,12 +3647,12 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Ssig_),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Ssig_),
                                
                                
                                
                                popup = ~paste(
-                                 
+                                 paste('<b>',  'Value', '</b>', Ssig_),
                                  paste('<b>',  'Station', '</b>', station),
                                  paste('<b>',  'River', '</b>', river),
                                  
@@ -3642,7 +3666,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Ssig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -3671,7 +3695,7 @@ server= function(input, output, session){
             
             Asig_= as.numeric(mapdata$Asigzyp)
             
-            pal=colorNumeric("viridis", reverse = T,domain=  Asig_)
+          #  pal=colorNumeric("viridis", reverse = T,domain=  Asig_)
             
             leafletProxy("datamap",session )%>%
               clearPopups() %>% 
@@ -3679,12 +3703,12 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Asig_),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~ risk.pal(Asig_),
                                
                                
                                
                                popup = ~paste(
-                                 
+                                 paste('<b>',  'Value', '</b>', Asig_),
                                  paste('<b>',  'Station', '</b>', station),
                                  paste('<b>',  'River', '</b>', river),
                                  
@@ -3698,7 +3722,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Asig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal= risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -3731,7 +3755,7 @@ server= function(input, output, session){
             
             Wsig_= as.numeric(mapdata$Wsigzyp)
             
-            pal=colorNumeric("viridis", reverse = T,domain=  Wsig_)
+           # pal=colorNumeric("viridis", reverse = T,domain=  Wsig_)
             
             leafletProxy("datamap",session )%>%
               clearPopups() %>% 
@@ -3739,12 +3763,12 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Wsig_),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Wsig_),
                                
                                
                                
                                popup = ~paste(
-                                 
+                                 paste('<b>',  'Value', '</b>', Wsig_),
                                  paste('<b>',  'Station', '</b>', station),
                                  paste('<b>',  'River', '</b>', river),
                                  
@@ -3758,7 +3782,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Wsig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -3791,7 +3815,7 @@ server= function(input, output, session){
             
             Ysig_= as.numeric(mapdata$Ysigzyp)
             
-            pal=colorNumeric("viridis", reverse = T,domain=  Ysig_)
+            #pal=colorNumeric("viridis", reverse = T,domain=  Ysig_)
             
             leafletProxy("datamap",session )%>%
               clearPopups() %>% 
@@ -3799,12 +3823,12 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(Ysig_),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Ysig_),
                                
                                
                                
                                popup = ~paste(
-                                 
+                                 paste('<b>',  'Value', '</b>', Ysig_),
                                  paste('<b>',  'Station', '</b>', station),
                                  paste('<b>',  'River', '</b>', river),
                                  
@@ -3818,7 +3842,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=pal, position="topleft", values=  Ysig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -3868,7 +3892,8 @@ server= function(input, output, session){
           }
           
           
-          mapdata=mapdata[which(iden==T),] }else{
+          mapdata=mapdata[which(iden==T),] 
+          }else{
             
             mapdata=mapdata
             
@@ -3881,9 +3906,21 @@ server= function(input, output, session){
           
           
           
+        
+          
+          
           
           
           if(input$periodway=="Length of Maximum Period under Value"){
+            
+            sequence=c(-2,-1.0,-0.5 , -0.01, 0, 0.01,0.5 , 1, 2)
+            lsl=length(sequence)
+            
+            risk.bins =sequence
+            
+            
+            risk.pal<- colorBin( scico(lsl, palette = 'hawaii', direction=-1), bins=risk.bins, na.color = "#aaff56")
+            
             
             if(input$quantiles=="70"){
               
@@ -3898,7 +3935,7 @@ server= function(input, output, session){
               
               tmaxzypQ70= as.numeric(mapdata$Q70_tmax_zyp)
               
-              pal=colorNumeric("RdYlBu", reverse=T,domain=    tmaxzypQ70)
+              #pal=colorNumeric("RdYlBu", reverse=T,domain=    tmaxzypQ70)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
@@ -3906,12 +3943,12 @@ server= function(input, output, session){
                 clearMarkers() %>%
                 addTiles() %>%
                 
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(tmaxzypQ70),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(tmaxzypQ70),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>', tmaxzypQ70),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -3925,7 +3962,7 @@ server= function(input, output, session){
                 
                 
                 
-                addLegend(pal=pal, position="topleft", values=  tmaxzypQ70, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values= sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -3956,19 +3993,19 @@ server= function(input, output, session){
               
               tmaxzypQ75= as.numeric(mapdata$Q75_tmax_zyp)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxzypQ75)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxzypQ75)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(tmaxzypQ75),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(tmaxzypQ75),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>', tmaxzypQ75),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -3981,7 +4018,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
                 
-                addLegend(pal=pal, position="topleft", values=  tmaxzypQ75, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values= sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 
@@ -4023,19 +4060,19 @@ server= function(input, output, session){
               
               tmaxzypQ80= as.numeric(mapdata$Q80_tmax_zyp)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxzypQ80)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxzypQ80)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(tmaxzypQ80),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(tmaxzypQ80),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>', tmaxzypQ80),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -4047,7 +4084,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=  tmaxzypQ80, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values= sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 
@@ -4081,19 +4118,19 @@ server= function(input, output, session){
               
               tmaxzypQ85= as.numeric(mapdata$Q85_tmax_zyp)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxzypQ85)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxzypQ85)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(tmaxzypQ85),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(tmaxzypQ85),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>', tmaxzypQ85),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -4105,7 +4142,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=  tmaxzypQ85, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values= sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 
@@ -4140,19 +4177,19 @@ server= function(input, output, session){
               
               tmaxzypQ90= as.numeric(mapdata$Q90_tmax_zyp)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxzypQ90)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxzypQ90)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(tmaxzypQ90),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(tmaxzypQ90),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>', tmaxzypQ90),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -4164,7 +4201,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=  tmaxzypQ90, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 
@@ -4193,19 +4230,19 @@ server= function(input, output, session){
               
               tmaxzypQ95= as.numeric(mapdata$Q95_tmax_zyp)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxzypQ95)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxzypQ95)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(tmaxzypQ95),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(tmaxzypQ95),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>', tmaxzypQ95),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -4217,7 +4254,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=  tmaxzypQ95, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4243,6 +4280,15 @@ server= function(input, output, session){
           
           if(input$periodway=="Sum of Days under Value"){
             
+            sequence=c(-3,  -2,-1.0,-0.5 , -0.01, 0, 0.01,0.5 , 1, 2, 3)
+            lsl=length(sequence)
+            
+            risk.bins =sequence
+            
+            
+            risk.pal<- colorBin( scico(lsl, palette = 'hawaii', direction=-1), bins=risk.bins, na.color = "#aaff56")
+            
+            
             if(input$quantiles=="70"){
               #####
               
@@ -4252,19 +4298,19 @@ server= function(input, output, session){
               
               ldzypQ70= as.numeric(mapdata$Q70_ld_zyp)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=     ldzypQ70)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=     ldzypQ70)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(   ldzypQ70),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(   ldzypQ70),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>',ldzypQ70),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -4276,7 +4322,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=    ldzypQ70, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values=    sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4307,19 +4353,19 @@ server= function(input, output, session){
               
               ldzypQ75= as.numeric(mapdata$Q75_ld_zyp)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=     ldzypQ75)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=     ldzypQ75)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(   ldzypQ75),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(   ldzypQ75),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>',ldzypQ975),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -4331,7 +4377,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=    ldzypQ75, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4364,19 +4410,19 @@ server= function(input, output, session){
               
               ldzypQ80= as.numeric(mapdata$Q80_ld_zyp)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=     ldzypQ80)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=     ldzypQ80)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(   ldzypQ80),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(   ldzypQ80),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>',ldzypQ80),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -4388,7 +4434,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=    ldzypQ80, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4427,19 +4473,19 @@ server= function(input, output, session){
               
               ldzypQ85= as.numeric(mapdata$Q85_ld_zyp)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=     ldzypQ85)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=     ldzypQ85)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(   ldzypQ85),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(   ldzypQ85),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>',ldzypQ85),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -4451,7 +4497,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=    ldzypQ85, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values=    sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4482,19 +4528,19 @@ server= function(input, output, session){
               
               ldzypQ90= as.numeric(mapdata$Q90_ld_zyp)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=     ldzypQ90)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=     ldzypQ90)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(   ldzypQ90),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(   ldzypQ90),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>',ldzypQ90),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -4506,7 +4552,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=    ldzypQ90, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4539,19 +4585,19 @@ server= function(input, output, session){
               
               ldzypQ95= as.numeric(mapdata$Q95_ld_zyp)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=     ldzypQ95)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=     ldzypQ95)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(   ldzypQ95),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(   ldzypQ95),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>',ldzypQ95),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -4563,7 +4609,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=    ldzypQ95, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values=    sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4595,12 +4641,34 @@ server= function(input, output, session){
             
           }
           
+          
+      
+          
         }
         
         
         if(input$trendtypeperiod=="Linear Model: Least Squares Approach"){
           
+          
+          
+          
+          sequence=c( -2,-1.0,-0.5 , -0.01, 0, 0.01,0.5 , 1, 2)
+          lsl=length(sequence)
+          
+          risk.bins =sequence
+          
+          
+          risk.pal<- colorBin( scico(lsl, palette = 'hawaii', direction=-1), bins=risk.bins, na.color = "#aaff56")
+          
+          
           if(input$periodway=="Length of Maximum Period under Value"){
+            sequence=c( -2,-1.0,-0.5 , -0.01, 0, 0.01,0.5 , 1, 2)
+            lsl=length(sequence)
+            
+            risk.bins =sequence
+            
+            
+            risk.pal<- colorBin( scico(lsl, palette = 'hawaii', direction=-1), bins=risk.bins, na.color = "#aaff56")
             
             if(input$quantiles=="70"){
               
@@ -4613,19 +4681,19 @@ server= function(input, output, session){
               
               tmaxlmQ70= as.numeric(mapdata$Q70_tmax_lm)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxlmQ70)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxlmQ70)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  tmaxlmQ70),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(  tmaxlmQ70),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>',  tmaxlmQ70),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -4637,7 +4705,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=    tmaxlmQ70, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4672,19 +4740,19 @@ server= function(input, output, session){
               
               tmaxlmQ75= as.numeric(mapdata$Q75_tmax_lm)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxlmQ75)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxlmQ75)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  tmaxlmQ75),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(  tmaxlmQ75),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>',  tmaxlmQ75 ),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -4696,7 +4764,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=    tmaxlmQ75, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4734,19 +4802,19 @@ server= function(input, output, session){
               
               tmaxlmQ80= as.numeric(mapdata$Q80_tmax_lm)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxlmQ80)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxlmQ80)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  tmaxlmQ80),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(  tmaxlmQ80),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>',  tmaxlmQ80), 
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -4758,7 +4826,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=    tmaxlmQ80, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4794,19 +4862,19 @@ server= function(input, output, session){
               
               tmaxlmQ85= as.numeric(mapdata$Q85_tmax_lm)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxlmQ85)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxlmQ85)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  tmaxlmQ85),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(  tmaxlmQ85),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>', tmaxlmQ85),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -4818,7 +4886,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=    tmaxlmQ85, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4850,19 +4918,19 @@ server= function(input, output, session){
               
               tmaxlmQ90= as.numeric(mapdata$Q90_tmax_lm)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxlmQ90)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxlmQ90)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  tmaxlmQ90),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(  tmaxlmQ90),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>',  tmaxlmQ90),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -4874,7 +4942,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=    tmaxlmQ90, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4909,19 +4977,21 @@ server= function(input, output, session){
               
               tmaxlmQ95= as.numeric(mapdata$Q95_tmax_lm)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxlmQ95)
+              Periodmeta[[1]]$Q95_tmax_lm
+              
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=    tmaxlmQ95)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  tmaxlmQ95),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(  tmaxlmQ95),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>',  tmaxlmQ95),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -4933,7 +5003,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=    tmaxlmQ95, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4961,6 +5031,15 @@ server= function(input, output, session){
           
           if(input$periodway=="Sum of Days under Value"){
             
+            
+            sequence=c(-3,  -2,-1.0,-0.5 , -0.01, 0, 0.01,0.5 , 1, 2, 3)
+            lsl=length(sequence)
+            
+            risk.bins =sequence
+            
+            
+            risk.pal<- colorBin( scico(lsl, palette = 'hawaii', direction=-1), bins=risk.bins, na.color = "#aaff56")
+            
             if(input$quantiles=="70"){
               
               
@@ -4973,19 +5052,19 @@ server= function(input, output, session){
               
               ldlmQ70= as.numeric(mapdata$Q70_ld_lm)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=    ldlmQ70)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=    ldlmQ70)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( ldlmQ70),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal( ldlmQ70),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>', ldlmQ70),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -4997,7 +5076,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=    ldlmQ70, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values= sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5033,19 +5112,19 @@ server= function(input, output, session){
               
               ldlmQ75= as.numeric(mapdata$Q75_ld_lm)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=    ldlmQ75)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=    ldlmQ75)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( ldlmQ75),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal( ldlmQ75),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>', ldlmQ75),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -5057,7 +5136,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=    ldlmQ75, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5089,19 +5168,19 @@ server= function(input, output, session){
               
               ldlmQ80= as.numeric(mapdata$Q80_ld_lm)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=    ldlmQ80)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=    ldlmQ80)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( ldlmQ80),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal( ldlmQ80),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>', ldlmQ80),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -5113,7 +5192,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=    ldlmQ80, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5144,19 +5223,19 @@ server= function(input, output, session){
               
               ldlmQ85= as.numeric(mapdata$Q85_ld_lm)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=    ldlmQ85)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=    ldlmQ85)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( ldlmQ85),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal( ldlmQ85),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>', ldlmQ85),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -5168,7 +5247,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=    ldlmQ85, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5199,19 +5278,20 @@ server= function(input, output, session){
               
               ldlmQ90= as.numeric(mapdata$Q90_ld_lm)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=    ldlmQ90)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=    ldlmQ90)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( ldlmQ90),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal( ldlmQ90),
                                  
                                  
                                  
                                  popup = ~paste(
                                    
+                                   paste('<b>',  'Value', '</b>', ldlmQ90),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -5223,7 +5303,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=    ldlmQ90, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values=    sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5253,19 +5333,19 @@ server= function(input, output, session){
               
               ldlmQ95= as.numeric(mapdata$Q95_ld_lm)
               
-              pal=colorNumeric("RdYlBu", reverse=T, domain=    ldlmQ95)
+              #pal=colorNumeric("RdYlBu", reverse=T, domain=    ldlmQ95)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( ldlmQ95),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal( ldlmQ95),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>', ldlmQ95),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -5277,7 +5357,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=    ldlmQ95, title="Slope")%>%
+                addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5304,6 +5384,18 @@ server= function(input, output, session){
         }
         
         if(input$trendtypeperiod=="Significance of Zyp-Trend"){
+          sequence=c(0, 0.01,0.02,0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1,1)
+          lsl=length(sequence)
+          
+          risk.bins =sequence
+          
+          
+          risk.pal<- colorBin( "viridis", bins=risk.bins, na.color = "#aaff56")
+          
+          
+          
+          
+          
           
           if(input$periodway=="Length of Maximum Period under Value"){
             
@@ -5319,19 +5411,19 @@ server= function(input, output, session){
               
               tmaxsigQ70= as.numeric(mapdata$Q70sigtmax)
               
-              pal=colorNumeric("viridis", reverse = T, domain=    tmaxsigQ70)
+              #pal=colorNumeric("viridis", reverse = T, domain=    tmaxsigQ70)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( tmaxsigQ70),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal( tmaxsigQ70),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>',tmaxsigQ70 ),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -5343,7 +5435,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=   tmaxsigQ70, title="Kendall's P-Value")%>%
+                addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5378,19 +5470,19 @@ server= function(input, output, session){
               
               tmaxsigQ75= as.numeric(mapdata$Q75sigtmax)
               
-              pal=colorNumeric("viridis", reverse = T, domain=    tmaxsigQ75)
+              #pal=colorNumeric("viridis", reverse = T, domain=    tmaxsigQ75)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( tmaxsigQ75),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal( tmaxsigQ75),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>', tmaxsigQ75),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -5402,7 +5494,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=   tmaxsigQ75, title="Kendall's P-Value")%>%
+                addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5434,19 +5526,19 @@ server= function(input, output, session){
               
               tmaxsigQ80= as.numeric(mapdata$Q80sigtmax)
               
-              pal=colorNumeric("viridis", reverse = T, domain=    tmaxsigQ80)
+              #pal=colorNumeric("viridis", reverse = T, domain=    tmaxsigQ80)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( tmaxsigQ80),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal( tmaxsigQ80),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>', tmaxsigQ80),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -5458,7 +5550,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=   tmaxsigQ80, title="Kendall's P-Value")%>%
+                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5491,19 +5583,19 @@ server= function(input, output, session){
               
               tmaxsigQ85= as.numeric(mapdata$Q85sigtmax)
               
-              pal=colorNumeric("viridis", reverse = T, domain=    tmaxsigQ85)
+              #pal=colorNumeric("viridis", reverse = T, domain=    tmaxsigQ85)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( tmaxsigQ85),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal( tmaxsigQ85),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>',tmaxsigQ85 ),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -5515,7 +5607,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=   tmaxsigQ85, title="Kendall's P-Value")%>%
+                addLegend(pal=risk.pal, position="topleft", values= sequence, title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5550,19 +5642,19 @@ server= function(input, output, session){
               
               tmaxsigQ90= as.numeric(mapdata$Q90sigtmax)
               
-              pal=colorNumeric("viridis", reverse = T, domain=    tmaxsigQ90)
+              #pal=colorNumeric("viridis", reverse = T, domain=    tmaxsigQ90)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( tmaxsigQ90),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal( tmaxsigQ90),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>', tmaxsigQ90),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -5574,7 +5666,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=   tmaxsigQ90, title="Kendall's P-Value")%>%
+                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5603,19 +5695,19 @@ server= function(input, output, session){
               
               tmaxsigQ95= as.numeric(mapdata$Q95sigtmax)
               
-              pal=colorNumeric("viridis", reverse = T, domain=    tmaxsigQ95)
+              #pal=colorNumeric("viridis", reverse = T, domain=    tmaxsigQ95)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal( tmaxsigQ95),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal( tmaxsigQ95),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>', tmaxsigQ95),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -5627,7 +5719,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=   tmaxsigQ95, title="Kendall's P-Value")%>%
+                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5663,19 +5755,19 @@ server= function(input, output, session){
               
               ldsigQ70= as.numeric(mapdata$Q70sigld)
               
-              pal=colorNumeric("viridis", reverse = T, domain=    ldsigQ70)
+              #pal=colorNumeric("viridis", reverse = T, domain=    ldsigQ70)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  ldsigQ70),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(  ldsigQ70),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>', ldsigQ70),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -5687,7 +5779,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=   ldsigQ70,title="Kendall's P-Value")%>%
+                addLegend(pal=risk.pal, position="topleft", values=   sequence,title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5720,19 +5812,19 @@ server= function(input, output, session){
               
               ldsigQ75= as.numeric(mapdata$Q75sigld)
               
-              pal=colorNumeric("viridis", reverse = T, domain=    ldsigQ75)
+              #pal=colorNumeric("viridis", reverse = T, domain=    ldsigQ75)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  ldsigQ75),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(  ldsigQ75),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>', ldsigQ75),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -5744,7 +5836,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=   ldsigQ75, title="Kendall's P-Value")%>%
+                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5776,19 +5868,19 @@ server= function(input, output, session){
               
               ldsigQ80= as.numeric(mapdata$Q80sigld)
               
-              pal=colorNumeric("viridis", reverse = T, domain=    ldsigQ80)
+              #pal=colorNumeric("viridis", reverse = T, domain=    ldsigQ80)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  ldsigQ80),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(  ldsigQ80),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>', ldsigQ80),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -5800,7 +5892,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=   ldsigQ80, title="Kendall's P-Value")%>%
+                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5828,19 +5920,19 @@ server= function(input, output, session){
               
               ldsigQ85= as.numeric(mapdata$Q85sigld)
               
-              pal=colorNumeric("viridis", reverse = T, domain=    ldsigQ85)
+              #pal=colorNumeric("viridis", reverse = T, domain=    ldsigQ85)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  ldsigQ85),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(  ldsigQ85),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>',  ldsigQ85),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -5852,7 +5944,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=   ldsigQ85,title="Kendall's P-Value")%>%
+                addLegend(pal=risk.pal, position="topleft", values=   sequence,title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5882,19 +5974,19 @@ server= function(input, output, session){
               
               ldsigQ90= as.numeric(mapdata$Q90sigld)
               
-              pal=colorNumeric("viridis", reverse = T, domain=    ldsigQ90)
+              #pal=colorNumeric("viridis", reverse = T, domain=    ldsigQ90)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  ldsigQ90),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(  ldsigQ90),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>',ldsigQ90),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -5906,7 +5998,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=   ldsigQ90, title="Kendall's P-Value")%>%
+                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5939,19 +6031,19 @@ server= function(input, output, session){
               
               ldsigQ95= as.numeric(mapdata$Q95sigld)
               
-              pal=colorNumeric("viridis", reverse = T, domain=    ldsigQ95)
+              #pal=colorNumeric("viridis", reverse = T, domain=    ldsigQ95)
               
               leafletProxy("datamap",session )%>%
                 clearPopups() %>% 
                 clearControls()%>%
                 clearMarkers() %>%
                 addTiles() %>%
-                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~pal(  ldsigQ95),
+                addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(  ldsigQ95),
                                  
                                  
                                  
                                  popup = ~paste(
-                                   
+                                   paste('<b>',  'Value', '</b>', ldsigQ95),
                                    paste('<b>',  'Station', '</b>', station),
                                    paste('<b>',  'River', '</b>', river),
                                    
@@ -5963,7 +6055,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=pal, position="topleft", values=   ldsigQ95, title="Kendall's P-Value")%>%
+                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
