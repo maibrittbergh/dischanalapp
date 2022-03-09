@@ -3,15 +3,23 @@ install.packages(("tigris"))
 library(tidyverse)
 library(tigris)
 library(leaflet)
-install.packages("Lchiffon/leafletCN")
+install.packages("Lchiffon/leafletCN") #mot available in R
 install.packages("viridis")
 library(viridis)
 scico_palette_show(palettes )
 scico_palette_show()
+
+#  sudo su - -c "R -e \"install.packages('rmarkdown', repos='http://cran.rstudio.com/')\""
+  
+  #sudo su - -c "R -e \"devtools::install_github('maibrittbergh/dischanalyst')\""
+
+
+
 server= function(input, output, session){
-  
-  
-  
+
+
+
+
   # Introduction ------------------------------------------------------------
   
   
