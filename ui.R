@@ -105,7 +105,7 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
 tabPanel(title="Discharge Map",
          
          fluidRow(
-           column(7, 
+           column(8, 
                   conditionalPanel(condition="input.plot_tabs!='User guide'", 
                                    tabsetPanel(id="ui_tab", 
                                                
@@ -120,7 +120,7 @@ tabPanel(title="Discharge Map",
                   )
            ), #Abschließen der linken Spalte mit Tabelle und Map
            
-           column(5, tabsetPanel(id="plot_tabs", 
+           column(4, tabsetPanel(id="plot_tabs", 
                                  tabPanel("Descriptive Statistics", 
                                           fluidRow(column(10, 
                                                           # uiOutput("date_slider") Vielleicht statt Jahr?
