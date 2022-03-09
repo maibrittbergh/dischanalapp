@@ -18,6 +18,10 @@
 #install.packages('lwgeom', dependencies = TRUE)
 library("shinythemes")
 library(gridExtra)
+install.packages('scico')
+library('scico')
+install.packages("dichromat")
+library("dichromat")
 library(tmaptools)
 library(leaflet)
 library(readxl)
@@ -105,7 +109,7 @@ ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"
 
 
 tabPanel(title="Trend of Minimum Discharge", 
-         shinyjs::useShinyjs(),
+    
          id = "side-panel",
          
          fluidRow(
@@ -119,12 +123,12 @@ tabPanel(title="Trend of Minimum Discharge",
                   
                   
                   
-           ),
+           )),
            
-           conditionalPanel(condition="input.area_trend=='User Guide'", 
+         #  conditionalPanel(condition="input.area_trend=='User Guide'", 
                             
                           #  includeMarkdown()
-                            ),
+                         #   ),
            
            
            
@@ -213,7 +217,7 @@ tabPanel(title="Trend of Minimum Discharge",
                                                                         
                                                                         selectInput("quantiles", label="Quantile [%]:",
                                                                                     choices=c("70","75", "80","85", "90", "90", "95")) , 
-                                                                        actionButton("go_2", "Click to (re)calculate results")), 
+                                                                        actionButton("go_2", "Click to (re)calculate results"))
                                                        
                                                        
                                                        
@@ -224,7 +228,7 @@ tabPanel(title="Trend of Minimum Discharge",
                                                        
                                                        
                                                        
-                                                       actionButton("CD", "Clear Data")
+                                                
                                                        
                                                        
                                                        
@@ -234,7 +238,7 @@ tabPanel(title="Trend of Minimum Discharge",
                                                        
                                        ))), 
                               
-                              tabPanel(id="User Guide"
+                              tabPanel(title="User Guide",id="User Guide"
                                        
   
                                        
@@ -244,7 +248,7 @@ tabPanel(title="Trend of Minimum Discharge",
                               )))
          
          
-)),
+),
 
 
                 
@@ -405,7 +409,7 @@ tabPanel(title="Discharge Map",
 
 
 
-navbarMenu("Dataset Information",
+navbarMenu(title="Dataset Information",
            
            
 
@@ -560,45 +564,7 @@ navbarMenu("Dataset Information",
                 
                 
                 
-                
-                tabPanel(title="Data set Information", 
-                         fluidPage(
-                           sidebarPanel(
-                             
-                             selectInput("rivername", "Name of the river",  data$river),
-                             selectInput("stationname", "Name of the station",  
-                                         data$station),      #Frage: warum geht das nicht: data$station[which(data$river== input$rivername)]   
-                             numericInput("year", "Year", 2000, min=1975, max=2018) 
-                             
-                           ),
-                           mainPanel({
-                             textOutput("selected_rivername")
-                             plotOutput("low_flow", height=1000)
-                           }))), 
-                
-                
-                tabPanel(title="Discharge Analysis", 
-                         fluidPage(
-                           sidebarPanel(
-                             
-                             selectInput("rivername", "Name of the river",  data$river),
-                             selectInput("stationname", "Name of the station",  
-                                         data$station),      #Frage: warum geht das nicht: data$station[which(data$river== input$rivername)]   
-                             numericInput("year", "Year", 2000, min=1975, max=2018)  ,
-                             
-                             sliderInput("U", "Value", min=30, max=1000,
-                                         500, 1)
-                             
-                             
-                             
-                           ),
-                           
-                           
-                           mainPanel({
-                             textOutput("timespan_U")
-                             
-                             
-                           }))),
+            
                 
               
                 
@@ -609,9 +575,6 @@ navbarMenu("Dataset Information",
                           <br>
                           <p>Author: Mai-Britt Berghöfer <br>
                           <a href="mailto:berghoefer@uni-potsdam.de">berghoefer@uni-potsdam.de</a></p>'), align = "center"))
-
-
-
 
 
 

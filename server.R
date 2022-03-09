@@ -6102,11 +6102,7 @@ server= function(input, output, session){
   
   
   
-  observeEvent(input$CD, {
-    
-    shinyjs::runjs("location.reload();")
-    # session$reload()
-  })
+
   
   
   
