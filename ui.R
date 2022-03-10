@@ -1,15 +1,16 @@
 
 library("shinythemes")
 library(gridExtra)
-install.packages('scico')
+
+
 library('scico')
-install.packages("dichromat")
+
 library("dichromat")
-library(tmaptools)
+
 library(leaflet)
 library(readxl)
 library(sf)
-library(tmap)
+
 library(dplyr)
 library(ggplot2)
 library(readr)
@@ -18,7 +19,7 @@ library(shiny)
 library(shinythemes)
 library(leaflet)
 library(leaflet.providers)
-#library(meltimr)
+
 library(zyp)
 library(Kendall)
 library(zoo)
@@ -39,10 +40,33 @@ library(shinyWidgets)
 library(fontawesome)
 library(readr)
 library(shinyjs)
-meta=data
-data=data2
-data2=meta
 
+
+library(tidyverse)
+library(tigris)
+library(leaflet)
+
+library(viridis)
+
+
+
+
+
+
+
+
+
+
+
+
+data=readRDS("Dateien/metadata.rds")
+data2=readRDS("Dateien/dataset.rds")
+MQlist=readRDS("Dateien/MQlist.rds")
+NMxQlist7=readRDS("Dateien/NMxQlist7.rds")
+NMxQlist14=readRDS("Dateien/NMxQlist14.rds")
+NMxQlist30=readRDS("Dateien/NMxQlist30.rds")
+NMxQlist60=readRDS("Dateien/NMxQlist60.rds")
+Periodmeta=readRDS("Dateien/Periodmeta.rds")
 
 # Daten vorbereiten -------------------------------------------------------
 
