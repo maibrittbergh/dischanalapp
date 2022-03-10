@@ -145,7 +145,7 @@ server= function(input, output, session){
   observeEvent(input$help,{
     showModal(modalDialog(
       title = "Need help?",
-      "Please choose your settings. Afterwards select a station on the map or in the table. Calculating Trends may take some time. To choose new settings or a different station please select the Clear Data- Button before adapting the settings.",
+      "Please choose your settings. Afterwards select a station on the map or in the table. Calculating Trends may take some time. To choose new settings or a different station please select the Lösche Darstellungsoptionen- Button before adapting the settings.",
       
     ))
   })
@@ -251,17 +251,17 @@ server= function(input, output, session){
       
       end_yea_cla <- as.numeric(format(disc_data[nrow(disc_data),1], "%Y"))-1
       
-      updateSliderInput(session, "year", label = "Select Year:",
+      updateSliderInput(session, "year", label = "Jahr: ",
                         min = sta_yea_cla, max = end_yea_cla)
       
-      updateSliderInput(session, "year2", label = "Select Year:",
+      updateSliderInput(session, "year2", label = "Jahr: ",
                         min = sta_yea_cla, max = end_yea_cla)
       
       
-      updateSliderInput(session, "yearq", label = "Select Year:",
+      updateSliderInput(session, "yearq", label = "Jahr: ",
                         min = sta_yea_cla, max = end_yea_cla)
       
-      updateSliderInput(session, "yearv", label = "Select Year:",
+      updateSliderInput(session, "yearv", label = "Jahr: ",
                         min = sta_yea_cla, max = end_yea_cla)
       
       
@@ -277,9 +277,9 @@ server= function(input, output, session){
       rast_time_init <- c(sta_yea_cla, end_yea_cla)
       
       
-      updateNumericInput(session, "ssy", label = "Select Startyear:", sta_yea_cla, 
+      updateNumericInput(session, "ssy", label = "Startjahr:", sta_yea_cla, 
                          min = sta_yea_cla+1, max = end_yea_cla-1)
-      updateNumericInput(session, "sey", label = "Select Endyear:", sta_yea_cla+1, 
+      updateNumericInput(session, "sey", label = "Endjahr:", sta_yea_cla+1, 
                          min = sta_yea_cla+1, max = end_yea_cla-1)
       
     })
@@ -289,7 +289,7 @@ server= function(input, output, session){
     t_plot <- function(){
       
       
-      if(input$qplot_variety == "Discharge Plot"){
+      if(input$qplot_variety == "Abflussganglinie"){
         
         if (input$pettitt1){
           Qplot=Qplot(data2, stat_name, T)
@@ -300,7 +300,7 @@ server= function(input, output, session){
         return(Qplot)
         
       }
-      if(input$qplot_variety == "annual Discharge Plot"){
+      if(input$qplot_variety == "jährliche Abflussganglinie"){
         
         if (input$hyeardis){
           Year=input$year2
@@ -319,7 +319,7 @@ server= function(input, output, session){
         return(qploty)
         
       }
-      if(input$qplot_variety == "annual Discharge Boxplot"){
+      if(input$qplot_variety == "jährlicher Boxplot der Messwerte"){
         
         
         Year=input$year
@@ -327,7 +327,7 @@ server= function(input, output, session){
         return(qboxploty)
         
       }
-      if(input$qplot_variety == "Discharge Boxplot"){
+      if(input$qplot_variety == "Boxplot der Messwerte"){
         
         qboxplot=QBoxplot(data=data2,  station=stat_name)
         return(qboxplot)
@@ -340,7 +340,7 @@ server= function(input, output, session){
     output$disch_plot <- renderPlot({t_plot()})
     
     
-    if(input$qplot_variety == "Seasonplot"){
+    if(input$qplot_variety == "Plot der Jahreszeiten"){
       
       observeEvent(input$printplot, {
         Startyear=input$ssy
@@ -362,38 +362,38 @@ server= function(input, output, session){
     #"season_trend", "Choose Season", c("Year", "Winter", "Spring", "Summer", "Autumn"))
     
     observeEvent(input$season_trend,{
-      if (input$season_trend=="Year"){
+      if (input$season_trend=="Jahr"){
         season="Y"
       }
-      if (input$season_trend=="Autumn"){
+      if (input$season_trend=="Herbst"){
         season="AU"
       }
       if (input$season_trend=="Winter"){
         season="WI"
       }
-      if (input$season_trend=="Spring"){
+      if (input$season_trend=="Frühling"){
         season="SP"
       }
-      if (input$season_trend=="Summer"){
+      if (input$season_trend=="Sommer"){
         season="SU"
       }
       
       
       
       observeEvent(input$season_trend_2,{
-        if (input$season_trend_2=="Year"){
+        if (input$season_trend_2=="Jahr"){
           seas="Y"
         }
-        if (input$season_trend_2=="Autumn"){
+        if (input$season_trend_2=="Herbst"){
           seas="AU"
         }
         if (input$season_trend_2=="Winter"){
           seas="WI"
         }
-        if (input$season_trend_2=="Spring"){
+        if (input$season_trend_2=="Frühling"){
           seas="SP"
         }
-        if (input$season_trend_2=="Summer"){
+        if (input$season_trend_2=="Sommer"){
           seas="SU"
         }
         
@@ -402,7 +402,7 @@ server= function(input, output, session){
         
         
         trendpl=function(){
-          if (input$trendpltype=="Trend of minimum Values"){
+          if (input$trendpltype=="Trend der Minimumwerte"){
             
             plotr=Qmin_trend(data=data2,  station=stat_name, mod=1) 
             return(plotr)
@@ -442,7 +442,7 @@ server= function(input, output, session){
     
     
     thres= function(){
-      if(input$thres_type=="Quantile Based"){
+      if(input$thres_type=="Quantilbasiert"){
         
         quantile=input$quantile
         Year=input$yearq
@@ -450,7 +450,7 @@ server= function(input, output, session){
         qperipl=periodplot_quantile(data2, stat_name , quantile, year=Year, graph=T)
         return( qperipl)
       }
-      if(input$thres_type=="Choose individual Value"){
+      if(input$thres_type=="Individueller Wert"){
         
         Val=input$value
         Year=input$yearv
@@ -522,18 +522,18 @@ server= function(input, output, session){
       
       end_yea_cla <- as.numeric(format(disc_data[nrow(disc_data),1], "%Y"))-1
       
-      updateSliderInput(session, "year", label = "Select Year:",
+      updateSliderInput(session, "year", label = "Jahr: ",
                         min = sta_yea_cla, max = end_yea_cla)
       
-      updateSliderInput(session, "year2", label = "Select Year:",
+      updateSliderInput(session, "year2", label = "Jahr: ",
                         min = sta_yea_cla, max = end_yea_cla)
       
       
       
-      updateSliderInput(session, "yearq", label = "Select Year:",
+      updateSliderInput(session, "yearq", label = "Jahr: ",
                         min = sta_yea_cla, max = end_yea_cla)
       
-      updateSliderInput(session, "yearv", label = "Select Year:",
+      updateSliderInput(session, "yearv", label = "Jahr: ",
                         min = sta_yea_cla, max = end_yea_cla)
       
       
@@ -549,9 +549,9 @@ server= function(input, output, session){
       rast_time_init <- c(sta_yea_cla, end_yea_cla)
       
       
-      updateNumericInput(session, "ssy", label = "Select Startyear:", sta_yea_cla, 
+      updateNumericInput(session, "ssy", label = "Startjahr:", sta_yea_cla, 
                          min = sta_yea_cla+1, max = end_yea_cla-1)
-      updateNumericInput(session, "sey", label = "Select Endyear:", sta_yea_cla+1, 
+      updateNumericInput(session, "sey", label = "Endjahr:", sta_yea_cla+1, 
                          min = sta_yea_cla+1, max = end_yea_cla-1)
       
     })
@@ -560,13 +560,13 @@ server= function(input, output, session){
     t_plot <- function(){
       
       
-      if(input$qplot_variety == "Discharge Plot"){
+      if(input$qplot_variety == "Abflussganglinie"){
         
         Qplot=Qplot(data2, stat_name)
         return(Qplot)
         
       }
-      if(input$qplot_variety == "annual Discharge Plot"){
+      if(input$qplot_variety == "jährliche Abflussganglinie"){
         
         
         Year=input$year2
@@ -574,7 +574,7 @@ server= function(input, output, session){
         return(qploty)
         
       }
-      if(input$qplot_variety == "annual Discharge Boxplot"){
+      if(input$qplot_variety == "jährlicher Boxplot der Messwerte"){
         
         
         Year=input$year
@@ -582,7 +582,7 @@ server= function(input, output, session){
         return(qboxploty)
         
       }
-      if(input$qplot_variety == "Discharge Boxplot"){
+      if(input$qplot_variety == "Boxplot der Messwerte"){
         
         qboxplot=QBoxplot(data=data2,  station=stat_name)
         return(qboxplot)
@@ -595,7 +595,7 @@ server= function(input, output, session){
     output$disch_plot <- renderPlot({t_plot()})
     
     
-    if(input$qplot_variety == "Seasonplot"){
+    if(input$qplot_variety == "Plot der Jahreszeiten"){
       
       observeEvent(input$printplot, {
         Startyear=input$ssy
@@ -603,18 +603,18 @@ server= function(input, output, session){
         month_start=input$season1
         month_end=input$season2
         
-        seasonplot=seasonpl(data=data2, station=stat_name, Startyear=Startyear, Endyear=Endyear, month_start=month_start, month_end =month_end )
+        plja=seasonpl(data=data2, station=stat_name, Startyear=Startyear, Endyear=Endyear, month_start=month_start, month_end =month_end )
         
         
       })
-      output$disch_plot <- renderPlot({seasonplot})
+      output$disch_plot <- renderPlot({plja})
       
     }
     
     
     #  trendpl=function(){
     
-    #"season_trend", "Choose Season", c("Year", "Winter", "Spring", "Summer", "Autumn"))
+    #"season_trend", "Choose Season", c("Year", "Winter", "Frühling", "Summer", "Autumn"))
     
     observeEvent(input$season_trend,{
       if (input$season_trend=="Year"){
@@ -626,7 +626,7 @@ server= function(input, output, session){
       if (input$season_trend=="Winter"){
         season="WI"
       }
-      if (input$season_trend=="Spring"){
+      if (input$season_trend=="Frühling"){
         season="SP"
       }
       if (input$season_trend=="Summer"){
@@ -645,7 +645,7 @@ server= function(input, output, session){
         if (input$season_trend_2=="Winter"){
           seas="WI"
         }
-        if (input$season_trend_2=="Spring"){
+        if (input$season_trend_2=="Frühling"){
           seas="SP"
         }
         if (input$season_trend_2=="Summer"){
@@ -657,7 +657,7 @@ server= function(input, output, session){
         
         
         trendpl=function(){
-          if (input$trendpltype=="Trend of minimum Values"){
+          if (input$trendpltype=="Trend der Minimumwerte"){
             
             plotr=Qmin_trend(data=data2,  station=stat_name, mod=1) 
             return(plotr)
@@ -668,7 +668,7 @@ server= function(input, output, session){
             plotr=NMxQ_trend(data=data2,  station=stat_name, x=x_val, seasonal=season, graphic=T)
             return(plotr)
           }
-          if (input$trendpltype=="Trend of Mean Values"){
+          if (input$trendpltype=="Trend der Mittelwerte"){
             
             
             plotr=MQ_trend(data=data2,  station=stat_name, seasonal=seas )
@@ -697,7 +697,7 @@ server= function(input, output, session){
     
     
     thres= function(){
-      if(input$thres_type=="Quantile Based"){
+      if(input$thres_type=="Quantilbasiert"){
         
         quantile=input$quantile
         Year=input$yearq
@@ -705,7 +705,7 @@ server= function(input, output, session){
         qperipl=periodplot_quantile(data2, stat_name , quantile, year=Year, graph=T)
         return( qperipl)
       }
-      if(input$thres_type=="Choose individual Value"){
+      if(input$thres_type=="Individueller Wert"){
         
         Val=input$value
         Year=input$yearv
@@ -5181,7 +5181,7 @@ server= function(input, output, session){
         clearMarkers() %>%
         addTiles() %>%
         
-        addCircleMarkers(lat = ~latitude, lng = ~longitude, 
+        addMarkers(lat = ~latitude, lng = ~longitude, 
                          
                          
                          
@@ -5189,6 +5189,10 @@ server= function(input, output, session){
                            paste('<b>', 'River', '</b>', river), 
                            paste('<b>',  'Station', '</b>', station),
                            paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
+                           paste('<b>',  'Begin of measurements:', '</b>', startday ),
+                           paste('<b>',  'End of measurements:', '</b>', endday ),
+                           paste('<b>',  'Catchment Area [km^2]', '</b>',catch_area ), 
+                           
                            
                            sep = '<br/>'),
                          popupOptions = popupOptions(closeButton = FALSE)
@@ -5213,32 +5217,6 @@ server= function(input, output, session){
     
   })  
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  # Settings Select ---------------------------------------------------------
   
   observeEvent({input$dataselect}, {
     if(input$dataselect=="Representative Stations only"){
@@ -5316,17 +5294,21 @@ server= function(input, output, session){
         clearPopups() %>% 
         clearMarkers() %>%
         addTiles() %>%
-        addCircleMarkers(data=filtdata, lat = ~latitude, lng = ~longitude, 
-                         
-                         
-                         
-                         popup = ~paste(
-                           paste('<b>', 'River', '</b>', river), 
-                           paste('<b>',  'Station', '</b>', station),
-                           paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
-                           
-                           sep = '<br/>'),
-                         popupOptions = popupOptions(closeButton = FALSE)
+        addMarkers(data=filtdata, lat = ~latitude, lng = ~longitude, 
+                   
+                   
+                   
+                   popup = ~paste(
+                     paste('<b>', 'River', '</b>', river), 
+                     paste('<b>',  'Station', '</b>', station),
+                     paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
+                     paste('<b>',  'Begin of measurements:', '</b>', startday ),
+                     paste('<b>',  'End of measurements:', '</b>', endday ),
+                     paste('<b>',  'Catchment Area [km^2]', '</b>',catch_area ), 
+                     
+                     
+                     sep = '<br/>'),
+                   popupOptions = popupOptions(closeButton = FALSE)
         )  %>%    
         
         addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -5340,6 +5322,7 @@ server= function(input, output, session){
           position = "topright",
           options = layersControlOptions(collapsed = F)
         )
+      
     }else if(input$dataselect=="All GRDC-Stations in Germany"){
       
       
@@ -5392,17 +5375,22 @@ server= function(input, output, session){
         clearPopups() %>% 
         clearMarkers() %>%
         addTiles() %>%
-        addCircleMarkers(data=filtdata, lat = ~latitude, lng = ~longitude, 
-                         
-                         
-                         
-                         popup = ~paste(
-                           paste('<b>', 'River', '</b>', river), 
-                           paste('<b>',  'Station', '</b>', station),
-                           paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
-                           
-                           sep = '<br/>'),
-                         popupOptions = popupOptions(closeButton = FALSE)
+        addMarkers(data=filtdata, lat = ~latitude, lng = ~longitude, 
+                   
+                   
+                   
+                   
+                   popup = ~paste(
+                     paste('<b>', 'River', '</b>', river), 
+                     paste('<b>',  'Station', '</b>', station),
+                     paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
+                     paste('<b>',  'Begin of measurements:', '</b>', startday ),
+                     paste('<b>',  'End of measurements:', '</b>', endday ),
+                     paste('<b>',  'Catchment Area [km^2]', '</b>',catch_area ), 
+                     
+                     
+                     sep = '<br/>'),
+                   popupOptions = popupOptions(closeButton = FALSE)
         )  %>%    
         
         addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -5482,17 +5470,21 @@ server= function(input, output, session){
         clearPopups() %>% 
         clearMarkers() %>%
         addTiles() %>%
-        addCircleMarkers(data=filtdata, lat = ~latitude, lng = ~longitude, 
-                         
-                         
-                         
-                         popup = ~paste(
-                           paste('<b>', 'River', '</b>', river), 
-                           paste('<b>',  'Station', '</b>', station),
-                           paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
-                           
-                           sep = '<br/>'),
-                         popupOptions = popupOptions(closeButton = FALSE)
+        addMarkers(data=filtdata, lat = ~latitude, lng = ~longitude, 
+                   
+                   
+                   
+                   popup = ~paste(
+                     paste('<b>', 'River', '</b>', river), 
+                     paste('<b>',  'Station', '</b>', station),
+                     paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
+                     paste('<b>',  'Begin of measurements:', '</b>', startday ),
+                     paste('<b>',  'End of measurements:', '</b>', endday ),
+                     paste('<b>',  'Catchment Area [km^2]', '</b>',catch_area ), 
+                     
+                     
+                     sep = '<br/>'),
+                   popupOptions = popupOptions(closeButton = FALSE)
         )  %>%    
         
         addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -5527,6 +5519,40 @@ server= function(input, output, session){
     
     
   })
+  
+  
+ 
+   
+ 
+    
+    
+    
+    
+    
+    
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  # Settings Select ---------------------------------------------------------
+  
+
   
   
   

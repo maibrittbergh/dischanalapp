@@ -55,87 +55,87 @@ repres=relstat=c("HOHENSAATEN-FINOW", "DRESDEN", "MAGDEBURG-STROMBRUECKE",
 
 
 
-ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"),
+ui = navbarPage(title="Niedrigwasseranalyse für Deutschland", theme = shinytheme("paper"),
                 
                 
 
 
 # First Tab ---------------------------------------------------------------
-tabPanel(title="Discharge Map",
+tabPanel(title="Stationsanalyse",
          
          fluidRow(
            column(8, 
-                  conditionalPanel(condition="input.plot_tabs!='User guide'", 
+                  conditionalPanel(condition="input.plot_tabs!='Anleitung'", 
                                    tabsetPanel(id="ui_tab", 
                                                
-                                               tabPanel("Map", 
-                                                        column(12, h4("Click a site"), shinycssloaders::withSpinner(leaflet::leafletOutput("map", height="800px"),
+                                               tabPanel("Karte", 
+                                                        column(12, h4("Wähle eine Station"), shinycssloaders::withSpinner(leaflet::leafletOutput("map", height="800px"),
                                                                                                                     size=3, color="#0080b7"))), 
-                                               tabPanel("Table", 
-                                                        column(12, h4("Click a site"), div(DT::dataTableOutput("table_input"), style = "font-size:70%"))
+                                               tabPanel("Tabelle", 
+                                                        column(12, h4("Wähle eine Station"), div(DT::dataTableOutput("table_input"), style = "font-size:70%"))
                                                ))
                   ),
-                  conditionalPanel(condition="input.plot_tabs=='User guide'", column(12)
+                  conditionalPanel(condition="input.plot_tabs=='Anleitung'", column(12)
                   )
            ), #Abschließen der linken Spalte mit Tabelle und Map
            
            column(4, tabsetPanel(id="plot_tabs", 
-                                 tabPanel("Descriptive Statistics", 
+                                 tabPanel("Deskriptive Statistik", 
                                           fluidRow(column(10, 
                                                           # uiOutput("date_slider") Vielleicht statt Jahr?
                                                           
                                                           
-                                                          actionButton('help', 'Help'), 
-                                                          radioButtons("ts_plot_type", "Plot type:", choices=c("Discharge Measurements", "Trend Analysis"), 
+                                                          actionButton('help', 'Hilfe'), 
+                                                          radioButtons("ts_plot_type", "Darstellung:", choices=c("Zeitreihenanalyse", "Trendanalyse"), 
                                                                        inline=T), #Functions QBoxplot, QBoxploty, Qplot, Qploty 
                                                           
-                                                          conditionalPanel(condition="input.ts_plot_type=='Discharge Measurements'", 
-                                                                           selectInput("qplot_variety", label="Display Options for Discharge Measurements:",
-                                                                                       choices=c("Discharge Plot",   "annual Discharge Plot", "annual Discharge Boxplot", "Discharge Boxplot",    "Seasonplot")) 
+                                                          conditionalPanel(condition="input.ts_plot_type=='Zeitreihenanalyse'", 
+                                                                           selectInput("qplot_variety", label="Optionen der Zeitreihenanalyse:",
+                                                                                       choices=c("Abflussganglinie",   "jährliche Abflussganglinie", "Boxplot der Messwerte",  "jährlicher Boxplot der Messwerte",   "Plot der Jahreszeiten")) 
                                                                            
                                                                            
                                                                            ,
                                                                            
-                                                                           conditionalPanel(condition="input.qplot_variety=='annual Discharge Boxplot'",  sliderInput("year", "Select Year:", 2000, min=1975, max=2015, sep="")),
+                                                                           conditionalPanel(condition="input.qplot_variety=='jährlicher Boxplot der Messwerte'",  sliderInput("year", "Jahr: ", 2000, min=1975, max=2015, sep="")),
                                                                            
-                                                                           conditionalPanel(condition="input.qplot_variety=='Discharge Plot'" , checkboxInput("pettitt1", "Pettitt-Test", value=FALSE)),
+                                                                           conditionalPanel(condition="input.qplot_variety=='Abflussganglinie'" , checkboxInput("pettitt1", "Pettitt-Test:", value=FALSE)),
                                                                            
                                                                            
-                                                                           conditionalPanel(condition="input.qplot_variety=='annual Discharge Plot'",  sliderInput("year2", "Select Year:", 2000, min=1975, max=2015, sep=""), checkboxInput("hyeardis", label="Hydrological Year", value=TRUE), 
+                                                                           conditionalPanel(condition="input.qplot_variety=='jährliche Abflussganglinie'",  sliderInput("year2", "Jahr: ", 2000, min=1975, max=2015, sep=""), checkboxInput("hyeardis", label="Hydrologisches Jahr", value=TRUE), 
                                                                                             checkboxInput("pettitt2", "Pettitt-Test", value=FALSE) ),
-                                                                           conditionalPanel(condition="input.qplot_variety=='Seasonplot'",  sliderInput("season1", "Select Begin of the Season:",5,min=01, max=12)),
-                                                                           conditionalPanel(condition="input.qplot_variety=='Seasonplot'",  sliderInput("season2", "Select End of the Season:",5,min=01, max=12, ) ),
-                                                                           conditionalPanel(condition="input.qplot_variety=='Seasonplot'",  numericInput("ssy", "Select Startyear:",2000, min=1999, max=2005 ) ),
-                                                                           conditionalPanel(condition="input.qplot_variety=='Seasonplot'",  numericInput("sey", "Select Endyear:",2001, min=1999, max=2005 ) ),
-                                                                           conditionalPanel(condition="input.qplot_variety=='Seasonplot'",      actionButton("printplot", label="Print Plot")  ),
+                                                                           conditionalPanel(condition="input.qplot_variety=='Plot der Jahreszeiten'",  sliderInput("season1", "Anfang des Jahresabschnitts:",5,min=01, max=12)),
+                                                                           conditionalPanel(condition="input.qplot_variety=='Plot der Jahreszeiten'",  sliderInput("season2", "Ende des Jahresabschnitts:",5,min=01, max=12, ) ),
+                                                                           conditionalPanel(condition="input.qplot_variety=='Plot der Jahreszeiten'",  numericInput("ssy", "Startjahr:",2000, min=1999, max=2005 ) ),
+                                                                           conditionalPanel(condition="input.qplot_variety=='Plot der Jahreszeiten'",  numericInput("sey", "Endjahr:",2001, min=1999, max=2005 ) ),
+                                                                           conditionalPanel(condition="input.qplot_variety=='Plot der Jahreszeiten'",      actionButton("printplot", label="Erstelle Plot")  ),
                                                                            conditionalPanel(condition="input.qplot_variety=='Trendplot'",      renderText({"Loading may take some time. Thank you for your patience."}) ),
                                                                            
                                                                            
                                                                            plotOutput("disch_plot", width = "100%"), 
                                                                            
                                                                            
-                                                                           actionButton("cleardata", label="Clear Data"), 
+                                                                           actionButton("cleardata", label="Lösche Darstellungsoptionen"), 
                                                                            actionButton("reset2", "Reset")) , 
                                                           
                                                           
                                                           
-                                                          conditionalPanel(condition="input.ts_plot_type=='Trend Analysis'",
-                                                                           selectInput("trendpltype", "Type of plot", choices=c("Trend of minimum Values", "NMxQ-Trend", "Trend of Mean Values")),
+                                                          conditionalPanel(condition="input.ts_plot_type=='Trendanalyse'",
+                                                                           selectInput("trendpltype", "Optionen der Trendanalyse:", choices=c("Trend der Minimumwerte", "NMxQ-Trend", "Trend der Mittewlwerte")),
                                                                            
                                                                            
                                                                            
                                                                            conditionalPanel( condition="input.trendpltype=='NMxQ-Trend'", 
                                                                                              sliderInput("xVALUE", "X-Value", value=14, min=4, max=90), 
-                                                                                             selectInput("season_trend", "Choose a Season",choices= c("Year", "Winter", "Spring", "Summer", "Autumn"))), 
+                                                                                             selectInput("season_trend", "Jahr/Jahreszeit:",choices= c("Jahr", "Winter", "Frühling", "Sommer", "Herbst"))), 
                                                                            
                                                                            
-                                                                           #Trend of Mean Values"){
+                                                                           #Trend der Mittewlwerte"){
                                                                            
                                                                            
                                                                            
-                                                                           conditionalPanel( condition="input.trendpltype=='Trend of Mean Values'", 
+                                                                           conditionalPanel( condition="input.trendpltype=='Trend der Mittelwerte'", 
                                                                                              
-                                                                                             selectInput("season_trend_2", "Choose a Season",choices= c("Year", "Winter", "Spring", "Summer", "Autumn"))), 
+                                                                                             selectInput("season_trend_2", "Jahr/Jahreszeit:",choices= c("Jahr", "Winter", "Frühling", "Sommer", "Herbst"))), 
                                                                            
                                                                            
                                                                            
@@ -145,7 +145,7 @@ tabPanel(title="Discharge Map",
                                                                            
                                                                            plotOutput("trendplot") %>% withSpinner(color="#0dc5c1"), 
                                                                            
-                                                                           actionButton("cleardata2", label="Clear Data"), 
+                                                                           actionButton("cleardata2", label="Lösche Darstellungsoptionen"), 
                                                                            actionButton("reset2", "Reset"))
                                                           
                                                           
@@ -154,28 +154,28 @@ tabPanel(title="Discharge Map",
                                           )) ),
                                  
                                  
-                                 tabPanel("Threshold-based", 
+                                 tabPanel("Schwellenwertbasiert", 
                                           
                                           
                                           fluidRow(column(10, 
                                                           # uiOutput("date_slider") Vielleicht statt Jahr?
                                                           
-                                                          # conditionalPanel(condition="input.qplot_variety=='annual Discharge Plot'", 
-                                                          actionButton('helpthres', 'Help'), 
-                                                          radioButtons("thres_type", "Threshold:", choices=c("Quantile Based", "Choose individual Value"), 
+                                                          # conditionalPanel(condition="input.qplot_variety=='jährliche Abflussganglinie'", 
+                                                          actionButton('helpthres', 'Hilfe'), 
+                                                          radioButtons("thres_type", "Grenzwert:", choices=c("Quantilbasiert", "Individueller Wert"), 
                                                                        inline=T), 
                                                           
                                                           
-                                                          conditionalPanel(condition="input.thres_type=='Quantile Based'", 
-                                                                           sliderInput("quantile", label="Quantile", min=0.05, max=1, value=0.3, step=0.05), sliderInput("yearq", "Select Year:", 2000, min=1975, max=2015, sep="")), 
+                                                          conditionalPanel(condition="input.thres_type=='Quantilbasiert'", 
+                                                                           sliderInput("quantile", label="Quantile", min=0.05, max=1, value=0.3, step=0.05), sliderInput("yearq", "Jahr: ", 2000, min=1975, max=2015, sep="")), 
                                                           
                                                           
-                                                          conditionalPanel(condition="input.thres_type=='Choose individual Value'", 
-                                                                           sliderInput("value", label="Value", min=0, max=3000, value=150,  sep=""), sliderInput("yearv", "Select Year:", 2000, min=1975, max=2015, sep="")), 
+                                                          conditionalPanel(condition="input.thres_type=='Individueller Wert'", 
+                                                                           sliderInput("value", label="Value", min=0, max=3000, value=150,  sep=""), sliderInput("yearv", "Jahr: ", 2000, min=1975, max=2015, sep="")), 
                                                           
                                                           plotOutput("thresplot", width = "100%"), 
                                                           
-                                                          actionButton("cleardata3", label="Clear Data")
+                                                          actionButton("cleardata3", label="Lösche Darstellungsoptionen")
                                                           
                                           )) 
                                           
@@ -186,7 +186,7 @@ tabPanel(title="Discharge Map",
                                  
                                  
                                  
-                                 tabPanel("User guide",
+                                 tabPanel("Anleitung",
                                           fluidRow(
                                             column(8,
                                                    # includeMarkdown('./user_guide/user_guide.rmd') #including MArkdown for Users Guide 
@@ -218,7 +218,7 @@ tabPanel(title="Trend of Minimum Discharge",
          
          fluidRow(
            column(9, 
-                  conditionalPanel(condition="input.area_trend!='User Guide'",
+                  conditionalPanel(condition="input.area_trend!='Anleitung'",
                   
                   tabPanel("Areal Trends and Characteristics in Germany", 
                            column(12, h4("Click to See the Stations Name"), shinycssloaders::withSpinner(leaflet::leafletOutput("datamap", height="800px"),
@@ -229,7 +229,7 @@ tabPanel(title="Trend of Minimum Discharge",
                   
            )),
            
-         #  conditionalPanel(condition="input.area_trend=='User Guide'", 
+         #  conditionalPanel(condition="input.area_trend=='Anleitung'", 
                             
                           #  includeMarkdown()
                          #   ),
@@ -331,7 +331,7 @@ tabPanel(title="Trend of Minimum Discharge",
                                                        
                                        ))), 
                               
-                              tabPanel(title="User Guide",id="User Guide"
+                              tabPanel(title="Anleitung",id="Anleitung"
                                        
   
                                        
@@ -394,8 +394,9 @@ navbarMenu(title="Dataset Information",
                                                                   
                                                                   
                                                                   radioButtons("dataselect", "Select Dataset", choices=c("All GRDC-Stations in Germany","Representative Stations only")), 
-                                                                  sliderInput("range", "Select Timerange:", value=c(2000
-                                                                                                                    ,2001), min=min(data$startyear), max=max(data$endyear), sep="")
+                                                                  sliderInput("range", "Select Timerange:", value=c(1998
+                                                                                                                    ,2004), min=min(data$startyear), max=max(data$endyear), sep=""), 
+                                                                  actionButton("gostations", "Show Stations")
                                                                   
                                                                   
                                                                   
@@ -414,7 +415,7 @@ navbarMenu(title="Dataset Information",
 
 # Graphics ----------------------------------------------------------------
 
-# conditionalPanel(condition="input.plot_tabs!='User guide'", 
+# conditionalPanel(condition="input.plot_tabs!='Anleitung'", 
 #tabsetPanel(id="ui_tab", 
            tabPanel("Data Distribution", 
                     
