@@ -1,21 +1,4 @@
-#actualapp
-#data=metadata -startday, -endday
-#data2=large List: contains every Date and Discharge Value for the station in metadata
 
-
-
-
-#Pakete laden
-
-#sudo su - -c "R -e \"install.packages('readxl')\"
-#install.packages("leaflet")
-#install.packages("tmaptools")
-
-#remove.packages(c("tmaptools", "lwgeom"))
-#install.packages('Rcpp', dependencies = TRUE)
-#install.packages('tmaptools', dependencies = TRUE)
-#install.packages("shinythemes")
-#install.packages('lwgeom', dependencies = TRUE)
 library("shinythemes")
 library(gridExtra)
 install.packages('scico')
@@ -56,50 +39,26 @@ library(shinyWidgets)
 library(fontawesome)
 library(readr)
 library(shinyjs)
-
-
+meta=data
+data=data2
+data2=meta
 
 
 # Daten vorbereiten -------------------------------------------------------
 
 
-#st_grdc=st_as_sf(metadata_repg, coords=c("longitude","latitude"), crs=4326 )
 
-#data=st_grdc
-
-data=metadata_repg(metadata_germany, mark=T)
-View(data2)
-data2
-BS=which(data$station=="BAD SUELZE")
-View(listeddata)
-data2=listeddata[-BS[1] ]
-data=data[-BS[1], ]
-data2=grdc_list(data, path)
-#data=metadata_repg
-data=metadat
-#data2=grdc_list(data, path)
-
-data3=grdc_list(metadata_rep,path)
-  #grdc_list(metadata_germany, path)
-#data3=GRDC_list(metadata_germany, path)
-data4=metadata_rep
-MQ_1820_2019  
 
 repres=relstat=c("HOHENSAATEN-FINOW", "DRESDEN", "MAGDEBURG-STROMBRUECKE",
-          "RATHENOW UP", "CALBE-GRIZEHNE", "INTSCHEDE",  "HANN.-MUENDEN", "VLOTHO",
-          "VERSEN-WEHRDURCHSTICH", "GREVEN", "MAXAU", "KAUB", "KOELN", "COCHEM", "WUERZBURG" , "ROCKENAU SKA", "ACHLEITEN", "BURGHAUSEN", "WASSERBURG", "LANDSBERG", "KEMPTEN")
+                 "RATHENOW UP", "CALBE-GRIZEHNE", "INTSCHEDE",  "HANN.-MUENDEN", "VLOTHO",
+                 "VERSEN-WEHRDURCHSTICH", "GREVEN", "MAXAU", "KAUB", "KOELN", "COCHEM", "WUERZBURG" , "ROCKENAU SKA", "ACHLEITEN", "BURGHAUSEN", "WASSERBURG", "LANDSBERG", "KEMPTEN")
 
-
-
-data3=data2
-data2=datan5
 
 
 ui = navbarPage(title="Low Flow Analysis in Germany", theme = shinytheme("paper"),
                 
                 
-                
-                
+
 
 # First Tab ---------------------------------------------------------------
 tabPanel(title="Discharge Map",
@@ -435,8 +394,8 @@ navbarMenu(title="Dataset Information",
                                                                   
                                                                   
                                                                   radioButtons("dataselect", "Select Dataset", choices=c("All GRDC-Stations in Germany","Representative Stations only")), 
-                                                                  sliderInput("range", "Select Timerange:", value=c(1995
-                                                                                                                    ,2005), min=min(data$startyear), max=max(data$endyear), sep="")
+                                                                  sliderInput("range", "Select Timerange:", value=c(2000
+                                                                                                                    ,2001), min=min(data$startyear), max=max(data$endyear), sep="")
                                                                   
                                                                   
                                                                   
@@ -463,10 +422,12 @@ navbarMenu(title="Dataset Information",
                     fluidRow(
                       column(4, 
                              
-                             selectInput("ddgraph", "Data Distribution Graph", choices=c("Length: Timeseries of Discharge Data","Compare Discharge Measurements",  "Area Distribution" )), 
+                             selectInput("ddgraph", "Data Distribution Graph", choices=c(
+                               #"Length: Timeseries of Discharge Data",
+                               "Compare Discharge Measurements",  "Area Distribution" )), 
                              
                              
-                             conditionalPanel(condition= "input.ddgraph=='Length: Timeseries of Discharge Data'",  radioButtons("densl", "Presentation", choices=c("Density Plot","Colour Map"))),
+                            # conditionalPanel(condition= "input.ddgraph=='Length: Timeseries of Discharge Data'",  radioButtons("densl", "Presentation", choices=c("Density Plot","Colour Map"))),
                              conditionalPanel(condition= "input.ddgraph=='Compare Discharge Measurements'", sliderInput("yeatise", " X-Axis-Resolution (Timeframe):", value=c(1950, 2000), min=1820, max=2020, sep="") , sliderInput("frametise", "Y-Axis Resolution:", value=c(0, 3100), min=0, max=7000, sep="") )
                                               
                                              
@@ -475,9 +436,9 @@ navbarMenu(title="Dataset Information",
                                               
                              ),
                       column(8, 
-                             conditionalPanel(condition= "input.ddgraph=='Length: Timeseries of Discharge Data'", 
-                             conditionalPanel(condition="input.densl=='Density Plot'", plotOutput("distplot", width = "100%", height=400) %>% withSpinner(color="#0dc5c1")), 
-                             conditionalPanel(condition="input.densl=='Colour Map'", tmapOutput("tmap", width = "100%", height = 700) %>% withSpinner(color="#0dc5c1"))) , 
+                            # conditionalPanel(condition= "input.ddgraph=='Length: Timeseries of Discharge Data'", 
+                             #conditionalPanel(condition="input.densl=='Density Plot'", plotOutput("distplot", width = "100%", height=400) %>% withSpinner(color="#0dc5c1")), 
+                             #conditionalPanel(condition="input.densl=='Colour Map'", tmapOutput("tmap", width = "100%", height = 700) %>% withSpinner(color="#0dc5c1"))) , 
                              
                              conditionalPanel(condition="input.ddgraph=='Compare Discharge Measurements'",  plotOutput("tisepl", width = "100%", height = 700) %>% withSpinner(color="#0dc5c1")) , 
                              
@@ -494,49 +455,6 @@ navbarMenu(title="Dataset Information",
 
 
 
-
-
-
-
-#tabP#anel(title="Dataset Information", 
-      #   
-       #  fluidRow(
-        #   column(7, 
-         #         
-          #        
-           #       tabPanel("StationDistribution", 
-            #               column(12, h4("Click to See the Stations Information"), shinycssloaders::withSpinner(leaflet::leafletOutput("stationmap", height="800px"),
-             #                                                                                            size=3, color="#0080b7"))) , 
-              #    
-                  
-                  
-                  
- #          ),
-  #         
-   #        column(5,
-    #              tabsetPanel(id="data_dist", 
-     #                         tabPanel("Settings", 
-      #                                 fluidRow(column(10, 
-       #                                              
-        #                                               
-         #                                              
-          #                                             radioButtons("dataselect", "Select Dataset", choices=c("All GRDC-Stations in Germany","Representative Stations only")), 
-           #                                            sliderInput("range", "Select Timerange:", value=c(1995
-            #                                                                                             ,2005), min=min(data$startyear), max=max(data$endyear), sep="")
-             #                                          
-              #                                         
-               #                                        
-                #                                       
-                 #                                      
-                  #                                     
-                   #                                    
-                    #                                   
-                     #                                  
-                      #                                 
-                       #                ))))))
-         #
-         
-#),
 
 
 

@@ -5546,29 +5546,29 @@ server= function(input, output, session){
     
     
     
-    if (input$ddgraph=="Length: Timeseries of Discharge Data"){
+ #   if (input$ddgraph=="Length: Timeseries of Discharge Data"){
       
       
       
-      observe({
+  #    observe({
         
         
-        if (input$densl=="Density Plot"){
-          plot=length_distribution(data, "j")
+   #     if (input$densl=="Density Plot"){
+    #      plot=length_distribution(data, "j")
           
-          output$distplot=renderPlot({  plot})
+     #     output$distplot=renderPlot({  plot})
           
-        }
-        if (input$densl=="Colour Map"){
-          plot=length_distribution(data, "map")
-          output$tmap=renderTmap({ plot })
+  #      }
+   #     if (input$densl=="Colour Map"){
+    #      plot=length_distribution(data, "map")
+     #     output$tmap=renderTmap({ plot })
           
-        }
+      #  }
         
         
-      })
+      #})
       
-    }
+    #}
     
     if (input$ddgraph=="Compare Discharge Measurements"){
       observe({
