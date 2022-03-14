@@ -144,7 +144,7 @@ tabPanel(title="Stationsanalyse",
                                                           
                                                           
                                                           conditionalPanel(condition="input.ts_plot_type=='Trendanalyse'",
-                                                                           selectInput("trendpltype", "Optionen der Trendanalyse:", choices=c("Trend der Minimumwerte", "NMxQ-Trend", "Trend der Mittewlwerte")),
+                                                                           selectInput("trendpltype", "Optionen der Trendanalyse:", choices=c("Trend der Minimumwerte", "NMxQ-Trend", "Trend der Mittelwerte")),
                                                                            
                                                                            
                                                                            

@@ -1,5 +1,61 @@
 
-
+Qmin_trend=function(data, station, mod=1) {
+  
+  nbr=which(names(data)==station)
+  val=data[[nbr]]
+  abs_min=min(data[[nbr]][,2])
+  
+  year_one=as.numeric(substring(as.character(data[[nbr]][1,1]),1,4))
+  length=length(data[[nbr]][,1])
+  last_year=as.numeric(substring(as.character(data[[nbr]][length,1]),1,4))
+  years=c(year_one:last_year)
+  l=length(years)
+  q_min=rep(0, l)
+  for ( i in 1:l){
+    year=as.character(years[i])
+    j=grep(year, data[[nbr]][,1])
+    Val=data[[nbr]][,2][j]
+    q_min[i]=min(Val)
+  }
+  results=data.frame(years, q_min)
+  model= min_trend(data, station)
+  
+  
+  if(mod==1){
+    titl=paste("Yuepilon and Linear Trend of Minimum Values at",station)
+    cap=paste("Absolute Minimum is: ", abs_min, "slope: Trend Line- Sens Sloap:",model$slope_zyp,"slope: Trend Line- Least Squares:", model$slope_lm)
+    plot=ggplot(results)+geom_line(mapping=aes(x=years,y=q_min, group=1, col="a"), show.legend  =TRUE)+labs(title=titl, subtitle=paste("from", year_one, "to", last_year), x="Years" , y="Minimum Discharge Value", caption=cap)+
+      geom_abline(aes(intercept = model$intercept_zyp, slope= model$slope_zyp,  col="b"), show.legend=TRUE)+
+      geom_abline(aes(intercept= model$intercept_lm, slope=model$slope_lm,col="c"), show.legend=TRUE)+  scale_color_manual(name = "Legend:   ",
+                                                                                                                           labels=c("Minimum values", "Trend Line - Sens Sloap",
+                                                                                                                                    "Trend Line-Least Squares"), values=c("a"="#F8766D","b"= "#00BDD0", "c"="darkblue"), guide="legend")+ theme(legend.position = "bottom" )
+    
+  }else if (mod==2){
+    
+    titl=paste("Yuepilon  Trend of Minimum Values at",station)
+    cap=paste("Absolute Minimum is: ", abs_min, "slope: Trend Line- Sens Sloap:",model$slope_zyp)
+    plot=ggplot(results)+geom_line(mapping=aes(x=years,y=q_min, group=1, col="a"), show.legend  =TRUE)+labs(title=titl, subtitle=paste("from", year_one, "to", last_year), x="Years" , y="Minimum Discharge Value", caption=cap)+
+      geom_abline(aes(intercept = model$intercept_zyp, slope= model$slope_zyp,  col="b"), show.legend=TRUE)+
+      scale_color_manual(name = "Legend:   ",
+                         labels=c("Minimum values", "Trend Line - Sens Sloap"
+                         ), values=c("a"="#F8766D","b"= "#00BDD0"), guide="legend")+ theme(legend.position = "bottom" )
+  }else if(mod==3){
+    
+    titl=paste("Linear Trend of Minimum Values at",station)
+    cap=paste("Absolute Minimum is: ", abs_min,"slope: Trend Line- Least Squares:", model$slope_lm)
+    plot=ggplot(results)+geom_line(mapping=aes(x=years,y=q_min, group=1, col="a"), show.legend  =TRUE)+labs(title=titl, subtitle=paste("from", year_one, "to", last_year), x="Years" , y="Minimum Discharge Value", caption=cap)+
+      geom_abline(aes(intercept= model$intercept_lm, slope=model$slope_lm,col="c"), show.legend=TRUE)+  scale_color_manual(name = "Legend:   ",
+                                                                                                                           labels=c("Minimum values",
+                                                                                                                                    "Trend Line-Least Squares"), values=c("a"="#F8766D", "c"="darkblue"), guide="legend")+ theme(legend.position = "bottom" )
+  }
+  
+  
+  
+  
+  return(plot)
+  
+  
+}
 
 
 server= function(input, output, session){
@@ -386,7 +442,7 @@ server= function(input, output, session){
         
         
         
-        
+   
         
         trendpl=function(){
           if (input$trendpltype=="Trend der Minimumwerte"){
@@ -400,7 +456,7 @@ server= function(input, output, session){
             plotr=NMxQ_trend(data=data2,  station=stat_name, x=x_val, seasonal=season, graphic=T)
             return(plotr)
           }
-          if (input$trendpltype=="Trend of Mean Values"){
+          if (input$trendpltype=="Trend der Mittelwerte"){
             
             
             plotr=MQ_trend(data=data2,  station=stat_name, seasonal=seas )
@@ -864,54 +920,21 @@ server= function(input, output, session){
         if(input$trendtypemq== "Yuepilon-Method: PreWhitening and homogenization of autocorrelation"){
           
       #######    
-          mapdd= function(mapdd,method){
-            
-            lmapd=length(mapdd)
-            
-            max=rep(0,lmapd)
-            min=rep(0, lmapd)
-            matrix=matrix(ncol=4)
-            if(method=="zyp"){
-              
-              for ( i in 1: lmapd){
-                data=cbind(mapdd[[i]]$Wslopezyp, mapdd[[i]]$Yslopezyp,  mapdd[[i]]$Sslopezyp,  mapdd[[i]]$Spslopezyp, mapdd[[i]]$Aslopezyp) 
-                min[i]=min(data)
-                max[i]=max(data)
-              }
-              
-              return(c(min(min), max(max)))
-              
-            }
-            if(method=="lm"){
-              for ( i in 1: lmapd){
-                data=cbind(mapdd[[i]]$Wslopelm, mapdd[[i]]$Yslopelm,  mapdd[[i]]$Sslopelm,  mapdd[[i]]$Spslopelm, mapdd[[i]]$Aslopelm) 
-                max[i]=max(data)
-                min[i]=min(data)
-              }
-              
-              
-              return(c(min(min), max(max)))
-              
-            }
-            
-          }
-          
-          datacoln=mapdd(mapd, "zyp")
-          
-          minVal <- min(datacoln)
-          
-          maxVal <- max(datacoln)
+    
           
           
           
           
-          sequence=seq(-0.015, 0.015, 0.005) #c(-0.015, sec,0.015)
+      
+          sequence=c(-22,-18, -12, -8,-6,  -4, -2, -0.01, 0, 0.01,2, 4, 6, 8,  12, 18, 22)
           lsl=length(sequence)
           
           risk.bins =sequence
           
+          #scico(lsl, palette = 'hawaii')
+          risk.pal<- colorBin(scico(lsl, palette = 'hawaii'), bins=risk.bins, na.color = "#aaff56")
           
-          risk.pal<- colorBin( scico(lsl, palette = 'hawaii'), bins=risk.bins, na.color = "#aaff56")
+        
       #######
           
           if (input$seasonmq=="Spring"){
@@ -925,6 +948,8 @@ server= function(input, output, session){
             
             Spzyp= as.numeric(mapdata$Spslopezyp)
             
+            
+            
         
             
             leafletProxy("datamap",session )%>%
@@ -933,7 +958,7 @@ server= function(input, output, session){
               clearMarkers() %>%
               addTiles() %>%
               
-              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Spzyp),
+              addCircleMarkers(data=mapdata, lat = ~latitude, lng = ~longitude, color=~risk.pal(Spzyp),  
                                                                                                                        
                                
                                
@@ -945,20 +970,20 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                               popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
-              
+          
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
               addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
               
               #va,s=Spzyp
               
-              addLegend(pal= risk.pal, values=sequence, position="topleft",  title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal= risk.pal, values=sequence, position="topleft",  title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
                 
-                baseGroups = c("Open Street Map", "Terrain Background"),
+                baseGroups = c( "Open Street Map", "Terrain Background"),
                 position = "topright",
                 
                 options = layersControlOptions(collapsed = F)
@@ -1017,7 +1042,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -1025,7 +1050,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1101,7 +1126,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -1109,7 +1134,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal= risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal= risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1159,7 +1184,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -1167,7 +1192,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal(Wzyp),position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal(Wzyp),position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1215,7 +1240,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -1223,7 +1248,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal(Yzyp), position="topleft", values=  Yzyp, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal(Yzyp), position="topleft", values= sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1247,24 +1272,17 @@ server= function(input, output, session){
         
         
         if(input$trendtypemq== "Linear Model: Least Squares Approach"){
-          
- 
-          datacoln=mapdd(MQlist, "lm")
-          
-          minVal <- min(datacoln)
-          
-          maxVal <- max(datacoln)
+
           
           
-          
-          
-          sequence=seq(-0.015, 0.015, 0.005) #c(-0.015, sec,0.015)
+          s=seq(-8,8, 2) #c(-0.015, sec,0.015)
+          sequence=c(-22,-18, -12, -8,-6,  -4, -2, -0.01, 0, 0.01,2, 4, 6, 8,  12, 18, 22)
           lsl=length(sequence)
           
           risk.bins =sequence
           
-          
-          risk.pal<- colorBin( scico(lsl, palette = 'hawaii'), bins=risk.bins, na.color = "#aaff56")
+          #scico(lsl, palette = 'hawaii')
+          risk.pal<- colorBin(scico(lsl, palette = 'hawaii'), bins=risk.bins, na.color = "#aaff56")
           
           if (input$seasonmq=="Spring"){
             
@@ -1298,7 +1316,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1, 
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -1306,7 +1324,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1357,7 +1375,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -1365,7 +1383,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1414,7 +1432,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -1422,7 +1440,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1472,7 +1490,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -1480,7 +1498,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1530,7 +1548,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -1538,7 +1556,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal= risk.pal, position="topleft", values=sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal= risk.pal, position="topleft", values=sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1560,7 +1578,13 @@ server= function(input, output, session){
         #mapdata$Spsigzyp)
         if(input$trendtypemq== "Significance of Zyp-Trend"){
           
-    
+          sequence=c(0, 0.01,0.02,0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1,1)
+          lsl=length(sequence)
+          
+          risk.bins =sequence
+          
+          
+          risk.pal<- colorBin( "viridis", bins=risk.bins, na.color = "#aaff56")
           
           
           if (input$seasonmq=="Spring"){
@@ -1576,7 +1600,7 @@ server= function(input, output, session){
             
             Spsig_= as.numeric(mapdata$Spsigzyp)
             
-            pal=colorNumeric("viridis", reverse = T, domain=  Spsig_)
+            #pal=colorNumeric("viridis", reverse = T, domain=  Spsig_)
             
             leafletProxy("datamap",session )%>%
               clearPopups() %>% 
@@ -1595,7 +1619,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -1603,7 +1627,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values=  Spsig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  Spsig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1654,7 +1678,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -1662,7 +1686,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values=  Ssig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  Ssig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1710,7 +1734,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -1718,7 +1742,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values=  Asig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  Asig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1770,7 +1794,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -1778,7 +1802,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values=  Wsig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  Wsig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1830,7 +1854,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -1838,7 +1862,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values=  Ysig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  Ysig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1927,7 +1951,7 @@ server= function(input, output, session){
           
           
      
-        sequence=c(-15, -10,-5, 0, 5, 10, 15)
+        sequence=c(-18, -15,-12,-9, -6,-3,  -0.01, 0, 0.01, 3,6,9,12,15,18)
           lsl=length(sequence)
           
           risk.bins =sequence
@@ -1968,7 +1992,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -1976,7 +2000,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values= sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values= sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2037,7 +2061,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -2045,7 +2069,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values= sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values= sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2120,7 +2144,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -2128,7 +2152,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2178,7 +2202,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -2186,7 +2210,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal= risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal= risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2235,7 +2259,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -2243,7 +2267,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values=sequence, labels=c("< -7.5", as.character(sequence2), ">7.5"), title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=sequence, labels=c("< -7.5", as.character(sequence2), ">7.5"), title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2268,7 +2292,8 @@ server= function(input, output, session){
         
         if(input$trendtypemq2== "Linear Model: Least Squares Approach"){
           
-          sequence=c(-15, -10,-5, 0, 5, 10, 15)
+         
+          sequence=c(-18, -15,-12,-9, -6,-3, -0.01, 0, 0.01, 3,6,9,12,15,18)
           lsl=length(sequence)
           
           risk.bins =sequence
@@ -2310,7 +2335,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -2318,7 +2343,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2369,7 +2394,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -2377,7 +2402,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal= risk.pal, position="topleft", values=sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal= risk.pal, position="topleft", values=sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2426,7 +2451,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -2434,7 +2459,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=  risk.pal, position="topleft", values= sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=  risk.pal, position="topleft", values= sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2484,7 +2509,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -2492,7 +2517,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal= risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal= risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2542,7 +2567,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -2550,7 +2575,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2613,7 +2638,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -2621,7 +2646,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values= sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values= sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2672,7 +2697,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -2680,7 +2705,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2728,7 +2753,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -2736,7 +2761,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal= risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal= risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2788,7 +2813,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -2796,7 +2821,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2848,7 +2873,7 @@ server= function(input, output, session){
                                  
                                  
                                  sep = '<br/>'),
-                               popupOptions = popupOptions(closeButton = FALSE)
+                                popupOptions = popupOptions(closeButton = FALSE), opacity = 1
               )  %>%    
               
               addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -2856,7 +2881,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2933,14 +2958,14 @@ server= function(input, output, session){
             risk.bins =sequence
             
             
-            risk.pal<- colorBin( scico(lsl, palette = 'hawaii', direction=-1), bins=risk.bins, na.color = "#aaff56")
+            risk.pal<- colorBin(    scico(lsl, palette = 'hawaii', direction = -1),   bins=risk.bins, na.color = "#aaff56")
             
             
             if(input$quantiles=="70"){
               
               
               
-              
+              ?colorBin
               
               
               title <- tags$div(
@@ -2968,7 +2993,7 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
@@ -2976,7 +3001,7 @@ server= function(input, output, session){
                 
                 
                 
-                addLegend(pal=risk.pal, position="topleft", values= sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values= sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -3025,14 +3050,14 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
                 
-                addLegend(pal=risk.pal, position="topleft", values= sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values= sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 
@@ -3092,13 +3117,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values= sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values= sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 
@@ -3150,13 +3175,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values= sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values= sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 
@@ -3209,13 +3234,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 
@@ -3262,13 +3287,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -3294,13 +3319,13 @@ server= function(input, output, session){
           
           if(input$periodway=="Sum of Days under Value"){
             
-            sequence=c(-3,  -2,-1.0,-0.5 , -0.01, 0, 0.01,0.5 , 1, 2, 3)
+            sequence=c(-5, -4, -3,  -2,-1.0,-0.5 , -0.01, 0, 0.01,0.5 , 1, 2, 3, 4, 5)
             lsl=length(sequence)
             
             risk.bins =sequence
             
             
-            risk.pal<- colorBin( scico(lsl, palette = 'hawaii', direction=-1), bins=risk.bins, na.color = "#aaff56")
+            risk.pal<- colorBin(    scico(lsl, palette = 'hawaii', direction = -1), bins=risk.bins, na.color = "#aaff56")
             
             
             if(input$quantiles=="70"){
@@ -3330,13 +3355,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=    sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=    sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -3385,13 +3410,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -3442,13 +3467,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -3505,13 +3530,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=    sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=    sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -3560,13 +3585,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -3617,13 +3642,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=    sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=    sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -3672,7 +3697,7 @@ server= function(input, output, session){
           risk.bins =sequence
           
           
-          risk.pal<- colorBin( scico(lsl, palette = 'hawaii', direction=-1), bins=risk.bins, na.color = "#aaff56")
+          risk.pal<- colorBin(    scico(lsl, palette = 'hawaii', direction=-1),  bins=risk.bins, na.color = "#aaff56")
           
           
           if(input$periodway=="Length of Maximum Period under Value"){
@@ -3682,8 +3707,7 @@ server= function(input, output, session){
             risk.bins =sequence
             
             
-            risk.pal<- colorBin( scico(lsl, palette = 'hawaii', direction=-1), bins=risk.bins, na.color = "#aaff56")
-            
+            risk.pal<- colorBin( scico(lsl, palette = 'hawaii', direction=-1) ,  bins=risk.bins, na.color = "#aaff56")
             if(input$quantiles=="70"){
               
               #####
@@ -3713,13 +3737,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -3772,13 +3796,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -3834,13 +3858,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -3894,13 +3918,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -3950,13 +3974,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4011,13 +4035,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4046,13 +4070,13 @@ server= function(input, output, session){
           if(input$periodway=="Sum of Days under Value"){
             
             
-            sequence=c(-3,  -2,-1.0,-0.5 , -0.01, 0, 0.01,0.5 , 1, 2, 3)
+            sequence=c(-5, -4, -3,  -2,-1.0,-0.5 , -0.01, 0, 0.01,0.5 , 1, 2, 3, 4, 5)
             lsl=length(sequence)
             
             risk.bins =sequence
             
             
-            risk.pal<- colorBin( scico(lsl, palette = 'hawaii', direction=-1), bins=risk.bins, na.color = "#aaff56")
+            risk.pal<- colorBin(   scico(lsl, palette = 'hawaii', direction=-1),  bins=risk.bins, na.color = "#aaff56")
             
             if(input$quantiles=="70"){
               
@@ -4084,13 +4108,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values= sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values= sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4144,13 +4168,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4200,13 +4224,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4255,13 +4279,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4311,13 +4335,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=    sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=    sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4365,13 +4389,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Slope")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4443,13 +4467,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4502,13 +4526,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4558,13 +4582,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4615,13 +4639,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values= sequence, title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values= sequence, title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4674,13 +4698,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4727,13 +4751,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4787,13 +4811,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=   sequence,title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence,title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4844,13 +4868,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4900,13 +4924,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4952,13 +4976,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=   sequence,title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence,title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5006,13 +5030,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5063,13 +5087,13 @@ server= function(input, output, session){
                                    
                                    
                                    sep = '<br/>'),
-                                 popupOptions = popupOptions(closeButton = FALSE)
+                                  popupOptions = popupOptions(closeButton = FALSE), opacity = 1
                 )  %>%    
                 
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5182,7 +5206,7 @@ server= function(input, output, session){
                            
                            
                            sep = '<br/>'),
-                         popupOptions = popupOptions(closeButton = FALSE)
+                          popupOptions = popupOptions(closeButton = FALSE)
         )  %>%    
         
         addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
