@@ -1192,7 +1192,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(opacity=1,pal=risk.pal(Wzyp),position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal,position="topleft", values=  sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1248,7 +1248,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(opacity=1,pal=risk.pal(Yzyp), position="topleft", values= sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values= sequence, title="Slope", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(

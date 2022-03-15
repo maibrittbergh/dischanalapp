@@ -66,7 +66,7 @@ NMxQlist7=readRDS("Dateien/NMxQlist7.rds")
 NMxQlist14=readRDS("Dateien/NMxQlist14.rds")
 NMxQlist30=readRDS("Dateien/NMxQlist30.rds")
 NMxQlist60=readRDS("Dateien/NMxQlist60.rds")
-Periodmeta=readRDS("Dateien/Periodmeta.rds")
+Periodmeta=readRDS("DateienPeriodmeta.rds")
 
 # Daten vorbereiten -------------------------------------------------------
 
