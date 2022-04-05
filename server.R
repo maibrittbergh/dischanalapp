@@ -187,12 +187,20 @@ server= function(input, output, session){
   
   observeEvent(input$help,{
     showModal(modalDialog(
-      title = "Need help?",
-      "Please choose your settings. Afterwards select a station on the map or in the table. Calculating Trends may take some time. To choose new settings or a different station please select the Lösche Darstellungsoptionen- Button before adapting the settings.",
+      title = "Benötigen Sie Hilfe?",
+      "Bitte Wählen Sie die gewünschte Analysemethode. Dann wählen Sie eine Station auf der Karte oder in der Tabelle. Die Berechnung der Trendwerte nimmt etwas Zeit in Anspruch. Um eine neue Analyse oder Station zu wählen, empfiehlt es sich  >Lösche Darstellungsoptionen< zu klicken. Das verbessert die Stabilität der Anwendung." 
       
     ))
   })
   
+  
+  observeEvent(input$helpthres,{
+    showModal(modalDialog(
+      title = "Benötigen Sie Hilfe?",
+      "Wählen Sie einen Schwellenwert aus. Dieser kann entweder numerisch oder individuell gewählt werden. Dieser Schwellenwert charakterisiert im Anschluss die Niedrigwasserperiode." 
+      
+    ))
+  })
   
   
   # Empty functions ---------------------------------------------------------
@@ -202,7 +210,7 @@ server= function(input, output, session){
   t_plot <- function(){
     
     tpl= plot(1:10, 1:10, type = "n", axes = F, ylab = "", xlab = "")
-    mtext("Please select a station ", line = -1, cex = 1.5)
+    mtext("Bitte eine Station auswählen", line = -1, cex = 1.5)
     return(tpl)
   }
   
@@ -220,7 +228,7 @@ server= function(input, output, session){
   empty=   function(){
     
     plot=plot(1:10, 1:10, type = "n", axes = F, ylab = "", xlab = "")
-    mtext("Please select a station ", line = -1, cex = 1.5)
+    mtext("Bitte eine Station auswählen", line = -1, cex = 1.5)
     return(plot)
     
   }
@@ -231,20 +239,20 @@ server= function(input, output, session){
   trendpl= function(){
     
     plot=plot(1:10, 1:10, type = "n", axes = F, ylab = "", xlab = "")
-    mtext("Please select a station. ", line = -1, cex = 1.5)
+    mtext("Bitte eine Station auswählen ", line = -1, cex = 1.5)
     return(plot)
     
     
   }
   
   
-  selpl=   function(){
+ # selpl=   function(){
     
-    plot=plot(1:10, 1:10, type = "n", axes = F, ylab = "", xlab = "")
-    mtext(paste("Station:", stat_name, "selected"), line = -1, cex = 1.5)
-    return(plot)
+  #  plot=plot(1:10, 1:10, type = "n", axes = F, ylab = "", xlab = "")
+   # mtext(paste("Station:", stat_name, "selected"), line = -1, cex = 1.5)
+    #return(plot)
     
-  }
+  #}
   
   
   
@@ -259,7 +267,7 @@ server= function(input, output, session){
   thres= function(){
     
     plot=plot(1:10, 1:10, type = "n", axes = F, ylab = "", xlab = "")
-    mtext("Please select a station. ", line = -1, cex = 1.5)
+    mtext("Bitte eine Station auswählen  ", line = -1, cex = 1.5)
     return(plot)
     
     
@@ -487,13 +495,14 @@ server= function(input, output, session){
     thres= function(){
       if(input$thres_type=="Quantilbasiert"){
         
-        quantile=input$quantile
+          quant=input$quantile        
+          quantile=1-quant
         Year=input$yearq
         
         qperipl=periodplot_quantile(data2, stat_name , quantile, year=Year, graph=T)
         return( qperipl)
       }
-      if(input$thres_type=="Individueller Wert"){
+      if(input$thres_type=="Numerischer Wert"){
         
         Val=input$value
         Year=input$yearv
@@ -660,10 +669,10 @@ server= function(input, output, session){
     #"season_trend", "Choose Season", c("Year", "Winter", "Frühling", "Summer", "Autumn"))
     
     observeEvent(input$season_trend,{
-      if (input$season_trend=="Year"){
+      if (input$season_trend=="Jahr"){
         season="Y"
       }
-      if (input$season_trend=="Autumn"){
+      if (input$season_trend=="Herbst"){
         season="AU"
       }
       if (input$season_trend=="Winter"){
@@ -672,17 +681,17 @@ server= function(input, output, session){
       if (input$season_trend=="Frühling"){
         season="SP"
       }
-      if (input$season_trend=="Summer"){
+      if (input$season_trend=="Sommer"){
         season="SU"
       }
       
       
       
       observeEvent(input$season_trend_2,{
-        if (input$season_trend_2=="Year"){
+        if (input$season_trend_2=="Jahr"){
           seas="Y"
         }
-        if (input$season_trend_2=="Autumn"){
+        if (input$season_trend_2=="Herbst"){
           seas="AU"
         }
         if (input$season_trend_2=="Winter"){
@@ -691,7 +700,7 @@ server= function(input, output, session){
         if (input$season_trend_2=="Frühling"){
           seas="SP"
         }
-        if (input$season_trend_2=="Summer"){
+        if (input$season_trend_2=="Sommer"){
           seas="SU"
         }
         
@@ -742,13 +751,15 @@ server= function(input, output, session){
     thres= function(){
       if(input$thres_type=="Quantilbasiert"){
         
-        quantile=input$quantile
+
+        quant=input$quantile
+        quantile=1-quant
         Year=input$yearq
         
         qperipl=periodplot_quantile(data2, stat_name , quantile, year=Year, graph=T)
         return( qperipl)
       }
-      if(input$thres_type=="Individueller Wert"){
+      if(input$thres_type=="Numerischer Wert"){
         
         Val=input$value
         Year=input$yearv
@@ -5150,15 +5161,9 @@ server= function(input, output, session){
   
   
   
+
   
-  
-  # Reset -------------------------------------------------------------------
-  
-  observeEvent({input$reset2},{
-    session$reload()
-  })  
-  
-  
+
   
   
   # third Page --------------------------------------------------------------

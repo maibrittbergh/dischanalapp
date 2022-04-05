@@ -134,8 +134,8 @@ tabPanel(title="Stationsanalyse",
                                                                            plotOutput("disch_plot", width = "100%"), 
                                                                            
                                                                            
-                                                                           actionButton("cleardata", label="Lösche Darstellungsoptionen"), 
-                                                                           actionButton("reset2", "Reset")) , 
+                                                                           actionButton("cleardata", label="Lösche Darstellungsoptionen")), 
+                                                                  
                                                           
                                                           
                                                           
@@ -145,7 +145,7 @@ tabPanel(title="Stationsanalyse",
                                                                            
                                                                            
                                                                            conditionalPanel( condition="input.trendpltype=='NMxQ-Trend'", 
-                                                                                             sliderInput("xVALUE", "X-Value", value=14, min=4, max=90), 
+                                                                                             sliderInput("xVALUE", "X-Wert", value=14, min=4, max=90), 
                                                                                              selectInput("season_trend", "Jahr/Jahreszeit:",choices= c("Jahr", "Winter", "Frühling", "Sommer", "Herbst"))), 
                                                                            
                                                                            
@@ -165,13 +165,12 @@ tabPanel(title="Stationsanalyse",
                                                                            
                                                                            plotOutput("trendplot") %>% withSpinner(color="#0dc5c1"), 
                                                                            
-                                                                           actionButton("cleardata2", label="Lösche Darstellungsoptionen"), 
-                                                                           actionButton("reset2", "Reset"))
+                                                                           actionButton("cleardata2", label="Lösche Darstellungsoptionen")
                                                           
                                                           
                                                           
                                                           
-                                          )) ),
+                                          )) )),
                                  
                                  
                                  tabPanel("Schwellenwertbasiert", 
@@ -182,16 +181,16 @@ tabPanel(title="Stationsanalyse",
                                                           
                                                           # conditionalPanel(condition="input.qplot_variety=='jährliche Abflussganglinie'", 
                                                           actionButton('helpthres', 'Hilfe'), 
-                                                          radioButtons("thres_type", "Grenzwert:", choices=c("Quantilbasiert", "Individueller Wert"), 
+                                                          radioButtons("thres_type", "Grenzwert:", choices=c("Quantilbasiert", "Numerischer Wert"), 
                                                                        inline=T), 
                                                           
                                                           
                                                           conditionalPanel(condition="input.thres_type=='Quantilbasiert'", 
-                                                                           sliderInput("quantile", label="Quantile", min=0.05, max=1, value=0.3, step=0.05), sliderInput("yearq", "Jahr: ", 2000, min=1975, max=2015, sep="")), 
+                                                                           sliderInput("quantile", label="Quantilbasierter Schwellenwert", min=0.05, max=1, value=0.3, step=0.05), sliderInput("yearq", "Jahr: ", 2000, min=1975, max=2015, sep="")), 
                                                           
                                                           
-                                                          conditionalPanel(condition="input.thres_type=='Individueller Wert'", 
-                                                                           sliderInput("value", label="Value", min=0, max=3000, value=150,  sep=""), sliderInput("yearv", "Jahr: ", 2000, min=1975, max=2015, sep="")), 
+                                                          conditionalPanel(condition="input.thres_type=='Numerischer Wert'", 
+                                                                           sliderInput("value", label="Wert", min=0, max=3000, value=150,  sep=""), sliderInput("yearv", "Jahr: ", 2000, min=1975, max=2015, sep="")), 
                                                           
                                                           plotOutput("thresplot", width = "100%"), 
                                                           
