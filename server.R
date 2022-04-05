@@ -836,9 +836,9 @@ server= function(input, output, session){
                          
                          
                          popup = ~paste(
-                           paste('<b>', 'River', '</b>', river), 
-                           paste('<b>',  'Station', '</b>', station),
-                           paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
+                           paste('<b>', 'Fluss:', '</b>', river), 
+                           paste('<b>',  'Station:', '</b>', station),
+                           paste('<b>',  'Länge der Messreihe [in Jahren]:', '</b>', d_years ),
                            
                            sep = '<br/>'),
                          popupOptions = popupOptions(closeButton = FALSE)
@@ -975,9 +975,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>', Spzyp),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Spzyp),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -1047,9 +1047,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>',Szyp ),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>',Szyp ),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -1131,9 +1131,9 @@ server= function(input, output, session){
                                
                                popup = ~paste(
                                  
-                                 paste('<b>',  'Value', '</b>',Azyp),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>',Azyp),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -1189,9 +1189,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>', Wzyp),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Wzyp),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -1245,9 +1245,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>', Yzyp),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Yzyp),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -1320,9 +1320,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>',   Splm),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>',   Splm),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -1379,9 +1379,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>', Slm),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Slm),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -1436,9 +1436,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>', Alm),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Alm),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -1494,9 +1494,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>', Wlm),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Wlm),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -1552,9 +1552,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>', Ylm),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Ylm),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -1624,8 +1624,8 @@ server= function(input, output, session){
                                
                                popup = ~paste(
                                  
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -1637,7 +1637,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  Spsig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  Spsig_, title="Kendall's P-Wert", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1683,8 +1683,8 @@ server= function(input, output, session){
                                
                                popup = ~paste(
                                  
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -1696,7 +1696,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  Ssig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  Ssig_, title="Kendall's P-Wert", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1739,8 +1739,8 @@ server= function(input, output, session){
                                
                                popup = ~paste(
                                  
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -1752,7 +1752,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  Asig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  Asig_, title="Kendall's P-Wert", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1799,8 +1799,8 @@ server= function(input, output, session){
                                
                                popup = ~paste(
                                  
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -1812,7 +1812,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  Wsig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  Wsig_, title="Kendall's P-Wert", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1859,8 +1859,8 @@ server= function(input, output, session){
                                
                                popup = ~paste(
                                  
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -1872,7 +1872,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  Ysig_, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  Ysig_, title="Kendall's P-Wert", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -1993,9 +1993,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>',Spzyp ),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>',Spzyp ),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -2062,9 +2062,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>', Szyp),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Szyp),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -2145,9 +2145,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>', Azyp),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Azyp),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -2203,9 +2203,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>', Wzyp),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Wzyp),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -2260,9 +2260,9 @@ server= function(input, output, session){
                                
                                popup = ~paste(
                                  
-                                 paste('<b>',  'Value', '</b>', Yzyp),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Yzyp),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -2336,9 +2336,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>', Splm),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Splm),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -2395,9 +2395,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>', Slm),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Slm),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -2452,9 +2452,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>', Alm),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Alm),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -2510,9 +2510,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>', Wlm),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Wlm),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -2568,9 +2568,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>', Ylm),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Ylm),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -2639,9 +2639,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>', Spsig_),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Spsig_),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -2653,7 +2653,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(opacity=1,pal=risk.pal, position="topleft", values= sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values= sequence, title="Kendall's P-Wert", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2698,9 +2698,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>', Ssig_),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Ssig_),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -2712,7 +2712,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Wert", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2754,9 +2754,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>', Asig_),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Asig_),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -2768,7 +2768,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(opacity=1,pal= risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal= risk.pal, position="topleft", values=  sequence, title="Kendall's P-Wert", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2814,9 +2814,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>', Wsig_),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Wsig_),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -2828,7 +2828,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Wert", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2874,9 +2874,9 @@ server= function(input, output, session){
                                
                                
                                popup = ~paste(
-                                 paste('<b>',  'Value', '</b>', Ysig_),
-                                 paste('<b>',  'Station', '</b>', station),
-                                 paste('<b>',  'River', '</b>', river),
+                                 paste('<b>',  'Wert:', '</b>', Ysig_),
+                                 paste('<b>',  'Station:', '</b>', station),
+                                 paste('<b>',  'Fluss:', '</b>', river),
                                  
                                  
                                  sep = '<br/>'),
@@ -2888,7 +2888,7 @@ server= function(input, output, session){
               
               
               
-              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value", labFormat = labelFormat(digits = 6))%>%
+              addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Wert", labFormat = labelFormat(digits = 6))%>%
               addControl(title, position="topright", className="map-title")%>%
               
               addLayersControl(
@@ -2994,9 +2994,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>', tmaxzypQ70),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', tmaxzypQ70),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -3051,9 +3051,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>', tmaxzypQ75),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', tmaxzypQ75),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -3118,9 +3118,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>', tmaxzypQ80),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', tmaxzypQ80),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -3176,9 +3176,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>', tmaxzypQ85),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', tmaxzypQ85),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -3235,9 +3235,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>', tmaxzypQ90),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', tmaxzypQ90),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -3288,9 +3288,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>', tmaxzypQ95),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', tmaxzypQ95),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -3356,9 +3356,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>',ldzypQ70),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>',ldzypQ70),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -3411,9 +3411,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>',ldzypQ975),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>',ldzypQ975),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -3468,9 +3468,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>',ldzypQ80),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>',ldzypQ80),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -3531,9 +3531,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>',ldzypQ85),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>',ldzypQ85),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -3586,9 +3586,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>',ldzypQ90),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>',ldzypQ90),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -3643,9 +3643,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>',ldzypQ95),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>',ldzypQ95),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -3738,9 +3738,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>',  tmaxlmQ70),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>',  tmaxlmQ70),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -3797,9 +3797,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>',  tmaxlmQ75 ),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>',  tmaxlmQ75 ),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -3859,9 +3859,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>',  tmaxlmQ80), 
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>',  tmaxlmQ80), 
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -3919,9 +3919,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>', tmaxlmQ85),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', tmaxlmQ85),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -3975,9 +3975,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>',  tmaxlmQ90),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>',  tmaxlmQ90),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -4036,9 +4036,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>',  tmaxlmQ95),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>',  tmaxlmQ95),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -4109,9 +4109,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>', ldlmQ70),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', ldlmQ70),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -4169,9 +4169,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>', ldlmQ75),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', ldlmQ75),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -4225,9 +4225,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>', ldlmQ80),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', ldlmQ80),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -4280,9 +4280,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>', ldlmQ85),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', ldlmQ85),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -4336,9 +4336,9 @@ server= function(input, output, session){
                                  
                                  popup = ~paste(
                                    
-                                   paste('<b>',  'Value', '</b>', ldlmQ90),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', ldlmQ90),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -4390,9 +4390,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>', ldlmQ95),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', ldlmQ95),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -4468,9 +4468,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>',tmaxsigQ70 ),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>',tmaxsigQ70 ),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -4480,7 +4480,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Wert")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4527,9 +4527,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>', tmaxsigQ75),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', tmaxsigQ75),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -4539,7 +4539,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=  sequence, title="Kendall's P-Wert")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4583,9 +4583,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>', tmaxsigQ80),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', tmaxsigQ80),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -4595,7 +4595,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Wert")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4640,9 +4640,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>',tmaxsigQ85 ),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>',tmaxsigQ85 ),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -4652,7 +4652,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(opacity=1,pal=risk.pal, position="topleft", values= sequence, title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values= sequence, title="Kendall's P-Wert")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4699,9 +4699,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>', tmaxsigQ90),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', tmaxsigQ90),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -4711,7 +4711,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Wert")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4752,9 +4752,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>', tmaxsigQ95),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', tmaxsigQ95),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -4764,7 +4764,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Wert")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4812,9 +4812,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>', ldsigQ70),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', ldsigQ70),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -4824,7 +4824,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence,title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence,title="Kendall's P-Wert")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4869,9 +4869,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>', ldsigQ75),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', ldsigQ75),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -4881,7 +4881,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Wert")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4925,9 +4925,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>', ldsigQ80),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', ldsigQ80),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -4937,7 +4937,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Wert")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -4977,9 +4977,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>',  ldsigQ85),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>',  ldsigQ85),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -4989,7 +4989,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence,title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence,title="Kendall's P-Wert")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5031,9 +5031,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>',ldsigQ90),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>',ldsigQ90),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -5043,7 +5043,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Wert")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5088,9 +5088,9 @@ server= function(input, output, session){
                                  
                                  
                                  popup = ~paste(
-                                   paste('<b>',  'Value', '</b>', ldsigQ95),
-                                   paste('<b>',  'Station', '</b>', station),
-                                   paste('<b>',  'River', '</b>', river),
+                                   paste('<b>',  'Wert:', '</b>', ldsigQ95),
+                                   paste('<b>',  'Station:', '</b>', station),
+                                   paste('<b>',  'Fluss:', '</b>', river),
                                    
                                    
                                    sep = '<br/>'),
@@ -5100,7 +5100,7 @@ server= function(input, output, session){
                 addProviderTiles(providers$OpenStreetMap.HOT,        group = "Open Street Map") %>%   
                 addProviderTiles(providers$Stamen.TerrainBackground, group = "Terrain Background") %>%
                 
-                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Value")%>%
+                addLegend(opacity=1,pal=risk.pal, position="topleft", values=   sequence, title="Kendall's P-Wert")%>%
                 addControl(title, position="topright", className="map-title")%>%
                 
                 addLayersControl(
@@ -5198,12 +5198,12 @@ server= function(input, output, session){
                          
                          
                          popup = ~paste(
-                           paste('<b>', 'River', '</b>', river), 
-                           paste('<b>',  'Station', '</b>', station),
-                           paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
-                           paste('<b>',  'Begin of measurements:', '</b>', startday ),
-                           paste('<b>',  'End of measurements:', '</b>', endday ),
-                           paste('<b>',  'Catchment Area [km^2]', '</b>',catch_area ), 
+                           paste('<b>', 'Fluss:', '</b>', river), 
+                           paste('<b>',  'Station:', '</b>', station),
+                           paste('<b>',  'Länge der Messreihe [in Jahren]:', '</b>', d_years ),
+                           paste('<b>',  'Beginn der Messungen:', '</b>', startday ),
+                           paste('<b>',  'Ende der Messungen:', '</b>', endday ),
+                           paste('<b>',  'Einzugsgebietsgröße [km^2]', '</b>',catch_area ), 
                            
                            
                            sep = '<br/>'),
@@ -5311,12 +5311,12 @@ server= function(input, output, session){
                    
                    
                    popup = ~paste(
-                     paste('<b>', 'River', '</b>', river), 
-                     paste('<b>',  'Station', '</b>', station),
-                     paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
-                     paste('<b>',  'Begin of measurements:', '</b>', startday ),
-                     paste('<b>',  'End of measurements:', '</b>', endday ),
-                     paste('<b>',  'Catchment Area [km^2]', '</b>',catch_area ), 
+                     paste('<b>', 'Fluss:', '</b>', river), 
+                     paste('<b>',  'Station:', '</b>', station),
+                     paste('<b>',  'Länge der Messreihe [in Jahren]:', '</b>', d_years ),
+                     paste('<b>',  'Beginn der Messungen:', '</b>', startday ),
+                     paste('<b>',  'Ende der Messungen:', '</b>', endday ),
+                     paste('<b>',  'Einzugsgebietsgröße [km^2]', '</b>',catch_area ), 
                      
                      
                      sep = '<br/>'),
@@ -5393,12 +5393,12 @@ server= function(input, output, session){
                    
                    
                    popup = ~paste(
-                     paste('<b>', 'River', '</b>', river), 
-                     paste('<b>',  'Station', '</b>', station),
-                     paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
-                     paste('<b>',  'Begin of measurements:', '</b>', startday ),
-                     paste('<b>',  'End of measurements:', '</b>', endday ),
-                     paste('<b>',  'Catchment Area [km^2]', '</b>',catch_area ), 
+                     paste('<b>', 'Fluss:', '</b>', river), 
+                     paste('<b>',  'Station:', '</b>', station),
+                     paste('<b>',  'Länge der Messreihe [in Jahren]:', '</b>', d_years ),
+                     paste('<b>',  'Beginn der Messungen:', '</b>', startday ),
+                     paste('<b>',  'Ende der Messungen:', '</b>', endday ),
+                     paste('<b>',  'Einzugsgebietsgröße [km^2]', '</b>',catch_area ), 
                      
                      
                      sep = '<br/>'),
@@ -5487,12 +5487,12 @@ server= function(input, output, session){
                    
                    
                    popup = ~paste(
-                     paste('<b>', 'River', '</b>', river), 
-                     paste('<b>',  'Station', '</b>', station),
-                     paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
-                     paste('<b>',  'Begin of measurements:', '</b>', startday ),
-                     paste('<b>',  'End of measurements:', '</b>', endday ),
-                     paste('<b>',  'Catchment Area [km^2]', '</b>',catch_area ), 
+                     paste('<b>', 'Fluss:', '</b>', river), 
+                     paste('<b>',  'Station:', '</b>', station),
+                     paste('<b>',  'Länge der Messreihe [in Jahren]:', '</b>', d_years ),
+                     paste('<b>',  'Beginn der Messungen:', '</b>', startday ),
+                     paste('<b>',  'Ende der Messungen:', '</b>', endday ),
+                     paste('<b>',  'Einzugsgebietsgröße [km^2]', '</b>',catch_area ), 
                      
                      
                      sep = '<br/>'),
@@ -5572,7 +5572,7 @@ server= function(input, output, session){
   
   
   
-  # selectInput("ddgraph", "Data Distribution Graph", choices=c("Length: Timeseries of Discharge Data", "Area Distribution" )), 
+  # selectInput("ddgraph", "Data Distribution Graph", choices=c("Length: Timeseries of Discharge Data", "Einzugsgebietsgrößen" )), 
   
   
   # conditionalPanel(condition= "input.ddgraph=='Length: Timeseries of Discharge Data'",  radioButtons("densl", "Presentation", choices=c("Density Plot","Colour Map")))
@@ -5608,7 +5608,7 @@ server= function(input, output, session){
       
     #}
     
-    if (input$ddgraph=="Compare Discharge Measurements"){
+    if (input$ddgraph=="Vergleich der Abflussmengen"){
       observe({
         startyear2=input$yeatise[1]
         endyear2=input$yeatise[2]
@@ -5625,7 +5625,7 @@ server= function(input, output, session){
       
       
     }
-    if (input$ddgraph=="Area Distribution"){
+    if (input$ddgraph=="Einzugsgebietsgrößen"){
       
       
       

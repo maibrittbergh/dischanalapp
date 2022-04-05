@@ -52,17 +52,13 @@ library(viridis)
 
 
 
-
-
-
-data=readRDS("Dateien/metadata.rds")
-data2=readRDS("Dateien/dataset.rds")
-MQlist=readRDS("Dateien/NMQlist.rds")
-NMxQlist7=readRDS("Dateien/NNMxQlist7.rds")
-NMxQlist14=readRDS("Dateien/NNMxQlist14.rds")
-NMxQlist30=readRDS("Dateien/NNMxQlist30.rds")
-NMxQlist60=readRDS("Dateien/NNMxQlist60.rds")
-Periodmeta=readRDS("Dateien/Periodmeta.rds")
+data=read_rds("metadata.rds")
+data2=read_rds("dataset.rds")
+MQlist=read_rds("NMQlist.rds")
+NMxQlist7=read_rds("NNMxQlist7.rds")
+NMxQlist14=read_rds("NNMxQlist14.rds")
+NMxQlist60=read_rds("NNMxQlist60.rds")
+Periodmeta=read_rds("Periodmeta.rds")
 
 # Daten vorbereiten -------------------------------------------------------
 
@@ -379,14 +375,14 @@ tabPanel(title="Niedrigwassertrends für Deutschland",
 
 
 
-navbarMenu(title="Dataset Information",
+navbarMenu(title="Der Datensatz",
            
            
 
 # MAP ---------------------------------------------------------------------
 
            
-           tabPanel("Info Map", 
+           tabPanel("Infokarte", 
                     
                     
                     
@@ -396,8 +392,8 @@ navbarMenu(title="Dataset Information",
                       column(7, 
                              
                              
-                             tabPanel("StationDistribution", 
-                                      column(12, h4("Click to See the Stations Information"), shinycssloaders::withSpinner(leaflet::leafletOutput("stationmap", height="800px"),
+                             tabPanel("Lage der Stationen", 
+                                      column(12, h4("Klicke auf die Karte, um mehr Infos über eine Station zu erhalten."), shinycssloaders::withSpinner(leaflet::leafletOutput("stationmap", height="800px"),
                                                                                                                            size=3, color="#0080b7"))) , 
                              
                              
@@ -407,12 +403,12 @@ navbarMenu(title="Dataset Information",
                       
                       column(5,
                              tabsetPanel(id="data_dist", 
-                                         tabPanel("Settings", 
+                                         tabPanel("Einstellungen", 
                                                   fluidRow(column(10, 
                                                                   
                                                                   
                                                                   
-                                                                  radioButtons("dataselect", "Select Dataset", choices=c("Alle GRDC Messstationen","Nur representative Stationen")), 
+                                                                  radioButtons("dataselect", "Wähle einen Datensatz", choices=c("Alle GRDC Messstationen","Nur representative Stationen")), 
                                                                   sliderInput("range", "Zeitrahmen:", value=c(1998
                                                                                                                     ,2004), min=min(data$startyear), max=max(data$endyear), sep=""), 
                                                                   actionButton("gostations", "Show Stations")
@@ -436,19 +432,19 @@ navbarMenu(title="Dataset Information",
 
 # conditionalPanel(condition="input.plot_tabs!='Anleitung'", 
 #tabsetPanel(id="ui_tab", 
-           tabPanel("Data Distribution", 
+           tabPanel("Der Datensatz", 
                     
                     
                     fluidRow(
                       column(4, 
                              
-                             selectInput("ddgraph", "Data Distribution Graph", choices=c(
+                             selectInput("ddgraph", "Datensatz", choices=c(
                                #"Length: Timeseries of Discharge Data",
-                               "Compare Discharge Measurements",  "Area Distribution" )), 
+                               "Vergleich der Abflussmengen",  "Einzugsgebietsgrößen" )), 
                              
                              
                             # conditionalPanel(condition= "input.ddgraph=='Length: Timeseries of Discharge Data'",  radioButtons("densl", "Presentation", choices=c("Density Plot","Colour Map"))),
-                             conditionalPanel(condition= "input.ddgraph=='Compare Discharge Measurements'", sliderInput("yeatise", " X-Axis-Resolution (Timeframe):", value=c(1950, 2000), min=1820, max=2020, sep="") , sliderInput("frametise", "Y-Axis Resolution:", value=c(0, 3100), min=0, max=7000, sep="") )
+                             conditionalPanel(condition= "input.ddgraph=='Vergleich der Abflussmengen'", sliderInput("yeatise", " Skalierung der X-Achse:", value=c(1950, 2000), min=1820, max=2020, sep="") , sliderInput("frametise", "Skalierung der Y-Achse:", value=c(0, 3100), min=0, max=7000, sep="") )
                                               
                                              
                              
@@ -460,9 +456,9 @@ navbarMenu(title="Dataset Information",
                              #conditionalPanel(condition="input.densl=='Density Plot'", plotOutput("distplot", width = "100%", height=400) %>% withSpinner(color="#0dc5c1")), 
                              #conditionalPanel(condition="input.densl=='Colour Map'", tmapOutput("tmap", width = "100%", height = 700) %>% withSpinner(color="#0dc5c1"))) , 
                              
-                             conditionalPanel(condition="input.ddgraph=='Compare Discharge Measurements'",  plotOutput("tisepl", width = "100%", height = 700) %>% withSpinner(color="#0dc5c1")) , 
+                             conditionalPanel(condition="input.ddgraph=='Vergleich der Abflussmengen'",  plotOutput("tisepl", width = "100%", height = 700) %>% withSpinner(color="#0dc5c1")) , 
                              
-                             conditionalPanel(condition="input.ddgraph=='Area Distribution'",  plotOutput("areapl", width = "100%", height = 700) %>% withSpinner(color="#0dc5c1")) 
+                             conditionalPanel(condition="input.ddgraph=='Einzugsgebietsgrößen'",  plotOutput("areapl", width = "100%", height = 700) %>% withSpinner(color="#0dc5c1")) 
                       
                      
                     )
@@ -483,17 +479,6 @@ navbarMenu(title="Dataset Information",
                 
 
 
-
-
-
-                
-                
-
-# Third Tab ---------------------------------------------------------------
-
-                
-                
-                
             
                 
               
