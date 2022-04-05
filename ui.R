@@ -231,7 +231,7 @@ tabPanel(title="Stationsanalyse",
 
 
 
-tabPanel(title="Trend of Minimum Discharge", 
+tabPanel(title="Niedrigwassertrends für Deutschland", 
     
          id = "side-panel",
          
@@ -239,8 +239,8 @@ tabPanel(title="Trend of Minimum Discharge",
            column(9, 
                   conditionalPanel(condition="input.area_trend!='Anleitung'",
                   
-                  tabPanel("Areal Trends and Characteristics in Germany", 
-                           column(12, h4("Click to See the Stations Name"), shinycssloaders::withSpinner(leaflet::leafletOutput("datamap", height="800px"),
+                  tabPanel("Niedrigwassertrends - Deutschlandweit", 
+                           column(12, h4("Klicke auf die Karte, um mehr Infos über eine Station zu erhalten."), shinycssloaders::withSpinner(leaflet::leafletOutput("datamap", height="800px"),
                                                                                                          size=3, color="#0080b7"))) %>% withSpinner(color="#0dc5c1"), 
                   
                   
@@ -265,12 +265,12 @@ tabPanel(title="Trend of Minimum Discharge",
                                       
                                                        
                                                        
-                                                       selectInput("trendtype2", label="Select Approach for area-based evaluation: ",
-                                                                   choices=c( "MQ - Mean Discharge Trend","NMxQ", "Low Flow Period")) ,
+                                                       selectInput("trendtype2", label="Wähle einen Kennwert: ",
+                                                                   choices=c( "MQ - Trend der Mittelwerte","NMxQ", "Schwellenwertbasiert/Niedrigwasserperiode")) ,
                                                        
-                                                       radioButtons("dataset", "Update Map, print Stations within Timerange for:", choices=c("All GRDC-Stations in Germany","Representative Stations only")), 
+                                                       radioButtons("dataset", "Stationswahl:", choices=c("Alle GRDC-Messstationen","Nur representative Stationen")), 
                                                        
-                                                       selectInput("timerange2", "Select Timerange:",    choices=c("1820-2019", "1860-2019", "1900-2019", "1940-2019", "1980-2019")), 
+                                                       selectInput("timerange2", "Zeitrahmen:",    choices=c("1820-2019", "1860-2019", "1900-2019", "1940-2019", "1980-2019")), 
                                                        #"1980-2020")),
                                                        
                                                        
@@ -279,30 +279,30 @@ tabPanel(title="Trend of Minimum Discharge",
                                                        
                                                        #MQ-Mean Discharge Trend
                                                        
-                                                       conditionalPanel(condition="input.trendtype2=='MQ - Mean Discharge Trend'", 
-                                                                        selectInput("seasonmq", label="Select the Season:",
-                                                                                    choices=c("Spring",   "Summer", "Autumn", "Winter", 
-                                                                                              "Year")) , 
+                                                       conditionalPanel(condition="input.trendtype2=='MQ - Trend der Mittelwerte'", 
+                                                                        selectInput("seasonmq", label="Saison/Jahr:",
+                                                                                    choices=c("Frühling",   "Sommer", "Herbst", "Winter", 
+                                                                                              "Jahr")) , 
                                                                         
-                                                                        selectInput("trendtypemq", label="Select Method to calculate the Trend:",
-                                                                                    choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),
-                                                                        actionButton("go", "Click to calculate results")), 
+                                                                        selectInput("trendtypemq", label="Wahl der Trendmethode:",
+                                                                                    choices=c( "Lineare Regression ", "Zyp: Prewhitening und Sen-Slope Trend", "Mann-Kendall Signifikanztest (Sen-Slope Trend)")),
+                                                                        actionButton("go", "Ergebnisse laden")), 
                                                        
                                                        
                                                        #NMxQ                
                                                        
                                                        
                                                        conditionalPanel(condition="input.trendtype2=='NMxQ'", 
-                                                                        selectInput("xval", label="Select X-Value:",
+                                                                        selectInput("xval", label="Wahl von x:",
                                                                                     choices=c("7","14", "60")) , 
                                                                         
-                                                                        selectInput("seasonmq2", label="Select the Season:",
-                                                                                    choices=c("Spring",   "Summer", "Autumn", "Winter", 
-                                                                                              "Year")),
+                                                                        selectInput("seasonmq2", label="Saison/Jahr:",
+                                                                                    choices=c("Frühling",   "Sommer", "Herbst", "Winter", 
+                                                                                              "Jahr")),
                                                                         
-                                                                        selectInput("trendtypemq2", label="Select Method to calculate the Trend:",
-                                                                                    choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),
-                                                                        actionButton("go_NMxQ", "Click to (re)calculate results")),
+                                                                        selectInput("trendtypemq2", label="Wahl der Trendmethode:",
+                                                                                    choices=c( "Lineare Regression ", "Zyp: Prewhitening und Sen-Slope Trend", "Mann-Kendall Signifikanztest (Sen-Slope Trend)")),
+                                                                        actionButton("go_NMxQ", "Ergebnisse laden")),
                                                        
                                                        
       
@@ -313,23 +313,23 @@ tabPanel(title="Trend of Minimum Discharge",
                                                        ###Periodmeta 
                                                        
                                                        
-                                                       conditionalPanel(condition="input.trendtype2=='Low Flow Period'", 
+                                                       conditionalPanel(condition="input.trendtype2=='Schwellenwertbasiert/Niedrigwasserperiode'", 
                                                                         
                                                                         
                                                                         
                                                                         
                                                                         
-                                                                        selectInput("periodway", "Choose Value:", choices=c("Length of Maximum Period under Value","Sum of Days under Value")), 
+                                                                        selectInput("periodway", "Kennwert:", choices=c("Länge der maximalen Niedrigwasserperiode","Anzahl der Tage unter Schwellenwert")), 
                                                                         
                                                                         
                                                                         
                                                                         
-                                                                        selectInput("trendtypeperiod", label="Select Method to calculate the Trend:",
-                                                                                    choices=c( "Linear Model: Least Squares Approach", "Yuepilon-Method: PreWhitening and homogenization of autocorrelation", "Significance of Zyp-Trend")),
+                                                                        selectInput("trendtypeperiod", label="Wahl der Trendmethode:",
+                                                                                    choices=c( "Lineare Regression ", "Zyp: Prewhitening und Sen-Slope Trend", "Mann-Kendall Signifikanztest (Sen-Slope Trend)")),
                                                                         
-                                                                        selectInput("quantiles", label="Quantile [%]:",
+                                                                        selectInput("quantiles", label="Quantil [%]:",
                                                                                     choices=c("70","75", "80","85", "90", "90", "95")) , 
-                                                                        actionButton("go_2", "Click to (re)calculate results"))
+                                                                        actionButton("go_2", "Ergebnisse laden"))
                                                        
                                                        
                                                        
@@ -412,8 +412,8 @@ navbarMenu(title="Dataset Information",
                                                                   
                                                                   
                                                                   
-                                                                  radioButtons("dataselect", "Select Dataset", choices=c("All GRDC-Stations in Germany","Representative Stations only")), 
-                                                                  sliderInput("range", "Select Timerange:", value=c(1998
+                                                                  radioButtons("dataselect", "Select Dataset", choices=c("Alle GRDC Messstationen","Nur representative Stationen")), 
+                                                                  sliderInput("range", "Zeitrahmen:", value=c(1998
                                                                                                                     ,2004), min=min(data$startyear), max=max(data$endyear), sep=""), 
                                                                   actionButton("gostations", "Show Stations")
                                                                   
@@ -500,11 +500,12 @@ navbarMenu(title="Dataset Information",
                 
                 
                 
-                tags$footer(HTML('
-                          <br>
-                          <br>
-                          <p>Author: Mai-Britt Berghöfer <br>
-                          <a href="mailto:berghoefer@uni-potsdam.de">berghoefer@uni-potsdam.de</a></p>'), align = "center"))
+        #        tags$footer(HTML('
+        #                  <br>
+         #                 <br>
+          #                <p>Author: Mai-Britt Berghöfer <br>
+         #                 <a href="mailto:berghoefer@uni-potsdam.de">berghoefer@uni-potsdam.de</a></p>'), align = "center")
+)
 
 
 
