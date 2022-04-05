@@ -136,15 +136,15 @@ server= function(input, output, session){
                           
                           
                           popup = ~paste(
-                            paste('<b>', 'River', '</b>', river), 
-                            paste('<b>',  'Station', '</b>', station),
-                            paste('<b>',  'Length of Measurement [years]:', '</b>', d_years ),
+                            paste('<b>', 'Fluss:', '</b>', river), 
+                            paste('<b>',  'Station:', '</b>', station),
+                            paste('<b>',  'Zeitspanne [Jahre]:', '</b>', d_years ),
                             
                             sep = '<br/>'),
                           popupOptions = popupOptions(closeButton = FALSE)
         )  %>%    
-        addLegend("topright", colors = c("orange","green"), values = c("orange", "green"),labels = c("representative Station", "Station"),
-                  title = "Legend",
+        addLegend("topright", colors = c("orange","green"), values = c("orange", "green"),labels = c("rep. Station", "Station"),
+                  title = "Legende",
                   labFormat = labelFormat(prefix = "$"),
                   opacity = 1
         )%>% 
@@ -163,12 +163,12 @@ server= function(input, output, session){
   
   
   # Table ---------------------------------------------------------------
-  
+  ?datatable
   
   output$table_input=DT::renderDataTable({
-    DT::datatable(data, selection='single', rownames=FALSE,colnames= c("grdc_no"="grdc_no" , "River"=   "river"   ,"Station"=   "station", "Country"=    "country", 
-                                                                       "Catchment"="catch_area", "Altitude"= "altitude" , "Startyear"= "startyear" , "Endyear"= "endyear" ,
-                                                                       "Time span"=   "d_years"   , "Longitude"= "longitude"  , "Latitude"="latitude"   ), filter="top",
+    DT::datatable(data, selection='single', rownames=FALSE,colnames= c("GRDC Nr."="grdc_no" , "Fluss"=   "river"   ,"Station"=   "station", "Land"=    "country", 
+                                                                       "Einzugsgebietsgröße"="catch_area", "Höhe"= "altitude" , "Startjahr"= "startyear" , "Endjahr"= "endyear" ,
+                                                                       "Zeitspanne"=   "d_years"   , "Längengrad"= "longitude"  , "Breitengrad"="latitude"   ), filter="top",
                   options = list(scrollY = '600px', paging = FALSE, scrollX=TRUE, dom="ltipr")
                   
                   
@@ -926,7 +926,7 @@ server= function(input, output, session){
           
           
       
-          sequence=c(-22,-18, -12, -8,-6,  -4, -2, -0.01, 0, 0.01,2, 4, 6, 8,  12, 18, 22)
+          sequence=c(-0.65, -0.45, -0.25, -0.01, 0, 0.01,0.25, 0.45, 0.65)
           lsl=length(sequence)
           
           risk.bins =sequence
@@ -1275,8 +1275,7 @@ server= function(input, output, session){
 
           
           
-          s=seq(-8,8, 2) #c(-0.015, sec,0.015)
-          sequence=c(-22,-18, -12, -8,-6,  -4, -2, -0.01, 0, 0.01,2, 4, 6, 8,  12, 18, 22)
+          sequence=c(-0.65, -0.45, -0.25, -0.01, 0, 0.01,0.25, 0.45, 0.65)
           lsl=length(sequence)
           
           risk.bins =sequence
@@ -1908,10 +1907,7 @@ server= function(input, output, session){
           mapd=NMxQlist14
           
         }
-        if (input$xval=="30"){
-          mapd=NMxQlist30
-          
-        }
+   
         if (input$xval=="60"){
           mapd=NMxQlist60
           
@@ -1951,7 +1947,7 @@ server= function(input, output, session){
           
           
      
-        sequence=c(-18, -15,-12,-9, -6,-3,  -0.01, 0, 0.01, 3,6,9,12,15,18)
+          sequence=c(-4,-2,-1.5,-1,-0.5, -0.01, 0, 0.01,0.5, 1, 1.5, 2,4)
           lsl=length(sequence)
           
           risk.bins =sequence
@@ -2293,7 +2289,7 @@ server= function(input, output, session){
         if(input$trendtypemq2== "Linear Model: Least Squares Approach"){
           
          
-          sequence=c(-18, -15,-12,-9, -6,-3, -0.01, 0, 0.01, 3,6,9,12,15,18)
+          sequence=c(-4,-2,-1.5,-1,-0.5, -0.01, 0, 0.01,0.5, 1, 1.5, 2,4)
           lsl=length(sequence)
           
           risk.bins =sequence

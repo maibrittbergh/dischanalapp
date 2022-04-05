@@ -55,17 +55,13 @@ library(viridis)
 
 
 
-
-
-
-
 data=readRDS("Dateien/metadata.rds")
 data2=readRDS("Dateien/dataset.rds")
-MQlist=readRDS("Dateien/MQlist.rds")
-NMxQlist7=readRDS("Dateien/NMxQlist7.rds")
-NMxQlist14=readRDS("Dateien/NMxQlist14.rds")
-NMxQlist30=readRDS("Dateien/NMxQlist30.rds")
-NMxQlist60=readRDS("Dateien/NMxQlist60.rds")
+MQlist=readRDS("Dateien/NMQlist.rds")
+NMxQlist7=readRDS("Dateien/NNMxQlist7.rds")
+NMxQlist14=readRDS("Dateien/NNMxQlist14.rds")
+NMxQlist30=readRDS("Dateien/NNMxQlist30.rds")
+NMxQlist60=readRDS("Dateien/NNMxQlist60.rds")
 Periodmeta=readRDS("Dateien/Periodmeta.rds")
 
 # Daten vorbereiten -------------------------------------------------------
@@ -299,7 +295,7 @@ tabPanel(title="Trend of Minimum Discharge",
                                                        
                                                        conditionalPanel(condition="input.trendtype2=='NMxQ'", 
                                                                         selectInput("xval", label="Select X-Value:",
-                                                                                    choices=c("7","14", "30","60")) , 
+                                                                                    choices=c("7","14", "60")) , 
                                                                         
                                                                         selectInput("seasonmq2", label="Select the Season:",
                                                                                     choices=c("Spring",   "Summer", "Autumn", "Winter", 
