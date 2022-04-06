@@ -67,24 +67,22 @@ server= function(input, output, session){
   
   
   
-  # query_modal <- modalDialog(
-  #  title = "Analyze Discharge Data with Dischanalyst",
-  # "This App uses the GRDC-Dataset and the dischanalyst R-Package to analyze Discharge Measurements in Germany.
-  #   If you have any Questions concering 
-  #    the app's operation, please check the User's Guide. ",
+   query_modal <- modalDialog(
+    title = "Diese Anwendung dient der Niedrigwasseranalyse für Deutschland",
+   "Die WebApp nutzt den GRDC Datensatz und das  uses the GRDC-Dataset und das R-Paket-dischanalyst, um Niedrigwasserkennwerte für einzelne Abflussmessstationen in Deutschland zu berechnen. Falls Fragen zur Anwendung auftreten, bitte die Anleitungen aufrufen. ",
   
-  #  easyClose = F,
-  # footer = tagList(
-  #    actionButton("start_window", "Explore")
-  #  )
-  #)
+    easyClose = F,
+   footer = tagList(
+      actionButton("start_window", "Lege los!")
+    )
+  )
   
   # Show the model on start up ...
-  #  showModal(query_modal)
+    showModal(query_modal)
   
-  # observeEvent(input$start_window, {
-  #  removeModal()
-  #})
+   observeEvent(input$start_window, {
+    removeModal()
+  })
   
   
   
@@ -5628,13 +5626,16 @@ server= function(input, output, session){
     if (input$ddgraph=="Einzugsgebietsgrößen"){
       
       
-      
-      area_plot=area_dist(data)
+
+      area_plot= ggplot(data)+geom_histogram(aes( x=catch_area/1000),bins=20, fill="darkcyan", col="grey")+ylab("Count")+labs(title="Distribution of Size of Catchmen-Areas")+xlab(expression('Size of Catchemnt Area[km'^2*']  x10'^3))
       output$areapl= renderPlot({area_plot})
       
       
     }
-    
+    if (input$ddgraph=="Längen der Messreihen"){
+      length_plot=ggplot(data)+geom_histogram(aes( x=d_years),bins=20, fill="brown", col="grey")+ylab("Count")+labs(title="Distribution of Length of Measurements [years] ")+xlab("Length of Measurements [years]")
+      output$lengthpl=renderPlot({length_plot})
+    }
     
     
   })

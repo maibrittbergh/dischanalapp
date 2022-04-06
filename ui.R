@@ -102,7 +102,7 @@ tabPanel(title="Stationsanalyse",
                                                           
                                                           
                                                           actionButton('help', 'Hilfe'), 
-                                                          radioButtons("ts_plot_type", "Darstellung:", choices=c("Zeitreihenanalyse", "Trendanalyse"), 
+                                                          radioButtons("ts_plot_type", "Darstellung:", choices=c("Zeitreihenanalyse", "Trendanalyse (n.schwellenwertbasiert)"), 
                                                                        inline=T), #Functions QBoxplot, QBoxploty, Qplot, Qploty 
                                                           
                                                           conditionalPanel(condition="input.ts_plot_type=='Zeitreihenanalyse'", 
@@ -135,7 +135,7 @@ tabPanel(title="Stationsanalyse",
                                                           
                                                           
                                                           
-                                                          conditionalPanel(condition="input.ts_plot_type=='Trendanalyse'",
+                                                          conditionalPanel(condition="input.ts_plot_type=='Trendanalyse (n.schwellenwertbasiert)'",
                                                                            selectInput("trendpltype", "Optionen der Trendanalyse:", choices=c("Trend der Minimumwerte", "NMxQ-Trend", "Trend der Mittelwerte")),
                                                                            
                                                                            
@@ -410,8 +410,8 @@ navbarMenu(title="Der Datensatz",
                                                                   
                                                                   radioButtons("dataselect", "Wähle einen Datensatz", choices=c("Alle GRDC Messstationen","Nur representative Stationen")), 
                                                                   sliderInput("range", "Zeitrahmen:", value=c(1998
-                                                                                                                    ,2004), min=min(data$startyear), max=max(data$endyear), sep=""), 
-                                                                  actionButton("gostations", "Show Stations")
+                                                                                                                    ,2004), min=min(data$startyear), max=max(data$endyear), sep="")
+                                                          
                                                                   
                                                                   
                                                                   
@@ -440,7 +440,7 @@ navbarMenu(title="Der Datensatz",
                              
                              selectInput("ddgraph", "Datensatz", choices=c(
                                #"Length: Timeseries of Discharge Data",
-                               "Vergleich der Abflussmengen",  "Einzugsgebietsgrößen" )), 
+                               "Einzugsgebietsgrößen", "Vergleich der Abflussmengen", "Längen der Messreihen")), 
                              
                              
                             # conditionalPanel(condition= "input.ddgraph=='Length: Timeseries of Discharge Data'",  radioButtons("densl", "Presentation", choices=c("Density Plot","Colour Map"))),
@@ -458,12 +458,13 @@ navbarMenu(title="Der Datensatz",
                              
                              conditionalPanel(condition="input.ddgraph=='Vergleich der Abflussmengen'",  plotOutput("tisepl", width = "100%", height = 700) %>% withSpinner(color="#0dc5c1")) , 
                              
-                             conditionalPanel(condition="input.ddgraph=='Einzugsgebietsgrößen'",  plotOutput("areapl", width = "100%", height = 700) %>% withSpinner(color="#0dc5c1")) 
+                             conditionalPanel(condition="input.ddgraph=='Einzugsgebietsgrößen'",  plotOutput("areapl", width = "100%", height = 700) %>% withSpinner(color="#0dc5c1")) ,
+                            conditionalPanel(condition="input.ddgraph=='Längen der Messreihen'",  plotOutput("lengthpl", width = "100%", height = 700) %>% withSpinner(color="#0dc5c1")) 
                       
                      
                     )
                     
-                    ))), 
+                    ))),
 
 
 
@@ -485,12 +486,11 @@ navbarMenu(title="Der Datensatz",
                 
                 
                 
-        #        tags$footer(HTML('
-        #                  <br>
-         #                 <br>
-          #                <p>Author: Mai-Britt Berghöfer <br>
-         #                 <a href="mailto:berghoefer@uni-potsdam.de">berghoefer@uni-potsdam.de</a></p>'), align = "center")
-)
+               tags$footer(HTML('
+                          <br>
+                         <br>
+                          <p>Author: Mai-Britt Berghöfer <br>
+                          <a href="mailto:berghoefer@uni-potsdam.de">berghoefer@uni-potsdam.de</a></p>'), align = "center"))
 
 
 
