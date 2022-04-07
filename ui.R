@@ -6,6 +6,7 @@ library(gridExtra)
 library('scico')
 
 library("dichromat")
+#install.packages("knitr")
 
 library(leaflet)
 library(readxl)
@@ -80,22 +81,34 @@ ui = navbarPage(title="Niedrigwasseranalyse für Deutschland", theme = shinythem
 tabPanel(title="Stationsanalyse",
          
          fluidRow(
-           column(8, 
-                  conditionalPanel(condition="input.plot_tabs!='Anleitung'", 
+           (column(8, 
+                 
                                    tabsetPanel(id="ui_tab", 
-                                               
+                                     
                                                tabPanel("Karte", 
                                                         column(12, h4("Wähle eine Station"), shinycssloaders::withSpinner(leaflet::leafletOutput("map", height="800px"),
                                                                                                                     size=3, color="#0080b7"))), 
                                                tabPanel("Tabelle", 
-                                                        column(12, h4("Wähle eine Station"), div(DT::dataTableOutput("table_input"), style = "font-size:70%"))
-                                               ))
-                  ),
-                  conditionalPanel(condition="input.plot_tabs=='Anleitung'", column(12)
-                  )
-           ), #Abschließen der linken Spalte mit Tabelle und Map
+                                                        column(12, h4("Wähle eine Station"), div(DT::dataTableOutput("table_input"), style = "font-size:70%"))), 
+                                                        
+                                               
+                                        
+                                               tabPanel("Anwendungshinweise",
+                                                        
+                                                                   column(12,
+                                                                          includeMarkdown("user_guides/tabone/user_guide_tab-1.Rmd") #including MArkdown for Users Guide 
+                                                                    
+                                                                          )
+                                                                 )
+                                                        )
+                                               )),
+                  
+                 
+           #Abschließen der linken Spalte mit Tabelle und Map
            
-           column(4, tabsetPanel(id="plot_tabs", 
+           column(4, conditionalPanel(condition="input.ui_tab!='Anwendungshinweise'",
+                  
+                  tabsetPanel(id="plot_tabs", 
                                  tabPanel("Deskriptive Statistik", 
                                           fluidRow(column(10, 
                                                           # uiOutput("date_slider") Vielleicht statt Jahr?
@@ -196,20 +209,20 @@ tabPanel(title="Stationsanalyse",
                                           
                                           
                                           
-                                 ), 
-                                 
-                                 
-                                 
-                                 
-                                 tabPanel("Anleitung",
-                                          fluidRow(
-                                            column(8,
-                                                   # includeMarkdown('./user_guide/user_guide.rmd') #including MArkdown for Users Guide 
-                                            )
-                                          )
                                  )
                                  
-           )))), 
+                                 
+                                 
+                                 
+                                
+                                 
+           )), 
+           
+           conditionalPanel(condition="input.ui_tab='Anwendungshinweise'",
+                            column(10))
+           
+           
+           ))), 
 
 
 
@@ -233,15 +246,19 @@ tabPanel(title="Niedrigwassertrends für Deutschland",
          
          fluidRow(
            column(9, 
-                  conditionalPanel(condition="input.area_trend!='Anleitung'",
+                  conditionalPanel(condition="input.area_trend!='Anwendungshinweise'",
                   
-                  tabPanel("Niedrigwassertrends - Deutschlandweit", 
+              
                            column(12, h4("Klicke auf die Karte, um mehr Infos über eine Station zu erhalten."), shinycssloaders::withSpinner(leaflet::leafletOutput("datamap", height="800px"),
-                                                                                                         size=3, color="#0080b7"))) %>% withSpinner(color="#0dc5c1"), 
+                                                                                                         size=3, color="#0080b7") %>% withSpinner(color="#0dc5c1"))),
                   
-                  
-                  
-                  
+
+           conditionalPanel(condition="input.area_trend='Anwendungshinweise'",
+                          
+                            column(12,includeMarkdown('user_guides/tabtwo/user_guide_tab-2.Rmd') #including MArkdown for Users Guide 
+                                   
+                            )
+           
            )),
            
          #  conditionalPanel(condition="input.area_trend=='Anleitung'", 
@@ -252,7 +269,9 @@ tabPanel(title="Niedrigwassertrends für Deutschland",
            
            
            column(3,
+                  
                   tabsetPanel(id="area_trend", 
+                             
                               tabPanel("Map Settings", 
                                        fluidRow(column(10, 
                                                        
@@ -281,7 +300,7 @@ tabPanel(title="Niedrigwassertrends für Deutschland",
                                                                                               "Jahr")) , 
                                                                         
                                                                         selectInput("trendtypemq", label="Wahl der Trendmethode:",
-                                                                                    choices=c( "Lineare Regression ", "Zyp: Prewhitening und Sen-Slope Trend", "Mann-Kendall Signifikanztest (Sen-Slope Trend)")),
+                                                                                    choices=c( "Lineare Regression", "Zyp: Prewhitening und Sen-Slope Trend", "Mann-Kendall Signifikanztest (Sen-Slope Trend)")),
                                                                         actionButton("go", "Ergebnisse laden")), 
                                                        
                                                        
@@ -297,7 +316,7 @@ tabPanel(title="Niedrigwassertrends für Deutschland",
                                                                                               "Jahr")),
                                                                         
                                                                         selectInput("trendtypemq2", label="Wahl der Trendmethode:",
-                                                                                    choices=c( "Lineare Regression ", "Zyp: Prewhitening und Sen-Slope Trend", "Mann-Kendall Signifikanztest (Sen-Slope Trend)")),
+                                                                                    choices=c( "Lineare Regression", "Zyp: Prewhitening und Sen-Slope Trend", "Mann-Kendall Signifikanztest (Sen-Slope Trend)")),
                                                                         actionButton("go_NMxQ", "Ergebnisse laden")),
                                                        
                                                        
@@ -321,7 +340,7 @@ tabPanel(title="Niedrigwassertrends für Deutschland",
                                                                         
                                                                         
                                                                         selectInput("trendtypeperiod", label="Wahl der Trendmethode:",
-                                                                                    choices=c( "Lineare Regression ", "Zyp: Prewhitening und Sen-Slope Trend", "Mann-Kendall Signifikanztest (Sen-Slope Trend)")),
+                                                                                    choices=c( "Lineare Regression", "Zyp: Prewhitening und Sen-Slope Trend", "Mann-Kendall Signifikanztest (Sen-Slope Trend)")),
                                                                         
                                                                         selectInput("quantiles", label="Quantil [%]:",
                                                                                     choices=c("70","75", "80","85", "90", "90", "95")) , 
@@ -345,15 +364,14 @@ tabPanel(title="Niedrigwassertrends für Deutschland",
                                                        
                                                        
                                        ))), 
-                              
-                              tabPanel(title="Anleitung",id="Anleitung"
-                                       
-  
-                                       
-                                       )
+                            
+                           
+                              tabPanel("Anwendungshinweise", 
+                                       fluidRow(column(10)) 
                               
                               
-                              )))
+                              
+                              ))))
          
          
 ),
@@ -485,6 +503,7 @@ navbarMenu(title="Der Datensatz",
               
                 
                 
+
                 
                tags$footer(HTML('
                           <br>

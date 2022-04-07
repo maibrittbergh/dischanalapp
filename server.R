@@ -87,7 +87,7 @@ server= function(input, output, session){
   
   
   # First Page --------------------------------------------------------------
-  
+
   
   
   
@@ -186,7 +186,7 @@ server= function(input, output, session){
   observeEvent(input$help,{
     showModal(modalDialog(
       title = "Benötigen Sie Hilfe?",
-      "Bitte Wählen Sie die gewünschte Analysemethode. Dann wählen Sie eine Station auf der Karte oder in der Tabelle. Die Berechnung der Trendwerte nimmt etwas Zeit in Anspruch. Um eine neue Analyse oder Station zu wählen, empfiehlt es sich  >Lösche Darstellungsoptionen< zu klicken. Das verbessert die Stabilität der Anwendung." 
+      "Bitte Wählen sie eine Station auf der Karte oder in der Tabelle und eine Analysemethode. Die Tabelle bietet die Option die Stationen in Bezug auf ein bestimmtes Merkmal zu sortieren, oder nach einer Eigenschaft zu suchen. Die Berechnung der Trendwerte nimmt etwas Zeit in Anspruch. Um eine neue Analyse oder Station zu wählen, empfiehlt es sich  >Lösche Darstellungsoptionen< zu klicken. Das verbessert die Stabilität der Anwendung." 
       
     ))
   })
