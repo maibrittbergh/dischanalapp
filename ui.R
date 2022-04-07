@@ -450,7 +450,7 @@ navbarMenu(title="Der Datensatz",
 
 # conditionalPanel(condition="input.plot_tabs!='Anleitung'", 
 #tabsetPanel(id="ui_tab", 
-           tabPanel("Der Datensatz", 
+           tabPanel("Der Datensatz in Zahlen", 
                     
                     
                     fluidRow(
@@ -482,7 +482,21 @@ navbarMenu(title="Der Datensatz",
                      
                     )
                     
-                    ))),
+                    )), 
+
+tabPanel("Informationen", 
+         
+         
+         column(12,
+                includeMarkdown("user_guides/tabthree/user_guide_tab-3.Rmd") #including MArkdown for Users Guide 
+                
+         )
+         
+         
+         
+         )
+
+),
 
 
 
