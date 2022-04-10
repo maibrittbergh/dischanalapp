@@ -487,7 +487,7 @@ navbarMenu(title="Der Datensatz",
 tabPanel("Informationen", 
          
          
-         column(12,
+         column(9,
                 includeMarkdown("user_guides/tabthree/user_guide_tab-3.Rmd") #including MArkdown for Users Guide 
                 
          )
@@ -498,15 +498,50 @@ tabPanel("Informationen",
 
 ),
 
+tabPanel("R-Paket: Dischanalyst", 
+
+ column(9,
+                includeMarkdown("user_guides/tabfour/user_guide_tab-4.Rmd") #including MArkdown for Users Guide 
+                
+         )
+
+
+),
 
 
 
+# Pagefive ----------------------------------------------------------------
 
 
+navbarMenu(title="Methodik",
+           
+           
+           
+           # MAP ---------------------------------------------------------------------
+           
+           
+           tabPanel("Niedrigwasserkennwerte", 
+                    
 
+                    column(9,
+                           includeMarkdown("user_guides/tabfive/NW_ANALYSE/user_guide_tab-5.Rmd") #including MArkdown for Users Guide 
+                           
+                    )),
 
-
-
+                    tabPanel("Statistik", 
+                             
+                             
+                             column(9,
+                                    includeMarkdown("user_guides/tabfive/STAT_ANALYSE/user_guide_tab-5Stat.Rmd") #including MArkdown for Users Guide 
+                                    
+                             ))),
+tabPanel("Theoretischer Hintergrund", 
+         
+         column(9,
+                includeMarkdown("user_guides/tabsix/user_guide_tab-6.Rmd") #including MArkdown for Users Guide 
+                
+         )
+         ),
 
                 
                 
