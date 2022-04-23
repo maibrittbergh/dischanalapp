@@ -247,10 +247,18 @@ tabPanel(title="Niedrigwassertrends für Deutschland",
          fluidRow(
            column(9, 
                   conditionalPanel(condition="input.area_trend!='Anwendungshinweise'",
+                                   column(12, h4("  "),
+                                          
                   
               
-                           column(12, h4("Klicke auf die Karte, um mehr Infos über eine Station zu erhalten."), shinycssloaders::withSpinner(leaflet::leafletOutput("datamap", height="800px"),
+                           column(12, h4("Klicke auf die Karte, um mehr Infos über eine Station zu erhalten."),h4("  "), shinycssloaders::withSpinner(leaflet::leafletOutput("datamap", height="800px"),
                                                                                                          size=3, color="#0080b7") %>% withSpinner(color="#0dc5c1"))),
+                           
+                           column(12, h4("  ")),
+                           column(12, h4("  ")),
+                           column(12, h4("  "))
+                           
+                           ),
                   
 
            conditionalPanel(condition="input.area_trend='Anwendungshinweise'",
