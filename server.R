@@ -69,7 +69,8 @@ server= function(input, output, session){
   
    query_modal <- modalDialog(
     title = "Diese Anwendung dient der Niedrigwasseranalyse für Deutschland",
-   "Die WebApp nutzt den GRDC Datensatz und das  uses the GRDC-Dataset und das R-Paket-dischanalyst, um Niedrigwasserkennwerte für einzelne Abflussmessstationen in Deutschland zu berechnen. Falls Fragen zur Anwendung auftreten, bitte die Anleitungen aufrufen. ",
+   "Diese Web App nutzt den GRDC Datensatz und das R-Paket-dischanalyst, um Niedrigwasserkennwerte 
+   für einzelne Abflussmessstationen in Deutschland zu berechnen. Falls Fragen zur Anwendung auftreten, bitte die Anleitungen aufrufen. ",
   
     easyClose = F,
    footer = tagList(
@@ -165,7 +166,7 @@ server= function(input, output, session){
   
   output$table_input=DT::renderDataTable({
     DT::datatable(data, selection='single', rownames=FALSE,colnames= c("GRDC Nr."="grdc_no" , "Fluss"=   "river"   ,"Station"=   "station", "Land"=    "country", 
-                                                                       "Einzugsgebietsgröße"="catch_area", "Höhe"= "altitude" , "Startjahr"= "startyear" , "Endjahr"= "endyear" ,
+                                                                       "Einzugsgebietsgröße"="catch_area", "Höhe"= "altitude" ,"Beginn der Messung"="startday", "Ende der Messung"="endday", "Startjahr"= "startyear" , "Endjahr"= "endyear" ,
                                                                        "Zeitspanne"=   "d_years"   , "Längengrad"= "longitude"  , "Breitengrad"="latitude"   ), filter="top",
                   options = list(scrollY = '600px', paging = FALSE, scrollX=TRUE, dom="ltipr")
                   
@@ -186,18 +187,36 @@ server= function(input, output, session){
   observeEvent(input$help,{
     showModal(modalDialog(
       title = "Benötigen Sie Hilfe?",
-      "Bitte Wählen sie eine Station auf der Karte oder in der Tabelle und eine Analysemethode. Die Tabelle bietet die Option die Stationen in Bezug auf ein bestimmtes Merkmal zu sortieren, oder nach einer Eigenschaft zu suchen. Die Berechnung der Trendwerte nimmt etwas Zeit in Anspruch. Um eine neue Analyse oder Station zu wählen, empfiehlt es sich  >Lösche Darstellungsoptionen< zu klicken. Das verbessert die Stabilität der Anwendung." 
+      "Bitte Wählen sie eine Station auf der Karte oder in der Tabelle und eine Analysemethode. Die Tabelle bietet die Option die Stationen in Bezug auf ein bestimmtes Merkmal zu sortieren, oder nach einer Eigenschaft zu suchen. Die Berechnung der Trendwerte nimmt etwas Zeit in Anspruch. Um eine neue Analyse oder Station zu wählen,
+      empfiehlt es sich  >Lösche Darstellungsoptionen< zu klicken. Das verbessert die Stabilität der Anwendung." 
       
+    ,
+    easyClose = F,
+    footer = tagList(
+      actionButton("help1", "Schließen")
+    )
     ))
+  })
+  
+  observeEvent(input$help1, {
+    removeModal()
   })
   
   
   observeEvent(input$helpthres,{
     showModal(modalDialog(
       title = "Benötigen Sie Hilfe?",
-      "Wählen Sie einen Schwellenwert aus. Dieser kann entweder numerisch oder individuell gewählt werden. Dieser Schwellenwert charakterisiert im Anschluss die Niedrigwasserperiode." 
+      "Wählen Sie einen Schwellenwert aus. Dieser kann entweder numerisch oder individuell gewählt werden. Dieser Schwellenwert charakterisiert im Anschluss die Niedrigwasserperiode." ,
       
-    ))
+      easyClose = F,
+      footer = tagList(
+        actionButton("help2", "Schließen")
+      ))
+    )
+  })
+  
+  observeEvent(input$help2, {
+    removeModal()
   })
   
   
