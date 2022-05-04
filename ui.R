@@ -280,7 +280,7 @@ tabPanel(title="Niedrigwassertrends für Deutschland",
                   
                   tabsetPanel(id="area_trend", 
                              
-                              tabPanel("Map Settings", 
+                              tabPanel("Einstellungen", 
                                        fluidRow(column(10, 
                                                        
                                                        
