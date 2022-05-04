@@ -274,7 +274,7 @@ server= function(input, output, session){
   
   
   
-  
+  output$disch_plot=renderPlot({empty()})
   
   
   output$trendplot=renderPlot({trendpl()})
